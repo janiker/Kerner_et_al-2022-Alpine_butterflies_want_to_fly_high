@@ -58,6 +58,7 @@ In 2009, 34 grassland sites were selected, covering an elevational range from 60
 ```{r div-ele-calc, include=FALSE}
 
 library(ggplot2)
+library(lme4) # LME calculation
 library(mgcv)
 library(plyr) # revalue
 library(png) # load pictures
@@ -70,15 +71,15 @@ library(tidymv) # GAMs plotting in ggplot
 # read data
 
 # plotdata long format (one year below the other)
-pdl <- read.csv(here::here("Data", "pdl.csv"), row.names=1)
+pdl <- read.csv(here::here("data", "pdl.csv"), row.names=1)
 pdl$year<-factor(pdl$year,ordered=T) # has to be ordered for GAM summary to be ANOVA like difference between levels
 pdl$plot<-as.factor(pdl$plot)
 
 # plotdata short format (years next to each other)
-plotdata<-read.csv(here::here("Data", "plotdata.csv"), row.names=1)
+plotdata<-read.csv(here::here("data", "plotdata.csv"), row.names=1)
 
 # plotdata long format excluding T3 because of missing plant data
-s66<-read.csv(here::here("Data", "s66.csv"), sep=";")
+s66<-read.csv(here::here("data", "s66.csv"), sep=";")
 s66$plot<-as.factor(s66$plot)
 s66<-s66[s66$plot!="T3",] # exclude T3 (no plant data)
 s66$flow_cov<-log(s66$flow_cov) # log transform for normal distribution
@@ -140,9 +141,8 @@ modC<-get_gam_predictions(modC, elev, series_length = 1391)
 ```{r calcbuttshift, include = FALSE}
 # comparison single species - elevation means ----------------------------
 
-shift<-read.csv(here::here("Data", "shift.csv"), row.names=1)
+shift<-read.csv(here::here("data", "shift.csv"), row.names=1) # load species elevations
 
-library(lme4)
 x<-summary(lmer(melev ~ year+(1|spec), data=shift))
 
 x$coefficients[2,1] # mean shift
@@ -151,152 +151,23 @@ x$coefficients[2,2] # Std. Error
 
 ```{r calcplantshift,include=FALSE}
 
-# comparison single species - elevation subplot based ------------------------------------
+sshift<-read.csv(here::here("data", "sshift.csv"), row.names=1) # load species elevations
 
-plants09<-read.table("J:/Daten_Annette&Bernhard/Plants_2009_Bernhard/Alpine_plants_2009_species.records-1st-oT3.txt", skipNul = T, header = T, dec=",")
-colnames(plants09)[1]<-"plot"
-plants09$spec<-as.factor(plants09$spec);plants09$plot<-as.factor(plants09$plot);plants09$abbr<-as.factor(plants09$abbr)
-plants09<-subset(plants09,!is.na(cov)) # kick NAs
-
-plants19<-read.table("J:/Auswertung/Textfiles/plantspecies19-1.txt",header=T)
-plants19<-subset(plants19,plants19$plot!="T2")
-plants19$abbr<-as.factor(plants19$abbr);plants19$plot<-as.factor(plants19$plot)
-plants19<-subset(plants19,!is.na(cov)) # kick NAs
-
-# add elevation
-plotdata3<-read.table("J:/Auswertung/Textfiles/plot_attributes.txt",header=T)
-plotdata3<-subset(plotdata3,plot!="T3")
-
-plants09<-left_join(plants09,plotdata3[,1:2],by="plot")
-plants09$year<-as.factor(2009)
-plants19<-left_join(plants19,plotdata3[,1:2],by="plot")
-plants19$year<-as.factor(2019)
-
-# summary per subplot
-t09<-as.data.frame(table(plants09$abbr,plants09$subplot))
-t09$Freq[t09$Freq>1]<-1 # kick double assessed in Subplot
-t09<-separate(t09,Var2,into=c("plot","subplot"))
-t09<-as.data.frame.matrix(table(t09$Var1[t09$Freq>0],t09$plot[t09$Freq>0]))
-t09<-t(t09)
-
-t19<-as.data.frame(table(plants19$abbr,plants19$subplot))
-t19$Freq[t19$Freq>1]<-1 # kick double assessed in Subplot
-t19<-separate(t19,Var2,into=c("plot","subplot"))
-t19<-as.data.frame.matrix(table(t19$Var1[t19$Freq>0],t19$plot[t19$Freq>0]))
-t19<-t(t19)
-
-# Arten mittlere Höhe & Gesamtdeckung/Anzahl Subplots, um >= x Subplots auswählen zu können
-wsb09<-colSums(t09*plotdata3$elev)/colSums(t09)
-wsb09<-as.data.frame(wsb09);wsb09<-rownames_to_column(wsb09)
-colnames(wsb09)<-c("abbr","melev")
-wsb09$no.sb<-colSums(t09)
-wsb09$year<-2009
-
-#um Vorzeichen von signifikanten Unterschieden zu bestimmen auch 2019er Werte rechnen
-wsb19<-colSums(t19*plotdata3$elev)/colSums(t19)
-wsb19<-as.data.frame(wsb19);wsb19<-rownames_to_column(wsb19)
-colnames(wsb19)<-c("abbr","melev")
-wsb19$no.sb<-colSums(t19)
-wsb19$year<-2019
-
-wsb<-merge(wsb09[1:3],wsb19[1:3],by="abbr");colnames(wsb)<-c("abbr","2009","no.sb09","2019","no.sb19") #werden nur Arten behalten, die in beiden Jahren vorkamen
-wsb$diff<-wsb$`2019`-wsb$`2009`
-wsb$vorzeichen[wsb$diff<0]<-"-"
-wsb$vorzeichen[wsb$diff>0]<-"+"
-wsb$vorzeichen[wsb$diff==0]<-"0"
-
-#Subset auf Hostplants
-hp<-read.table("J:/Auswertung/Textfiles/But_hostplants_species.txt",header=T)
-hp<-hp[-c(1:3),];hp<-hp$spec
-subraus<-subset(wsb[wsb$abbr %in% hp,],select = abbr) 
-subraus<-as.character(subraus$abbr)
-wsb<-wsb[wsb$abbr %in% hp,]
-
-#mittlere Höhe 09~19 pro Art testen
-st09<-aggregate(elev~abbr+subplot,data=plants09,FUN=mean);st09$year<-2009 # damit für jede Art jeder Subplot nur einmal vorkommt
-st19<-aggregate(elev~abbr+subplot,data=plants19,FUN=mean);st19$year<-2019
-
-sub.wilcox<-as.data.frame(subraus);sub.wilcox$p.value<-0;sub.wilcox$no<-1:nrow(sub.wilcox);colnames(sub.wilcox)[1]<-"abbr"
-
-for (i in subraus){
-  cat(paste(subset(sub.wilcox,abbr==i)[,3],"von",length(subraus),"\n"))
-  Ber09<-subset(st09,st09$abbr==i)
-  Luk19<-subset(st19,st19$abbr==i)
-  specci<-bind_rows(Ber09[,3:4],Luk19[,3:4])
-  sub.wilcox$p.value[subset(sub.wilcox,abbr==i)[,3]]<-wilcox.test(specci$elev~specci$year)$p.value
-}
-
-sub.wilcox<-left_join(sub.wilcox,wsb,by="abbr")
-
-
-#subset auf Hostplants mit mind. 10 Subplots
-subraus<-subset(wsb[wsb$abbr %in% hp & wsb$no.sb09>=10 &wsb$no.sb19>=10,],select = abbr)
-subraus<-as.character(subraus$abbr)
-
-# mean shift model of all/significant species (>= 10 individuals)
-sshift<-bind_rows(wsb09,wsb19); sshift$year<-as.factor(sshift$year)
-sshift<-sshift[sshift$abbr %in% subraus,] # subset auf Arten >= 10 Subplots & sshift$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.05] für subset auf signifikante Arten
-
-library(lme4)
-xx<-summary(lmer(melev ~ year+(1|abbr), data=sshift)) # Werte gleich wie pss & pss.sd
+xx<-summary(lmer(melev ~ year+(1|abbr), data=sshift))
 
 xx$coefficients[2,1] # mean shift
-xx$coefficients[2,2] # Std. Error
-
-# ggplot elev shift
-
-sd<-st19[,c(1,3)];sd<-subset(sd,sd$abbr %in% subraus) # Arten von einem Jahr, weil die die fehlen eh egal sind
-
-for (i in subraus) { # alle 2019er Werte minus den 2009er Wert, um Shift für jeden Einzelwert aus 2019 zu bekommen
-  sd$dif09[sd$abbr==i]<-sd$elev[sd$abbr==i]-wsb09$melev[wsb09$abbr==i]
-}
-
-s <- sd %>% 
-  group_by(abbr) %>% 
-  summarise_each(funs(mean, sd, n()), dif09) %>% 
-  mutate(se = sd/sqrt(n),
-         left95 = mean - se,  # standard error: möglicher Raum, in dem Mittelwert liegen kann, deviation = Varianz der Daten
-         right95 = mean + se)
-
-
-s$signcol<-ifelse(s$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.05], "signif", "ns")
-s$col<-s$signcol;s$col[s$col=="signif"]<-"black";s$col[s$col=="ns"]<-"grey80"
-
-s$signlvl<-NA
-s$signlvl[s$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.05]]<-"*"
-s$signlvl[s$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.01]]<-"**"
-s$signlvl[s$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.001]]<-"***"
-
-plantnames<-read.table("J:/Auswertung/Textfiles/plantnames-1.csv",header = T,sep=";")
-s$taxon<-NA
-s$abbr<-as.character(s$abbr);s$abbr<-as.factor(s$abbr)
-
-for (i in levels(s$abbr)){
-  s$taxon[s$abbr==i]<-plantnames$taxon[plantnames$abbr==i]
-}
+xx$coefficients[2,2] # std. error
 ```
 
 ```{r shiftselect.butt.calc, include=FALSE}
 
-# Uebersicht mean elevation shift nach min. Anzahl Individuen und enthaltener Artenzahl
+# calculate mean elevational shift of butterflies according to min. no. individuals and included species number
 
-a<-as.data.frame(5:30);colnames(a)<-"no.ind"
-a$mean<-0; a$no.species<-0
-a$n.s.<-0;a$cs<-0;a$s<-0;a$ss<-0;a$sss<-0
+# mean elevation per species and year with number of individuals and difference in elevation
+spwm<-read.csv(here::here("data","spwm.csv"),row.names = 1)
 
-# butt.wilcox neu auch mit Arten unter 10 Ind.
-allbutt.wilcox<-as.data.frame(spwm$spec); colnames(allbutt.wilcox)<-"spec"
-allbutt.wilcox$p.value<-0;allbutt.wilcox$no<-1:nrow(allbutt.wilcox)
-
-for (i in levels(as.factor(allbutt.wilcox$spec))){
-  Ann09<-subset(B09,B09$genus_species==i)
-  Jan19<-subset(B19,B19$genus_species==i)
-  specci<-bind_rows(Ann09[,11:12],Jan19[,12:13])
-  allbutt.wilcox$p.value[subset(allbutt.wilcox,spec==i)[,3]]<-wilcox.test(specci$elev~specci$year)$p.value
-}
-
-allbutt.wilcox<-left_join(allbutt.wilcox,spwm,by="spec")
-
+# mean elevation per species with Wilcoxon test results
+allbutt.wilcox<-read.csv(here::here("data","allbutt.wilcox.csv"),row.names = 1)
 
 for (i in a$no.ind){
   a$mean[a$no.ind==i]<-mean(spwm$diff[spwm$ind09>=i & spwm$ind19>=i])
@@ -311,6 +182,14 @@ for (i in a$no.ind){
 ```
 
 ```{r shiftselect.hp.calc, include=FALSE}
+
+# calculate mean elevational shift of host plants according to min. no. individuals and included species number
+
+# mean elevation per species and year with number or individuals and difference in elevation
+wsb<-read.csv(here::here("data","wsb.csv"),row.names = 1)
+
+# mean elevation per species with Wilcoxon test results
+sub.wilcox<-read.csv(here::here("data","sub.wilcox.csv"),row.names = 1)
 
 m<-as.data.frame(5:30);colnames(m)<-"no.sb"
 m$mean<-0; m$no.species<-0
@@ -330,18 +209,11 @@ for (i in m$no.sb){
 
 ```{r calcSEM, include=FALSE}
 library(data.table) # create empty data frame
-library(MuMIn) #AICc berechnen
+library(MuMIn) # calculate AICc
 library(nlme) # lme
 library(piecewiseSEM) # SEMs
 
-# Daten einlesen --------------------------------------------------------------
-
-s66<-read.table("J:/Auswertung/Textfiles/SEM-66.csv",header=T,sep=";")
-s66$plot<-as.factor(s66$plot)
-s66<-s66[s66$plot!="T3",] #T3 raus nehmen
-s66$flow_cov<-log(s66$flow_cov) #als log für Normalverteilung
-
-# SEM 66er summer temp ---------------------------------------------------------
+# SEM for richness drivers ---------------------------------------------------------
 
 #SEMmin1
 sem1<-psem(
@@ -350,9 +222,9 @@ sem1<-psem(
   lme(spec.no~div.hp+flow_cov+man.bin+temps,random=~1|plot,s66)
 )
 
-ss1<-summary(sem1) # marginal effects: only fixed, conditional: recognizing the random factors
+ss1<-summary(sem1)
 
-# Punkt als marginal signifikantes Symbol einfügen
+# insert point symbol for marginal significant (> 0.05 <= 0.1)
 for (i in 1:8) {
   if (ss1$coefficients$P.Value[i]>0.05 & ss1$coefficients$P.Value[i]<=0.1){
     ss1$coefficients[[9]][i]<-"."}
@@ -367,7 +239,7 @@ sem2<-psem(
 
 ss2<-summary(sem2)
 
-# effect sizes berechnen
+# calculate effect sizes
 
 e <- data.frame(direct=rep(NA,4),indirect=NA,overall=NA)
 rownames(e)<-c("summer temperature","management","flower cover","host plant diversity")
@@ -386,22 +258,21 @@ e[,"overall"]<-c(e["summer temperature","direct"],e["management","indirect"],
                  "n.s.",e["host plant diversity","direct"])
 
 
-# delta Modell ------------------------------------------------------------
+# delta model ------------------------------------------------------------
 
-sdel<-read.table("J:/Auswertung/Textfiles/SEM-delta.csv",header=T,sep=";")
+sdel<-read.csv(here::here("data","sdel.csv"), sep = ";")
 sdel$plot<-as.factor(sdel$plot)
-sdel<-sdel[sdel$plot!="T3",] #T3 raus nehmen
-sdel$flow_cov<-sqrt(sdel$flow_cov+3) # sqrt für annähernd Normalverteilung, +3 damit alle Werte positiv sind und transformiert werden können
+sdel<-sdel[sdel$plot!="T3",] # kick out T3 because of missing plant data
+sdel$flow_cov<-sqrt(sdel$flow_cov+3) # sqrt transformation for normal distribution, +3 so that all values are positive and can be transformated
 
-# 3 min. Modelle, alles fällt raus, außer Direkteinflüsse auf delta
-# in allen drei Modellen nur temps/tempw signifikant
+# two minimum models for delta
 
 smdel1<-psem(lm(delta~flow_cov+temps,sdel),
              flow_cov~1,
              div.hp~1)
 dm1<-summary(smdel1)
 
-# Punkt als marginal signifikantes Symbol einfügen
+# insert point symbol for marginal significant (> 0.05 <= 0.1)
 for (i in 1:2) {
   if (dm1$coefficients$P.Value[i]>0.05 & dm1$coefficients$P.Value[i]<=0.1){
     dm1$coefficients[[9]][i]<-"."}
@@ -415,75 +286,42 @@ dm2<-summary(smdel2)
 
 ```{r potshiftcalc, echo=FALSE, warning=FALSE, include=FALSE}
 
-# Temperaturunterschied pro 100 m auf Basis der gemessenen Klimastationsdaten
+# temperature difference per 100 m based on measured daily means from nearby climate stations
 
-LT<-read.csv("J:/Auswertung/Textfiles/Klimastationen_TempDaymeans.csv", sep=",")
-LT<-LT[LT$year.x>=2009 & LT$year.x>=2009,]
+LT<-read.csv(here::here("data","LT.csv"), row.names = 1) # not publicly available
+
 library(nlme)
 tc100<-summary(lme(daymeanT~Elev_50m, random=~1|Stationsname, data=LT))
 tccoef<-tc100[["coefficients"]][["fixed"]][["Elev_50m"]]*-1
 
-# Unterschied Jahresmittel 2009 - 2019
+# Year mean 2009 - 2019
 
-yearmean<-aggregate(daymeanT~year, data=climate[climate$year>="2009" & climate$year <="2019",], FUN=mean)
+yearmean<-read.csv(here::here("data","yearmean.csv"), row.names = 1) # mean of daily temperature of all plots per year
+summean<-read.csv(here::here("data","summean.csv"),row.names = 1) # mean of daily temperature of all plots per year, only including the summer months (May-Sept)
 
+# complete year
 tmean<-summary(lm(daymeanT~year,yearmean))
 
-
-# Unterschied Jahresmittel Sommer 2009 - 2019
-summean<-aggregate(daymeanT~year, data=climate[climate$daymonth >="2022-05-01" & climate$daymonth <="2022-09-30" & climate$year>="2009" & climate$year <="2019",],FUN=mean)
-
+# summer months
 stmean<-summary(lm(daymeanT~year,data=summean))
 
+# Direct difference 2009 & 2019
 
-# Unterschied 2009 / 2019
-
-#gesamt
+# complete year
 ydiff<-yearmean$daymeanT[yearmean$year==2019]-yearmean$daymeanT[yearmean$year==2009]
-# ~ 0.93 °C Unterschied
 
-#summer
+# summer months
 sdiff<-summean$daymeanT[summean$year==2019]-summean$daymeanT[summean$year==2009]
-# ~ 0.20 °C Unterschied
 ```
 
 ```{r ptemp.calc, include=FALSE, echo=FALSE}
 
-# plot specific temp calculations
-
-plotmeany<-aggregate(daymeanT~year, data=climate[climate$year>="2009" & climate$year<="2019" & climate$plot=="H1",],FUN=mean)
-
-plotmeanw<-plotmeany; plotmeans<-plotmeany
-  
-n<-1;sdel$ptempy<-0
-
-for (i in sdel$plot){
-  
-  n<-n+1
-  
-  # Jahresmittel Jan - Dez
-   plotmeany[,n]<-aggregate(daymeanT~year, data=climate[climate$year>="2009" & climate$year<="2019" & climate$plot==i,],FUN=mean)[,2]
-  colnames(plotmeany)[n]<-i
-  sdel$ptempy[sdel$plot==i]<-lm(plotmeany[,i]~plotmeany$year)$coefficients[2]*10
-  
-  for (k in 2009:2019){
-    plotmeanw[plotmeanw$year==k,n]<-mean(climate$daymeanT[((climate$daymonth>="2022-10-01"&climate$year==(k-1))|(climate$daymonth<="2022-04-30"&climate$year==k)) & climate$plot==i])
-    }
-  colnames(plotmeanw)[n]<-i
-  sdel$ptempw[sdel$plot==i]<-lm(plotmeanw[,i]~plotmeanw$year)$coefficients[2]*10
- 
-  plotmeans[,n]<-aggregate(daymeanT~year, data=climate[climate$year>="2009" & climate$year<="2019" & climate$plot==i & climate$daymonth >="2022-05-01" & climate$daymonth <="2022-09-30",],FUN=mean)[,2]
-  colnames(plotmeans)[n]<-i
-  sdel$ptemps[sdel$plot==i]<-lm(plotmeans[,i]~plotmeans$year)$coefficients[2]*10
-  
-}
-
-# GAM Jahres- & Sommermittel 2009 / 2019
+# GAM yearly mean & mean of summer months direct difference 2009 / 2019
 
 gst<-summary(gam(temps~s(elev, k=4), data=sdel, method="REML"))
-gyt<-summary(gam(tempy_old~s(elev, k=4), data=sdel, method="REML"))
+gyt<-summary(gam(tempy~s(elev, k=4), data=sdel, method="REML"))
 
-# GAM Jahres- & Sommermittel 2009 - 2019
+# GAM yearly mean & mean of summer months 2009 - 2019
 
 pgst<-summary(gam(ptemps~s(elev, k=4), data=sdel, method="REML"))
 pgyt<-summary(gam(ptempy~s(elev, k=4), data=sdel, method="REML"))
@@ -523,7 +361,7 @@ if(p<=0.001) {
 # function to transform p values into signs for significance intervals
 psign<-function(p){
 if(p<=0.001) {
-  p <- "***" #Signifikanzwert Jahreseffekt
+  p <- "***"
   } else if (p<=0.01) {
     p <- "**"
     } else if (p<=0.05) {
@@ -567,7 +405,7 @@ To evaluate mean species range shifts, we used a linear mixed effect model withi
 
 ## Inter-annual changes in temperature, butterfly and host plant richness {.unnumbered}
 
-In 2019, MAT on our study sites was on average `r round(mean(sdel$tempy_old), 2)` °C warmer than in 2009. When comparing MST, it was `r round(mean(sdel$temps), 2)` °C warmer in 2019 than in 2009. In both cases, the difference in temperature between the two years changed significantly along the elevational gradient with a pronounced temperature difference in higher elevations (GAMs, p `r pval(gst[["s.pv"]])`, Figure \@ref(fig:plotlocation-temp) (dark lines) & Table \@ref(tab:gamtables)). Interestingly, MST in elevations up to 1000 m.a.s.l. was even cooler in 2019 than in 2009. The temperature differences between 2009 and 2019 also reflected the mean gradual temperature increase, which was even higher with `r round(tmean$coefficients[2,1]*10, 2)` °C in MAT and `r round(stmean$coefficients[2,1]*10, 2)` °C in MST over this decade. Equally, the gradual temperature increase over time changed significantly along the elevational gradient, with a stronger increase in high elevations (GAMs, p `r pval(pgst[["s.pv"]])`, Figure \@ref(fig:plotlocation-temp) (light lines) & Table \@ref(tab:gamtables)).
+In 2019, MAT on our study sites was on average `r round(mean(sdel$tempy), 2)` °C warmer than in 2009. When comparing MST, it was `r round(mean(sdel$temps), 2)` °C warmer in 2019 than in 2009. In both cases, the difference in temperature between the two years changed significantly along the elevational gradient with a pronounced temperature difference in higher elevations (GAMs, p `r pval(gst[["s.pv"]])`, Figure \@ref(fig:plotlocation-temp) (dark lines) & Table \@ref(tab:gamtables)). Interestingly, MST in elevations up to 1000 m.a.s.l. was even cooler in 2019 than in 2009. The temperature differences between 2009 and 2019 also reflected the mean gradual temperature increase, which was even higher with `r round(tmean$coefficients[2,1]*10, 2)` °C in MAT and `r round(stmean$coefficients[2,1]*10, 2)` °C in MST over this decade. Equally, the gradual temperature increase over time changed significantly along the elevational gradient, with a stronger increase in high elevations (GAMs, p `r pval(pgst[["s.pv"]])`, Figure \@ref(fig:plotlocation-temp) (light lines) & Table \@ref(tab:gamtables)).
 
 In total, we recorded `r sum(B09$no.ind)` individuals of `r length(levels(as.factor(B09$genus_species)))` butterfly species in 2009 and `r sum(B19$no.ind)` individuals of `r length(levels(as.factor(B19$genus_species)))` species in 2019, whereby `r length(subset(levels(as.factor(B09$genus_species)),levels(as.factor(B09$genus_species)) %in% levels(as.factor(B19$genus_species))))` species occurred in both years. Butterfly abundance did not change significantly along the elevational gradient, but differed significantly between years (GAM, elevation : year p `r pval(aby[["s.pv"]][2])`, Table \@ref(tab:gamtables)), being significantly lower in 2019 (GAM, intercept between years p `r pval(aby$p.pv["year.L"])`). The distribution of species richness along the elevational gradient changed from a linear decline in 2009 to a mid-elevation peak at \~ 1200 m.a.s.l. in 2019 (GAM, elevation : year p `r pval(divy[["s.pv"]][2])`, Figure \@ref(fig:div-ele)a & Table \@ref(tab:gamtables)). Only in the lowlands (\< 1000 m.a.s.l.), species richness declined significantly when dividing the elevational gradient in three sections (lowland (644 -- 999 m), mid-elevations (1000 -- 1499 m), highlands (1500 -- 2034 m)) and testing yearly species numbers against each other within sections (t-tests, lowlands: t = `r round(t1$statistic,digits=4)`, df = `r round(t1$parameter, digits=3)`, p = `r round(t1$p.value, 4)`, mid-elevations: t = `r round(t2$statistic,digits=4)`, df = `r round(t2$parameter, digits=3)`, p = `r round(t2$p.value, 4)`, highlands: t = `r round(t3$statistic, digits=4)`, df = `r round(t3$parameter, digits=3)`, p = `r round(t3$p.value, 4)`).
 
@@ -637,17 +475,9 @@ AC and JMK conceived the idea and developed the concept of the study. JMK conduc
 **Table 1:**
 
 ```{r gamtables, echo=FALSE, message=FALSE, tab.cap="Summary statistics of generalized additive models (GAMs) for absolute (2009/2019) and gradual (2009-2019) changes in mean annual temperature (MAT) and mean summer temperature (MST), fitted with a smoothing function of elevation (N=32); as well as for butterfly abundance, butterfly and host plant species richness and the community elevation score, each fitted with a smoothing function of elevation and the interaction of elevation and year (2009, 2019), including study site as a random term (N=64).", label="gamtables"}
-options(scipen = 999) # Zahlen dezimal und nicht expotential (e+06) darstellen
+options(scipen = 999) # write numbers decimal and not exponential (e+06)
 
-GAMT<-data.frame(#logos = c("J:/Layout/Logo_temp.png",
-                           #"J:/Layout/Logo_temp.png", 
-                           #"J:/Layout/Logo_temp.png",
-                           #"J:/Layout/Logo_temp.png",
-                           #"J:/Layout/Logo_Ere_eur.png", NA, NA, 
-                           #"J:/Layout/Logo_Ere_eur.png", NA, NA, 
-                           #"J:/Layout/Logo_hostplant.png",NA, NA,
-                           #"J:/Layout/Logo_Ere_eur.png", NA, NA),
-                 resp.var = c("MAT 2009 / 2019",
+GAMT<-data.frame(resp.var = c("MAT 2009 / 2019",
                               "MST 2009 / 2019",
                               "MAT 2009 - 2019",
                               "MST 2009 - 2019",
@@ -752,29 +582,14 @@ GAMT<-data.frame(#logos = c("J:/Layout/Logo_temp.png",
 
 library(dplyr)
 
-# welche Spalten in Tabelle gezeigt werden sollen  
+# which columns should be shown in table  
 flextable(GAMT, col_keys = c("resp.var", "smooth", "edf", "Ref.df", "p.value", "family", "link.function", "adj.r2", "dev.expl")) %>%
  
-# Spaltenbeschriftung  
+# Column labelling  
   set_header_labels(resp.var = "response variable", p.value = "p-value", family = "family", smooth = "predictor", link.function = "link function", adj.r2 = "adjusted R²", dev.expl = "deviance explained") %>%
 
-# Fusszeile einfügen  
-add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 < '.' < 0.1 < 'n.s.' < 1") #%>%
-
-# Spalten Logos & Rownames in eine zusammenfügen und in einer Spalte plotten
-   #compose( 
-   #j = "resp.var", i = c(1:5,8,11),
-    #value = as_paragraph(
-      #as_image(src = logos, width = .5, height = .5), " ",
-      #as_b(x = resp.var)
-      #)) %>%
- # width(j = "resp.var", width = 4) # Spaltenbreite verändern
-
-# Logos direkt plotten, funktioniert leider nicht mit Word
-  #colformat_image(j = "logos", i = c(1:5, 8, 11), width = .5, height = .5) # Bilder als Grafik in Tabelle drucken
-
-# direkt Summary-Tabelle aus GAM-Objekt
-#as_flextable(gam(spec.no~s(elev)+s(elev,by=year)+s(plot, bs="re"), data=pdl,family=gaussian,method="REML"))
+# Add footer  
+add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 < '.' < 0.1 < 'n.s.' < 1")
 ```
 
 \clearpage
@@ -801,35 +616,35 @@ add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 <
 
 ```{r tempchange, eval=FALSE, include=FALSE}
 
-library(svglite) # um svg exportieren zu können
+library(svglite) # to export as svg
 
-ggsave("J:/Auswertung/Abbildungen/Paper_I/tempchange.svg", plot =(
+ggsave(here::here("figures","tempchange.svg"), plot =(
 
-  sdel %>% # mit Jahresmittel Okt - Sept
-  pivot_longer(cols=c(temps,ptemps,tempy_old,ptempy),names_to = c("time"),values_to="temp") %>% 
+  sdel %>%
+  pivot_longer(cols=c(temps,ptemps,tempy,ptempy),names_to = c("time"),values_to="temp") %>% 
 ggplot(aes(x=elev, y=temp, col=time)) +
-  geom_hline(yintercept = 0,col="ivory3")+ # Nulllinie
+  geom_hline(yintercept = 0,col="ivory3")+ # zero line
   geom_point(size=3,alpha=.4,shape=16)+
   geom_smooth(method = gam, formula = y ~ s(x, k=4), size = 2, se = F, alpha=.2) +
-  theme_classic()+ # weißer Hintergrund
-  theme(# panel.background = element_rect(colour = "black", size=0.5), # schwarzer Rahmen
-    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),  # Abstand zum Bildrand
-    legend.position = c(0.75,0.2), # Position Legende, geht außerhalb vom Plot auch mit "bottom" etc.
-    legend.title=element_text(size=14,margin = margin(l = -6)), # Legendenbeschriftung, margin mit Minus, um ihn nach links zu verschieben
-    legend.text = element_text(size=14), # Schriftgröße Legendentext
-    legend.key.height = unit(0.2, "cm"), # Zeilenabstand zwischen Legendenitems
+  theme_classic()+ # white background
+  theme(# panel.background = element_rect(colour = "black", size=0.5), # black frame
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
+    legend.position = c(0.75,0.2),
+    legend.title=element_text(size=14,margin = margin(l = -6)),
+    legend.text = element_text(size=14),
+    legend.key.height = unit(0.2, "cm"),
     legend.background = element_blank(),
-    axis.text = element_text(size=20), # Schriftgröße Achsenbeschriftung
-    axis.title.x = element_text(size=20,margin = margin(t = 10, r = 0, b = 0, l = 0)), # Schriftgröße & Abstand Achsenlabels,
+    axis.text = element_text(size=20),
+    axis.title.x = element_text(size=20,margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(size=20,margin = margin(t = 0, r = 10, b = 0, l = 0)))+
   labs(x="elevation [m.a.s.l.]",y=expression(paste(Delta, " temperature [°C]")))+
-  scale_x_continuous(breaks=c(750,1000,1250,1500,1750,2000))+ # für unbeschriftete Markierungen: labels = c("",1000,"",1500,"",2000)
+  scale_x_continuous(breaks=c(750,1000,1250,1500,1750,2000))+
   scale_y_continuous(n.breaks=4)+
-  scale_color_manual(name="MST  MAT", values = c("temps"="violetred4", "ptemps"="#CC8FAB", "tempy_old"="navyblue", "ptempy"="#7D7DB3"),labels=c(" "," ","year difference\n(2009/2019)","long term trend\n(2009-2019)"),
+  scale_color_manual(name="MST  MAT", values = c("temps"="violetred4", "ptemps"="#CC8FAB", "tempy"="navyblue", "ptempy"="#7D7DB3"),labels=c(" "," ","year difference\n(2009/2019)","long term trend\n(2009-2019)"),
   guide=guide_legend(ncol=2))+
   annotation_custom(
     grid::rasterGrob(
-      image = readPNG("J:/Layout/Logo_temp.png"),
+      image = readPNG(here::here("figures","Logo_temp.png")),
       x = .05, y =.9,
       width =.15))
 ), dpi=300, width=6, height=5)
@@ -837,7 +652,7 @@ ggplot(aes(x=elev, y=temp, col=time)) +
 
 ```{r plotlocation-temp, fig.cap="", echo=FALSE, dpi=300}
 library(knitr)
-include_graphics("J:/Auswertung/Abbildungen/Paper_I/Verortung_Plots2019_ohneDE_adj.png")
+include_graphics(here::here("figures","Verortung_Plots2019_ohneDE_adj.png"))
 ```
 
 \clearpage
@@ -854,40 +669,40 @@ library(tidyverse);library(forcats);library(ggplot2);library(mgcv);library(png);
 tags<-data.frame(x=c(rep(700,4)), y=c(rep(30,4)),lab=c(rep(c("a)","b)"),2)),
                  group=c("spec.no","div.hp"))
 
-gg<-bind_rows("spec.no"=moddivy,"div.hp"=moddipy, .id = "group") %>% # Tabellen zusammenfügen, damit spec.no & div.hp untereinander sind
+gg<-bind_rows("spec.no"=moddivy,"div.hp"=moddipy, .id = "group") %>% # combine to put spec.no & div.hp underneath each other
 ggplot(aes(x=elev, y=spec.no, colour=as.factor(year), fill=as.factor(year))) +
-  facet_wrap(vars(fct_inorder(group)),ncol = 1, scales = "free") + # scales = free, um unterschiedliche Skalen pro Plot zuzulassen bzw. bei x um Markierungsstriche zu erhalten
-  geom_ribbon(aes(ymin = CI_lower, ymax = CI_upper), alpha = 0.2, colour = NA) + # colour=NA, um Außenkonturen zu entfernen
+  facet_wrap(vars(fct_inorder(group)),ncol = 1, scales = "free") +
+  geom_ribbon(aes(ymin = CI_lower, ymax = CI_upper), alpha = 0.2, colour = NA) + # colour=NA to remove outer margins
   geom_line(size=2)+
   geom_point(data=s66 %>%
-  pivot_longer(cols=c(spec.no,div.hp),names_to = c("group"),values_to="spec.no"),aes(x=elev, y=spec.no),size=3,alpha=.4,shape=16) +
-  theme_classic()+ # weißer Hintergrund
-  theme(# panel.background = element_rect(colour = "black", size=0.5), # schwarzer Rahmen
-    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),  # Abstand zum Bildrand
+    pivot_longer(cols=c(spec.no,div.hp),names_to = c("group"),values_to="spec.no"),aes(x=elev, y=spec.no),size=3,alpha=.4,shape=16) +
+  theme_classic()+ # white background
+  theme(# panel.background = element_rect(colour = "black", size=0.5), # black frame
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
     panel.spacing = unit(1, "cm"),
-    legend.position = c(0.7,0.97), # Position Legende, geht außerhalb vom Plot auch mit "bottom" etc.
-    legend.title=element_blank(), # Legendenbeschriftung raus
-    legend.text = element_text(size=14), # Schriftgröße Legendentext
-    axis.text = element_text(size=14), # Schriftgröße Achsenbeschriftung
-    axis.title.x = element_text(size=14,margin = margin(t = 10, r = 0, b = 0, l = 0)), # Schriftgröße & Abstand Achsenlabels,
+    legend.position = c(0.7,0.97),
+    legend.title=element_blank(), # remove legend title
+    legend.text = element_text(size=14),
+    axis.text = element_text(size=14),
+    axis.title.x = element_text(size=14,margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(size=14,margin = margin(t = 0, r = 10, b = 0, l = 0)),
-    strip.text = element_blank())+ # Labelbalken über Plots durch Facetwrap entfernen
+    strip.text = element_blank())+ # remove Label bar above plots from facetwrap
   labs(x="elevation [m.a.s.l.]",y="species richness")+
-  scale_x_continuous(breaks=c(750,1000,1250,1500,1750,2000))+ # für unbeschriftete Markierungen: labels = c("",1000,"",1500,"",2000)
+  scale_x_continuous(breaks=c(750,1000,1250,1500,1750,2000))+
   scale_y_continuous(n.breaks=8)+
   scale_fill_manual(name="year", values = c("2009"="dodgerblue", "2019"="orange"))+
   scale_color_manual(name="year", values = c("2009"="dodgerblue", "2019"="orange"))+
   annotate(geom = 'segment', y = -Inf, yend = -Inf, color = 'black', x = -Inf, xend = Inf, size = 0.5) +
-  geom_text(inherit.aes = FALSE, data=tags, aes(x= -Inf, y=Inf, label=lab),hjust=-1,vjust=1, size=5) # Facet labels einfügen
+  geom_text(inherit.aes = FALSE, data=tags, aes(x= -Inf, y=Inf, label=lab),hjust=-1,vjust=1, size=5) # insert facet labels
 
-# Logos hinzufügen
+# Add logos
 
 g <- ggplot_gtable(ggplot_build(gg))
 
 facets <- grep("panel", g$layout$name)
-logos <- list(rasterGrob(readPNG("J:/Layout/Logo_Ere_eur.png"),
+logos <- list(rasterGrob(readPNG(here::here("figures","Logo_Ere_eur.png")),
                              width=.15, x = .9, y = .92),
-                  rasterGrob(readPNG("J:/Layout/Logo_hostplant.png"),
+                  rasterGrob(readPNG(here::here("figures","Logo_hostplant.png")),
                              width=.15, x = .9, y = .93))
 g2 <- with(g$layout[facets,],
           gtable::gtable_add_grob(g, logos,
@@ -903,12 +718,12 @@ plot(g2)
 
 ```{r sem, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, include=FALSE}
 
-library(qgraph) # SEMs schön plotten
+library(qgraph) # plot SEMs nicely
 library(png)
 library(grid) # arrange png-files
 library(gridExtra)
 
-# manuelle matrix mit Estimates aus psem für Darstellung
+# manual matrix with estimates from psem
 
 t=matrix(c(rep(0,5*5)),5,5,byrow=T)
 colnames(t)<-c("flower cover","host plant spec. no.","butterfly spec. no.","summer temperature","management")
@@ -923,7 +738,7 @@ t[5,3]=ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="man.bin" & ss1
 t[4,3]=ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="temps" & ss1$coefficients$Response=="spec.no"]
 
 
-#Diese Matrix listet wo in einer 7x7 Matrix die column names aus der Tabelle t platziert werden sollen
+# matrix positioning labels/variables from table t, where they should appear in path model graphic
 l1=matrix(c(rep(0,35)),5,7)
 
 l1[3,4]=4
@@ -932,7 +747,7 @@ l1[4,3]=1
 l1[4,4]=3
 l1[4,5]=2
 
-signlabels<-c( # Werte direkt aus summary nehmen, fehlt allerdings "." & n.s., wird "" angezeigt; Reihenfolge nach Nr. von Response
+signlabels<-c( # significance values from summary for single arrows in model, order according to number of response var
   paste(round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="temps" & ss1$coefficients$Response=="flow_cov"],digits=2),ss1$coefficients[[9]][ss1$coefficients$Predictor=="temps" & ss1$coefficients$Response=="flow_cov"]),
   paste(round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="flow_cov"],digits=2),ss1$coefficients[[9]][ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="flow_cov"]),
   paste(round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="temps" & ss1$coefficients$Response=="div.hp"],digits=2),ss1$coefficients[[9]][ss1$coefficients$Predictor=="temps" & ss1$coefficients$Response=="div.hp"]),
@@ -943,7 +758,7 @@ signlabels<-c( # Werte direkt aus summary nehmen, fehlt allerdings "." & n.s., w
   paste(round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="spec.no"],digits=2),ss1$coefficients[[9]][ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="spec.no"])
 )
 
-# Basismodell (alle Pfeile)
+# Basis model (all arrows)
 b=matrix(c(rep(0,5*5)),5,5,byrow=T)
 colnames(b)<-c("flower cover","host plant spec. no.","butterfly spec. no.","summer temperature","management")
 rownames(b)<-colnames(b)
@@ -959,7 +774,7 @@ b[4,3]=0.1
 
 ### DELTA
 
-# manuelle matrix mit Estimates aus psem für Darstellung
+# manual matrix with estimates from psem
 
 d=matrix(c(rep(0,4*4)),4,4,byrow=T)
 colnames(d)<-c("delta flower cover","delta host plant spec. no.","delta butterfly spec. no.","delta summer temperature")
@@ -968,12 +783,12 @@ d[1,3]=dm1$coefficients$Std.Estimate[dm1$coefficients$Predictor=="flow_cov" & dm
 d[4,3]=dm1$coefficients$Std.Estimate[dm1$coefficients$Predictor=="temps" & dm1$coefficients$Response=="delta"]
 
 
-dsignlabels<-c( # Werte direkt aus summary nehmen, fehlt allerdings "." & n.s., wird "" angezeigt; Reihenfolge nach Nr. von Response
+dsignlabels<-c( # significance values from summary for single arrows in model, order according to number of response var
   paste(round(dm1$coefficients$Std.Estimate[dm1$coefficients$Predictor=="flow_cov" & dm1$coefficients$Response=="delta"],digits=2),dm1$coefficients[[9]][dm1$coefficients$Predictor=="flow_cov" & dm1$coefficients$Response=="delta"]),
   paste(round(dm1$coefficients$Std.Estimate[dm1$coefficients$Predictor=="temps" & dm1$coefficients$Response=="delta"],digits=2),dm1$coefficients[[9]][dm1$coefficients$Predictor=="temps" & dm1$coefficients$Response=="delta"])
 )
 
-# Basismodell (alle Pfeile)
+# Basis model (all arrows)
 bd=matrix(c(rep(0,4*4)),4,4,byrow=T)
 colnames(bd)<-c("delta flower cover","delta host plant spec. no.","delta butterfly spec. no.","delta summer temperature")
 rownames(bd)<-colnames(bd)
@@ -984,19 +799,19 @@ bd[1,3]=0.1
 bd[4,3]=0.1
 
 
-### PLOTTEN
+### PLOTTING
 
-# Basismodell s66
-png("J:/Auswertung/Abbildungen/Paper_I/sem1.png", res=600, height=8, width=8, units = "cm")
+# Basis model s66
+png(here::here("figures","sem1.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(b,shape="square",layout=l1,labels = F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8, asize=6, images=c("J:/Layout/Logo_Gen_ver.png","J:/Layout/Logo_hostplant.png","J:/Layout/Logo_Ere_eur.png","J:/Layout/Logo_temp.png","J:/Layout/Logo_man.png"), borders=F) ;text(-1.1,1.1,"a)",cex=1.3);abline(-1.3,0, lwd=2, col="slategray4") # asize = Dicke Pfeilspitzen, label.norm, damit alle Beschriftungen gleich groß sind, label.prop = Verhältnis Quadrate zu Text; abline für Zwischenlinie zu unteren Plots (c, d)
+qgraph(b,shape="square",layout=l1,labels = F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8, asize=6, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png"),here::here("figures","Logo_man.png")), borders=F) ;text(-1.1,1.1,"a)",cex=1.3);abline(-1.3,0, lwd=2, col="slategray4")
 
 dev.off()
 
-# Pfadmodell s66
-png("J:/Auswertung/Abbildungen/Paper_I/sem2.png", res=600, height=8, width=8, units = "cm")
+# path model s66
+png(here::here("figures","sem2.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(t,shape="square", layout=l1, labels=F, vsize=18, edge.color=c("slategray2","black","slategray2","black", "slategray2","black","black","slategray2"), colFactor=0, asize=6, edge.labels=signlabels, edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, lty=c(1,1,2,1,1,1,1,1), images=c("J:/Layout/Logo_Gen_ver.png","J:/Layout/Logo_hostplant.png","J:/Layout/Logo_Ere_eur.png","J:/Layout/Logo_temp.png","J:/Layout/Logo_man.png"), borders = F # borders = Kästchenrand
+qgraph(t,shape="square", layout=l1, labels=F, vsize=18, edge.color=c("slategray2","black","slategray2","black", "slategray2","black","black","slategray2"), colFactor=0, asize=6, edge.labels=signlabels, edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, lty=c(1,1,2,1,1,1,1,1), images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png"),here::here("figures","Logo_man.png")), borders = F
        );text(-1,0.25,paste("R²=",ss1$R2$Conditional[ss1$R2$Response=="flow_cov"]),cex=.8
         );text(0.3,0.25,paste("R²=",ss1$R2$Conditional[ss1$R2$Response=="spec.no"]),cex=.8
         );text(1,0.25,paste("R²=",ss1$R2$Conditional[ss1$R2$Response=="div.hp"]),cex=.8
@@ -1006,27 +821,27 @@ qgraph(t,shape="square", layout=l1, labels=F, vsize=18, edge.color=c("slategray2
 
 dev.off()
 
-# Basismodell delta
-png("J:/Auswertung/Abbildungen/Paper_I/sem3.png", res=600, height=8, width=8, units = "cm")
+# Basis model delta
+png(here::here("figures","sem3.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(bd,shape="square",layout=l1,labels=F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8,asize=6, images=c("J:/Layout/Logo_Gen_ver.png","J:/Layout/Logo_hostplant.png","J:/Layout/Logo_Ere_eur.png","J:/Layout/Logo_temp.png"), borders=F);text(-1.1,1.1,"c)",cex=1.3) # asize = Dicke Pfeilspitzen, label.norm, damit alle Beschriftungen gleich groß sind
+qgraph(bd,shape="square",layout=l1,labels=F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8,asize=6, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F);text(-1.1,1.1,"c)",cex=1.3)
 
 dev.off()
 
-#Pfadmodell delta
-png("J:/Auswertung/Abbildungen/Paper_I/sem4.png", res=600, height=8, width=8, units = "cm")
+# path model delta
+png(here::here("figures","sem4.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(d,shape="square",layout=l1,vsize=18, labels=F, edge.color=c("slategray3","black"),colFactor=0,asize=6,edge.labels=dsignlabels,edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, images=c("J:/Layout/Logo_Gen_ver.png","J:/Layout/Logo_hostplant.png","J:/Layout/Logo_Ere_eur.png","J:/Layout/Logo_temp.png"), borders=F
+qgraph(d,shape="square",layout=l1,vsize=18, labels=F, edge.color=c("slategray3","black"),colFactor=0,asize=6,edge.labels=dsignlabels,edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F
       );text(0.3,-0.7,paste("R²=",dm1$R2$R.squared),cex=.8
       );text(-1.1,1.1,"d)",cex=1.3
       );text(0.45,1.1,paste("Fisher's C =", dm1$Cstat$Fisher.C, "\np-value = ", dm1$Cstat$P.Value), adj=0, cex=.7)
 
 dev.off()
 
-path1<-readPNG("J:/Auswertung/Abbildungen/Paper_I/sem1.png")
-path2<-readPNG("J:/Auswertung/Abbildungen/Paper_I/sem2.png")
-path3<-readPNG("J:/Auswertung/Abbildungen/Paper_I/sem3.png")
-path4<-readPNG("J:/Auswertung/Abbildungen/Paper_I/sem4.png")
+path1<-readPNG(here::here("figures","sem1.png"))
+path2<-readPNG(here::here("figures","sem2.png"))
+path3<-readPNG(here::here("figures","sem3.png"))
+path4<-readPNG(here::here("figures","sem4.png"))
 ```
 
 ```{r semplot, fig.cap="", echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, fig.width=11, fig.height=11}
@@ -1042,27 +857,27 @@ grid.arrange(rasterGrob(path1), rasterGrob(path2), rasterGrob(path3), rasterGrob
 ```{r commsc, fig.cap="", fig.width=6, fig.height=5, echo=FALSE}
 
 ggplot(modC,aes(x=elev, y=comsc, colour=year, fill=year)) +
-  geom_ribbon(aes(ymin = CI_lower, ymax = CI_upper), alpha = 0.2, colour = NA) + # colour=NA, um Außenkonturen zu entfernen
+  geom_ribbon(aes(ymin = CI_lower, ymax = CI_upper), alpha = 0.2, colour = NA) + # colour=NA to remove outer lines
   geom_line(size=2)+
   geom_point(data=pdl,aes(x=elev, y=comsc),size=3,alpha=.4,shape=16) +
-  theme_classic()+ # weißer Hintergrund
-  theme(# panel.background = element_rect(colour = "black", size=0.5), # schwarzer Rahmen
-    plot.margin = margin(t = 10, r = 10, b = 10, l = 10), # Abstand zum Bildrand
-    legend.position = c(0.1,0.8), # Position Legende, geht außerhalb vom Plot auch mit "bottom" etc.
-    legend.title=element_blank(), # Legendenbeschriftung raus
-    legend.text = element_text(size=14), # Schriftgröße Legendentext
+  theme_classic()+ # white background
+  theme(# panel.background = element_rect(colour = "black", size=0.5), # black frame
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
+    legend.position = c(0.1,0.8),
+    legend.title=element_blank(), # remove legend label
+    legend.text = element_text(size=14),
     legend.background = element_blank(),
-    axis.text = element_text(size=14), # Schriftgröße Achsenbeschriftung
-    axis.title.x = element_text(size=14,margin = margin(t = 10, r = 0, b = 0, l = 0)), # Schriftgröße & Abstand Achsenlabels,
+    axis.text = element_text(size=14),
+    axis.title.x = element_text(size=14,margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(size=14,margin = margin(t = 0, r = 10, b = 0, l = 0)))+
   labs(x="elevation [m.a.s.l.]",y="community elevation score")+
-  scale_x_continuous(breaks=c(800,1200,1600,2000))+ # für unbeschriftete Markierungen: labels = c("",1000,"",1500,"",2000)
+  scale_x_continuous(breaks=c(800,1200,1600,2000))+
   scale_y_continuous(n.breaks=6)+
   scale_fill_manual(name="year", values = c("2009"="dodgerblue", "2019"="orange"))+
   scale_color_manual(name="year", values = c("2009"="dodgerblue", "2019"="orange"))+
 annotation_custom(
     grid::rasterGrob(
-      image = readPNG("J:/Layout/Logo_Ere_eur.png"),
+      image = readPNG(here::here("figures","Logo_Ere_eur.png")),
       x = .1, y =.93,
       width =.15))
 ```
@@ -1075,74 +890,70 @@ annotation_custom(
 
 ```{r buttshift, include=FALSE}
 
-z$signpos<--350 # Position Sternchen
+z<-read.csv(here::here("data","z.csv"), row.names = 1) # read species shifts with significance symbols
 
-z$genus_species<-revalue(z$genus_species, c("Leptidea sinapis"="Leptidea sinapis agg.", "Pieris bryoniae"="Pieris bryoniae agg."))
+txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey80",signif="black", alpns="paleturquoise3", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
 
-txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey80",signif="black", alpns="paleturquoise3", alpsignif="turquoise4")) # Farbe y-Achsenlabels, nach mean sortiert
-
-buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + #mit reorder Reihenfolge der Darstellung ändern
-  #z[z$genus_species %in% butt.wilcox$spec[butt.wilcox$p.value<=0.05],], aes(mean,reorder(genus_species,mean),col=signcol))+
-  geom_vline(xintercept = 0,linetype="dashed")+
-  geom_pointrange(aes(xmin=left95,xmax=right95),shape="|",size=.7,stroke=1)+
+buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reorder: adjust order of species on y axis
+  geom_vline(xintercept = 0,linetype="dashed") +
+  geom_pointrange(aes(xmin=left95,xmax=right95),shape="|",size=.7,stroke=1) +
   theme(
-    panel.background = element_rect(fill = NA), # Grafikhintergrund weiß
-    legend.position = "top", # Position Legende, geht außerhalb vom Plot auch mit "bottom" etc.
-    legend.title=element_text(size=9), # Legendenbeschriftung
-    legend.text = element_text(size=9), # Schriftgröße Legendentext
-    legend.key.height = unit(0.5, "cm"), # Zeilenabstand zwischen Legendenitems
+    panel.background = element_rect(fill = NA), # background plot white
+    legend.position = "top",
+    legend.title=element_text(size=9),
+    legend.text = element_text(size=9),
+    legend.key.height = unit(0.5, "cm"),
     legend.background = element_blank(),
-    axis.line = element_line(size = 0.5), # Achsenlinien zeichnen
-    axis.ticks.y = element_blank(), # Achsenmarkierungen entfernen
+    axis.line = element_line(size = 0.5),
+    axis.ticks.y = element_blank(), # remove axis ticks
     axis.text.y = element_text(face = "italic", colour=txtcol),
-    axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)), # Schriftgröße & Abstand Achsenlabels,
-    axis.title.y = element_blank() # Schriftgröße & Abstand Achsenlabels,
-  )+
+    axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_blank()
+  ) +
   scale_colour_manual(name="signif.  n.s.", values=c(alpsignif="turquoise4", signif="black", alpns="paleturquoise3", ns="grey80"),labels=c("alpine (> 500 m)","non-alpine"," "," "),
-  guide=guide_legend(ncol=2, label.position = "left", label.hjust = 0, title.position = "top", title.hjust = 1))+
-  geom_text(aes(x=signpos,label = signlvl), vjust=0.8, hjust=0, show.legend = F)+ #vjust auf selbe Höhe wie Linie, hjust = linksbündig, 
-  labs(x="Elevational shift [m]",y="Species")+
+  guide=guide_legend(ncol=2, label.position = "left", label.hjust = 0, title.position = "top", title.hjust = 1)) +
+  geom_text(aes(x=signpos,label = signlvl), vjust=0.8, hjust=0, show.legend = F) +
+  labs(x="Elevational shift [m]",y="Species") +
   scale_x_continuous(breaks=c(-300, -200, -100, 0, 100, 200, 300)) +
-  coord_cartesian(xlim = c(-330, 318))+
+  coord_cartesian(xlim = c(-330, 318)) +
   annotation_custom(
     grid::rasterGrob(
-      image = readPNG("J:/Layout/Logo_Ere_eur.png"),
+      image = readPNG(here::here("figures","Logo_Ere_eur.png")),
       x = .9, y =.035,
       width =.2))
 ```
 
 ```{r plantshift, include=FALSE}
 
-s$signpos<--267 # Position für Sternchen in Grafik
+s<-read.csv(here::here("data","s.csv"), row.names = 1) # read species shifts with significance symbols
 
-plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # alle Arten, mit reorder Reihenfolge der Darstellung ändern
-  #s[s$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.05],], aes(mean,reorder(abbr,mean),col=signcol))+ #nur signifikante Arten
-  geom_vline(xintercept = 0,linetype="dashed")+ # Nulllinie
-  geom_pointrange(aes(xmin=left95,xmax=right95),shape="|",size=0.5,stroke=1)+ # Ranges einzeichnen
+plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: adjust order of species on y axis
+  geom_vline(xintercept = 0,linetype="dashed") + # zero line
+  geom_pointrange(aes(xmin=left95,xmax=right95),shape="|",size=0.5,stroke=1) + # draw ranges
   theme(
-    panel.background = element_rect(fill = NA), # Grafikhintergrund weiß
-    axis.line = element_line(size = 0.5), # Achsenlinien zeichnen
-    axis.ticks.y = element_blank(), # Achsenmarkierungen entfernen
-    axis.text.y = element_text(face = "italic"), # labels nach Signifikanz färben: colour=s$col[order(s$mean)]
+    panel.background = element_rect(fill = NA), # background white
+    axis.line = element_line(size = 0.5),
+    axis.ticks.y = element_blank(), # remove axis ticks
+    axis.text.y = element_text(face = "italic"),
     legend.position = "none",
-    axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)), # Schriftgröße & Abstand Achsenlabels,
-    axis.title.y = element_blank() # Schriftgröße & Abstand Achsenlabels,
-  )+
-  scale_colour_manual(values=c(ns="grey80",signif="black"))+
-  geom_text(aes(x=signpos,label = signlvl), vjust=0.8,hjust=0)+ # vjust auf selbe Höhe wie Linie, hjust = linksbündig, 
-  labs(x="Elevational shift [m]",y="Species")+
-  scale_y_discrete(labels=s$taxon[order(s$mean)])+
-  coord_cartesian(xlim = c(-250,248))+
+    axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_blank()
+  ) +
+  scale_colour_manual(values=c(ns="grey80",signif="black")) +
+  geom_text(aes(x=signpos,label = signlvl), vjust=0.8,hjust=0) + 
+  labs(x="Elevational shift [m]",y="Species") +
+  scale_y_discrete(labels=s$taxon[order(s$mean)]) +
+  coord_cartesian(xlim = c(-250,248)) +
   annotation_custom(
     grid::rasterGrob(
-      image = readPNG("J:/Layout/Logo_hostplant.png"),
+      image = readPNG(here::here("figures","Logo_hostplant.png")),
       x = .85, y =.035,
       width =.3))
 ```
 
 ```{r shifts, fig.cap="", fig.width=8.5, fig.height=11, warning=FALSE, echo=FALSE}
 library(patchwork)
-((buttshifts + plot_spacer()) + inset_element(plantshifts, 0,0,1,1, align_to = "full")) + plot_layout(widths = c(1,1.5)) # plot_spacer() & inset_element, damit plant shifts über ganze Höhe gehen und nicht Legendenbereich oben frei lassen
+((buttshifts + plot_spacer()) + inset_element(plantshifts, 0,0,1,1, align_to = "full")) + plot_layout(widths = c(1,1.5)) # plot_spacer() & inset_element to stretch plant shifts over whole length of plot
 ```
 
 # Supplementary Material {.unnumbered}
@@ -1151,7 +962,7 @@ library(patchwork)
 
 ```{r butthostplantlist, tab.cap="List of included butterfly species and associated larval host plants according to Paolucci (2013) and/or Reinhardt et al. (2020). The degree of specialization (deg. spec.) states if the larvae of the species is monophagous (M), oligophagous (O) or polyphagous (P) according to Paolucci (2013).", echo=FALSE, warning=FALSE}
 
-hpl<-read.table("J:/Auswertung/Textfiles/hostplantlist.csv", sep=";", header=T)
+hpl<-read.csv(here::here("data","hostplantlist.csv"), sep=";")
 hpl<-hpl[order(hpl$spec),] 
 
 library(flextable)
@@ -1185,20 +996,20 @@ par(new=T)
 plot(meansig~no.ind, data=a, ylim=c(min(mean), max(meansig)), xaxt = "n", yaxt="n",xlab=NA, ylab=NA, col="darkorange2", pch=19)
 abline(mean(a$meansig), 0, col="darkorange2", lty=2)
 
-# Linienlabels
+# line labels
 text(x=31, y=c(mean(a$mean)-6, mean(a$meansig)-6), pos=2, labels=c(paste(round(mean(a$mean),digits = 0),"m"), paste(round(mean(a$meansig), digits=0),"m")), col=c("black","darkorange2"))
 
 par(mar=c(5,6,0,2))
 
-# No. included spec
+# No. included species
 plot(no.species~no.ind,data=a, ylim=c(min(s+ss+sss),max(no.species)), yaxp = c(10, 40, 3), xlab="minimum no. of individuals per species", ylab="no. of included\nspecies", pch=19)
 par(new=T)
 plot(s+ss+sss~no.ind,data=a,ylim=c(min(s+ss+sss),max(no.species)), xaxt="n",yaxt="n",xlab=NA,ylab=NA,col="darkorange2", pch=19
-     ); grid.raster(readPNG("J:/Layout/Logo_Ere_eur.png"), # Logo einfügen
+     ); grid.raster(readPNG(here::here("figures","Logo_Ere_eur.png")), # insert logo
             x = .08, y =.1,
             width =.1)
 
-# Legende
+# Legend
 legend("topright", inset=c(0,-0.05),legend= c("all species","signif. shifting"), pch=19, col = c("black", "darkorange2"), bty = "n", y.intersp=1.3)
 
 par(mfrow=c(1,1))
@@ -1212,7 +1023,7 @@ par(mfrow=c(1,1))
 
 ```{r shiftselecthp, echo=FALSE, warning=FALSE, fig.cap="Change in mean elevational shift and number of included host plant species (y-axes) depending on the chosen minimum number of occupied subplots per species (x-axis). Results are shown for all included species (black) and for significantly shifting (p &le; 0.05) species with their respective mean shift (dashed lines).", fig.width=7, fig.height=5.5, dpi=300}
 
-par(mfrow=c(2,1),mar=c(1,6,2,2)) # Breite Plotränder
+par(mfrow=c(2,1),mar=c(1,6,2,2)) # broad plot margins
 
 # Elev shift
 plot(mean~no.sb, data=m, ylim=c(min(meansig),max(meansig)),xlab = NA, xaxt="n", ylab="average elevational\nshift [m]", yaxp = c(- 40, 80, 3), pch=19)
@@ -1221,20 +1032,20 @@ par(new=T)
 plot(meansig~no.sb, data=m, ylim=c(min(meansig),max(meansig)),xlab = NA, xaxt = "n", ylab = NA, yaxt = "n",col="darkorange2", pch=19)
 abline(mean(m$meansig), 0, col="darkorange2", lty=2)
 
-# Linienlabels
+# line labels
 text(x=31, y=c(mean(m$mean)-7, mean(m$meansig)-7), pos=2, labels=c(paste(round(mean(m$mean),digits = 0),"m"), paste(round(mean(m$meansig), digits=0),"m")), col=c("black","darkorange2"))
 
 par(mar=c(5,6,0,2))
 
-# No. included spec
+# No. included species
 plot(no.species~no.sb,data=m,ylim=c(min(s+ss+sss),max(m$no.species)),xlab="minimum no. of occupied subplots",ylab="no. of included\nspecies", pch=19)
 par(new=T)
 plot(s+ss+sss~no.sb,data=m,ylim=c(min(s+ss+sss),max(m$no.species)),xlab = NA, xaxt="n", ylab = NA, yaxt = "n",col="darkorange2", pch=19
-     ); grid.raster(readPNG("J:/Layout/Logo_hostplant.png"), # Logo einfügen
+     ); grid.raster(readPNG(here::here("figures","Logo_hostplant.png")), # insert logo
             x = .08, y =.08,
             width =.1)
 
-# Legende
+# Legend
 legend("topright",inset=c(0,-0.05),legend= c("all species","signif. shifting"), pch=19,col = c("black", "darkorange2"),bty = "n", y.intersp=1.3)
 
 par(mfrow=c(1,1))
@@ -1248,9 +1059,9 @@ par(mfrow=c(1,1))
 
 ```{r temp100, echo=FALSE, warning=FALSE, message=FALSE, fig.width=4, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. The daily mean temperature from 2009 to 2019 was averaged per station. The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line).", dpi=300}
 
-# Temperaturunterschied pro 100 m
+# Temperature difference per 100 m of elevation
 blacktrans<-adjustcolor("black",alpha.f = 0.3)
-elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean)
+elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean) # data not publicly available
 
 ggplot(elevmean, aes(Elev_50m,daymeanT))+
   geom_point(pch=16, cex=2, col=blacktrans)+
@@ -1277,7 +1088,7 @@ ggplot(elevmean, aes(Elev_50m,daymeanT))+
 summean$time<-"MST"; yearmean$time<-"MAT"
 mt<-bind_rows(summean[summean$year >="2009" & summean$year <="2019",], yearmean[yearmean$year >="2009" & yearmean$year <="2019",])
 
-# Unterschied Tagesmittel 2009 - 2019 für Sommer / ganzes Jahr
+# Difference day means 2009 - 2019 for summer / whole year
 
 ggplot(mt, aes(year, daymeanT))+
   facet_wrap(~time, scales="free_y")+
@@ -1291,8 +1102,8 @@ ggplot(mt, aes(year, daymeanT))+
     axis.text = element_text(size=12),
     axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)),
-    strip.background = element_blank(), # Hintergrund facet_labels
-    strip.text = element_text(size=14) # Text facet_labels
+    strip.background = element_blank(), # background facet_labels
+    strip.text = element_text(size=14) # text facet_labels
   )+
   geom_text(x=2016.3, y=4.85, hjust=0, col="black",
             label=paste("R² =", round(tmean[["r.squared"]], digits=2),"\nslope =", round(tmean[["coefficients"]][2],digits=3)))+
