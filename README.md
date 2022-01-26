@@ -12,10 +12,17 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
 
 ## Content of the repository
 
-1. __Data__: the folder `data` contains  
+1. __data__:
     * The raw and processed data of butterfly and plant surveys in 2009 and 2019 used for analysis and the dependent metadata files (.csv) 
     
-2. __Kerner_et_al-2022-Butterfly_host_plant_shifts.Rmd__: Markdown document used to create the manuscript, including code of data analysis and figures
+2. __manuscript__:
+    * The markdown document used to create the manuscript including code of data analysis and figures
+    * dependent files for document formatting, inserting cited literature and citation format
+
+3. __figures__:  
+    * figures of the manuscript that were created outside of R
+    * figures created in the manuscript and cached here for reimportation in R
+    (all final figures of the manuscript are included in a .docx document when running the markdown file (manuscript folder) and are not additionally saved here)
     
 ***
 
