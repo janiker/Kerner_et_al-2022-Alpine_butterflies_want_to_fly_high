@@ -1,0 +1,79 @@
+spec;hosttype;plantfamily;hostplants
+Aglais urticae;M;Urticaceae;Urtica dioica, U. urens
+Araschnia levana;M;Urticaceae;Urtica dioica
+Argynnis adippe;M;Violaceae;Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Argynnis aglaja;M;Violaceae;Polygonum bistorta, Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Argynnis niobe;M;Violaceae;Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Argynnis paphia;M;Violaceae;Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Aricia eumedon;M;Geraniaceae;Geranium palustre, G. pratense, G. sanguineum, G. sylvaticum, Lathyrus pratensis, Lythrum salicaria
+Boloria euphrosyne;M;Violaceae;Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Boloria thore;M;Violaceae;Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Boloria titania;M;Polygonaceae;Polygonum bistorta, Viola biflora, V. reichenbachiana
+Cupido minimus;M;Fabaceae;Anthyllis vulneraria
+Cyaniris semiargus;M;Fabaceae;Trifolium alpestre, T. arvense, T. medium, T. pratense, T. repens
+Erebia pronoe;M;Poaceae;Anthoxanthum odoratum, Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina
+Hamearis lucina;M;Primulaceae;Primula elatior, P. veris, P. vulgaris
+Issoria lathonia;M;Violaceae;Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Limenitis camilla;M;Caprifoliaceae;Lonicera xylosteum, L. periclymenum, L. caprifolium, Symphoricarpos albus
+Lycaena phlaeas;M;Polygonaceae;Rumex acetosa
+Lycaena tityrus;M;Polygonaceae;Rumex acetosa
+Melitaea diamina;M;Caprifoliaceae;Valeriana dioica, V. montana, V. officinalis, V. saxatilis, V. tripteris
+Polyommatus bellargus;M;Fabaceae;Coronilla varia, Hippocrepis comosa, Securigera varia
+Pyrgus cacaliae;M;Rosaceae;Potentilla aurea, P. crantzii, P. erecta
+Aglais io;O;Urticaceae, Cannabaceae;Humulus lupulus, Urtica dioica
+Anthocharis cardamines;O;Brassicaceae;Alliaria petiolata, Arabis hirsuta, Carduus defloratus, Cardamine pratensis
+Aphantopus hyperantus;O;Poaceae, Cyperaceae;Brachypodium pinnatum, Bromus erectus, Calamagrostis epigejos, Dactylis glomerata, Festuca rubra, Holcus lanatus, H. mollis, Molinia caerulea, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis
+Aporia crataegi;O;Rosaceae;Crataegus spp., Prunus spp, Pyrus spp, Sorbus aucuparia
+Brenthis ino;O;Rosaceae;Aruncus dioicus, Filipendula ulmaria, Rubus fruticosus, R. idaeus, R. saxatilis, Sanguisorba minor, S. officinalis
+Carterocephalus palaemon;O;Poaceae;Alopecurus pratensis, Brachypodium pinnatum, B. sylvaticum, Calamagrostis epigejos, C. villosa, Dactylis glomerata, Holcus lanatus, Molinia arundinacea, M. caerulea, Phleum pratense, Poa trivialis
+Coenonympha arcania;O;Poaceae;Brachypodium pinnatum, Bromus erectus, Festuca ovina, F. rubra, Melica ciliata, M. nutans
+Coenonympha gardetta;O;Poaceae;Agrostis capillaris, A. stolonifera, Alopecurus pratensis, Anthoxanthum odoratum, Arrhenatherum elatius, Brachypodium phoenicoides, B. pinnatum, B. sylvaticum, Briza media, Bromus erectus, Acinos alpinus, Calamagrostis epigejos, C. varia, C. villosa, Cynosurus cristatus, Dactylis glomerata, Deschampsia cespitosa, Elymus repens, Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina, Holcus lanatus, H. mollis, Lolium perenne, Melica ciliata, M. nutans, Molinia arundinacea, M. caerulea, Nardus stricta, Phleum pratense, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis, Sesleria albicans, S. caerulea, S. varia
+Coenonympha pamphilus;O;Poaceae;Agrostis capillaris, A. stolonifera, Anthoxanthum odoratum, Cynosurus cristatus, Festuca rubra, Nardus stricta, Poa annua, P. pratensis
+Colias alfacariensis;O;Fabaceae;Coronilla varia, Hippocrepis comosa, Lotus corniculatus, Medicago lupulina, M. sativa, M. x varia, Securigera varia, Trifolium pratense, T. repens, Vicia cracca
+Colias crocea;O;Fabaceae;Coronilla varia, Hippocrepis comosa, Lotus corniculatus, Medicago lupulina, M. sativa, M. x varia, Onobrychis spp, Securigera varia, Trifolium alpestre, T. arvense, T. medium, T. montanum, T. pratense, T. repens
+Colias phicomone;O;Fabaceae;Coronilla varia, Hippocrepis comosa, Lotus corniculatus, Trifolium repens
+Erebia eriphyle;O;Poaceae;Anthoxanthum odoratum, Deschampsia cespitosa
+Erebia gorge;O;Poaceae;Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F.brubra, F. rupicaprina, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis, Sesleria albicans, S. caerulea, S. varia
+Erebia oeme;O;Poaceae, Cyperaceae;Briza media, Carex ferruginea, C. flacca, C. sempervirens, Molinia caerulea, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis
+Erebia pandrose;O;Poaceae;Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina, Nardus stricta, Sesleria albicans, S. caerulea, S. varia
+Erebia pharte;O;Poaceae, Cyperaceae;Carex ferruginea, Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina, Nardus stricta
+Erynnis tages;O;Fabaceae;Coronilla varia, Hippocrepis comosa, Lotus corniculatus, Securigera varia
+Gonepteryx rhamni;O;Rhamnaceae;Frangula alnus, Rhamnus alaternus, R. cathartica, R. frangula
+Hesperia comma;O;Poaceae;Agrostis capillaris, Festuca ovina, Nardus stricta
+Lasiommata maera;O;Poaceae;Brachypodium phoenicoides, Calamagrostis varia, Deschampsia cespitosa, Festuca ovina, F. rubra, Nardus stricta, Poa bulbosa, P. pratensis
+Lasiommata petropolitana;O;Poaceae;Calamagrostis epigejos, Dactylis glomerata, Festuca ovina
+Lycaena hippothoe;O;Polygonaceae;Polygonum bistorta, Rumex acetosa
+Maniola jurtina;O;Poaceae;Brachypodium phoenicoides, B. pinnatum, B. sylvaticum, Dactylis glomerata, Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina, Holcus lanatus, H. mollis, Lolium perenne, Phleum pratense, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis
+Melanargia galathea;O;Poaceae;Agrostis capillaris, Anthoxanthum odoratum, Arrhenatherum elatius, Brachypodium phoenicoides, B. pinnatum, B. sylvaticum, Bromus erectus, Carex alba, C. atrata, C. capillaris, C. caryophyllea, C. davalliana, C. digitata, C. echinata, C. ericetorum, C. ferruginea, C. firma, C. flacca, C. flava, C. fusca, C. hostiana, C. lepidocarpa, C. montana, C. mucronata, C. muricata, C. ornithopoda, C. ovalis, C. pallescens, C. panicea, C. pilulifera, C. sempervirens, C. sylvatica, Dactylis glomerata, Festuca ovina, F. rubra, Holcus lanatus, H. mollis, Molinia arundinacea, M. caerulea, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis
+Ochlodes sylvanus;O;Poaceae;Agrostis capillaris, Brachypodium pinnatum, Bromus erectus, Calamagrostis epigejos, Dactylis glomerata, Festuca arundinacea, Molinia caerulea, Phleum pratense, Poa pratensis
+Pararge aegeria;O;Poaceae, Cyperaceae;Agrostis stolonifera, Arrhenatherum elatius, Brachypodium pinnatum, B. sylvaticum, Calamagrostis arundinacea, C. epigejos, Carex sylvatica, Cynodon dactylon, Dactylis glomerata, Deschampsia cespitosa, Elymus repens, Festuca gigantea, Holcus lanatus, Molinia arundinacea, Poa pratensis
+Phengaris arion;O;Lamiaceae;Origanum vulgare, Thymus praecox, T. pulegioides
+Pieris brassicae;O;Brassicaceae;Alliaria petiolata, Brassica napus, B. oleracea
+Pieris bryoniae;O;Brassicaceae;Alliaria petiolata, Arabis alpina, Biscutella laevigata, Cardamine pratensis
+Pieris rapae;O;Brassicaceae;Brassica napus, B. oleracea, B. rapa, Sinapis arvensis
+Polyommatus coridon;O;Fabaceae;Astragalus glycyphyllos, Coronilla varia, Hippocrepis comosa, Medicago x varia, Securigera varia, Trifolium repens
+Polyommatus icarus;O;Fabaceae;Coronilla varia, Hippocrepis comosa, Lotus corniculatus, Medicago lupulina, Ononis spinosa, Securigera varia, Trifolium arvense, T. pratense, T. repens
+Pyrgus alveus;O;Rosaceae, Cistaceae;Helianthemum alpestre, H. nummularium, Potentilla anserina, P. argentea, P. aurea, P. brauneana, P. crantzii, P. erecta, P. heptaphylla, P. hirta, P. palustris, P. pusilla, P. reptans, P. recta, P. sterilis, P. tabernaemontani, P. grandiflora
+Pyrgus andromedae;O;Rosaceae;Dryas octopetala, Potentilla erecta
+Pyrgus malvae;O;Rosaceae;Agrimonia eupatoria, Filipendula ulmaria, Fragaria vesca, Potentilla anserina, P. argentea, P. aurea, P. brauneana, P. crantzii, P. erecta, P. heptaphylla, P. hirta, P. palustris, P. pusilla, P. reptans, P. recta, P. sterilis, P. tabernaemontani, P. grandiflora, Rubus fruticosus, R. idaeus
+Pyrgus serratulae;O;Rosaceae;Alchemilla spp., Fragaria vesca, Potentilla crantzii, P. erecta, P. heptaphylla, P. hirta, P. pusilla, P. reptans, P. tabernaemontani, P. grandiflora
+Thymelicus lineola;O;Poaceae;Arrhenatherum elatius, Brachypodium pinnatum, Bromus erectus, Calamagrostis epigejos, Dactylis glomerata, Elymus repens, Festuca ovina, Holcus mollis, Lolium perenne, Phleum pratense, Poa pratensis
+Thymelicus sylvestris;O;Poaceae;Alopecurus pratensis, Cynosurus cristatus, Dactylis glomerata, Elymus repens, Holcus lanatus, H. mollis, Phleum pratense
+Vanessa atalanta;O;Urticaceae;Parietaria officinalis, Urtica dioica, U. urens
+Leptidea sinapis;O;Fabaceae;Coronilla varia, Lathyrus linifolius, L. pratensis, Lotus corniculatus, Trifolium arvense, Vicia angustifolia, V. cracca
+Aricia agestis;P;Geraniaceae, Cistaceae;Erodium acaule, E. ciconium, E. cicutarium, Geranium palustre, G. pratense, G. robertianum, G. sanguineum, G. sylvaticum, Helianthemum alpestre, H. nummularium
+Aricia artaxerxes;P;Cistaceae, Geraniaceae;Erodium cicutarium, Geranium sylvaticum, Helianthemum alpestre, H. nummularium
+Boloria pales;P;Violaceae, Plantaginaceae;Plantago alpina, Viola alba, V. biflora, V. calcarata, V. canina, V. collina, V. hirta, V. odorata, V. palustris, V. reichenbachiana, V. riviniana, V. tricolor
+Callophrys rubi;P;Fabaceae, Cistaceae, Cornaceae, Rosaceae;Cornus sanguinea, Cytisus scoparius, Genista sagittalis, G. tinctoria, Helianthemum alpestre, H. nummularium, Lotus corniculatus, Medicago x varia, Rubus fruticosus, Vaccinium myrtillus, V. uliginosum, V. vitis-idaea, Viburnum lantana
+Celastrina argiolus;P;many;Astragalus glycyphyllos, Calluna vulgaris, Cornus sanguinea, Erica carnea, Filipendula ulmaria, Frangula alnus, Hedera helix, Ligustrum vulgare, Lythrum salicaria, Medicago sativa, Melilotus albus, Rhamnus cathartica, Rubus fruticosus, R. idaeus, R. saxatilis
+Erebia aethiops;P;Poaceae, Cyperaceae, Juncaceae;Anthoxanthum odoratum, Brachypodium pinnatum, Briza media, Bromus erectus, Calamagrostis epigejos, Carex sempervirens, Dactylis glomerata, Festuca ovina, Luzula nivea, Molinia arundinacea, M. caerulea, Poa trivialis
+Erebia epiphron;P;Poaceae, Cyperaceae;Carex pilulifera, Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina, Nardus stricta, Poa alpina, P. angustifolia, P. annua, P. bulbosa, P. hybrida, P. minor, P. nemoralis, P. pratensis, P. trivialis
+Erebia euryale;P;Poaceae, Cyperaceae;Brachypodium pinnatum, Acinos alpinus, Calamagrostis epigejos, C. varia, C. villosa, Carex alba, C. atrata, C. capillaris, C. caryophyllea, C. davalliana, C. digitata, C. echinata, C. ericetorum, C. ferruginea, C. firma, C. flacca, C. flava, C. fusca, C. hostiana, C. lepidocarpa, C. montana, C. mucronata, C. muricata, C. ornithopoda, C. ovalis, C. pallescens, C. panicea, C. pilulifera, C. sempervirens, C. sylvatica, Festuca alpina, F. arundinacea, F. gigantea, F. nigrescens, F. norica, F. ovina, F. pratensis, F. quadriflora, F. rubra, F. rupicaprina, Molinia arundinacea, M. caerulea, Poa nemoralis, Sesleria albicans, S. caerulea, S. varia
+Erebia ligea;P;Poaceae, Cyperaceae;Bromus erectus, Acinos alpinus, Calamagrostis arundinacea, C. epigejos, C. varia, C. villosa, Carex sylvatica, Danthonia decumbens, Festuca rubra
+Erebia manto;P;Poaceae, Cyperaceae;Anthoxanthum odoratum, Carex alba, C. atrata, C. capillaris, C. caryophyllea, C. davalliana, C. digitata, C. echinata, C. ericetorum, C. ferruginea, C. firma, C. flacca, C. flava, C. fusca, C. hostiana, C. lepidocarpa, C. montana, C. mucronata, C. muricata, C. ornithopoda, C. ovalis, C. pallescens, C. panicea, C. pilulifera, C. sempervirens, C. sylvatica, Festuca ovina, F. rubra
+Euphydryas cynthia;P;Plantaginaceae, Violaceae;Globularia cordifolia, Plantago alpina, P. lanceolata, Viola calcarata
+Melitaea athalia;P;many;Digitalis purpurea, Melampyrum arvense, M. pratense, M. sylvaticum, Plantago atrata, P. lanceolata, P. media, Rhinanthus alectorolophus, Veronica arvensis, V. chamaedrys, V. teucrium
+Nymphalis antiopa;P;Salicaceae, Betulaceae;Betula pendula, Populus nigra, Salix alba, S. caprea, S. eleagnos, S. purpurea, Ulmus minor
+Papilio machaon;P;Apiaceae, Rutaceae;Aegopodium podagraria, Angelica archangelica, Carum carvi, Daucus carota, Meum athamanticum, Pheoniculum vulgare, Pimpinella saxifraga, Ruta graveolens
+Polygonia c-album;P;many;Corylus avellana, Humulus lupulus, Rubus idaeus, Salix caprea, Ulmus glabra, U. minor, Urtica dioica
+Vanessa cardui;P;many;Borago officinalis, Carduus defloratus, Carlina acanthifolia, Cirsium arvense, C. vulgare, Cynara scolymus, Echium vulgare, Malva sylvestris, Urtica dioica
