@@ -14,7 +14,7 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
 
 1. __data__:
     * raw and processed data of butterfly and plant surveys in 2009 and 2019 used for analysis (.csv)
-    * dependent metadata files in subfolder (.csv) 
+    * dependent metadata files (.csv) in subfolder 
     
 2. __manuscript__:
     * The markdown document used to create the manuscript including code of data analysis and figures
