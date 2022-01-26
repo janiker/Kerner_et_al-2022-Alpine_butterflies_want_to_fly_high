@@ -17,7 +17,7 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
     
 2. __manuscript__:
     * The markdown document used to create the manuscript including code of data analysis and figures
-    * dependent files for document formatting, inserting cited literature and citation format
+    * dependent files for documenting formatting, inserting cited literature and citation format
 
 3. __figures__:  
     * figures of the manuscript that were created outside of R
