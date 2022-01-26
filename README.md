@@ -13,7 +13,8 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
 ## Content of the repository
 
 1. __data__:
-    * The raw and processed data of butterfly and plant surveys in 2009 and 2019 used for analysis and the dependent metadata files (.csv) 
+    * raw and processed data of butterfly and plant surveys in 2009 and 2019 used for analysis (.csv)
+    * dependent metadata files in subfolder (.csv) 
     
 2. __manuscript__:
     * The markdown document used to create the manuscript including code of data analysis and figures
