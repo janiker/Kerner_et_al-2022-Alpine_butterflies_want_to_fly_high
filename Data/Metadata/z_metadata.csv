@@ -1,0 +1,11 @@
+variable;definition
+genus_species;butterfly species name
+mean;mean elevational shift per butterfly species [m]
+sd;standard deviation of mean elevational shift [m]
+n;number of individuals
+se;standard error of mean elevational shift [m]
+left95;lower limit of 95% confidence interval of mean elevational shift [m]
+right95;upper limit of 95% confidence interval of mean elevational shift [m]
+signcol;defining color of significance symbols in graph
+signlvl;significance of butterfly species shifts according to p-value from Wilcoxon rank-sum tests: 0.05 >= (*) > 0.01 >= (**) > 0.001 >= (***)
+signpos;position of significance symbols in graph

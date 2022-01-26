@@ -1,0 +1,5 @@
+variable;definition
+spec;butterfly species name
+hosttype;degree of specialization of butterfly larvae according to Paolucci (2013): monophagous (M) = one plant genus, oligophagous (O) = one plant family, polyphagous (P) = several plant families
+plantfamily;plant families to which the host plants of the butterfly belong
+hostplants;names of larval host plant species of butterfly species when defined as such in Paolucci (2013) or Reinhardt et al. (2020)

@@ -1,0 +1,5 @@
+variable;definition
+spec;butterfly species name
+melev;abundance weighted mean elevation of butterfly species [m.a.s.l.]
+no.ind;number of individuals
+year;year

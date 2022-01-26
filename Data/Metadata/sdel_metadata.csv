@@ -1,0 +1,12 @@
+variable;definition
+delta;difference in species richness between 2009 and 2019 (2019 minus 2009)
+plot;plot-ID
+elev;plot elevation based on a digital elevation model (DGM) with 1 m grid cell width [m.a.s.l.]
+man.bin;management as binary value: extensively used (1) or unused (0)
+div.hp;difference in host plant species richness per plot between 2009 and 2019 (2019 minus 2009)
+cov.hp;difference in aggregated cover of all host plant species per plot between 2009 and 2019 (2019 minus 2009) [%]
+flow_cov;difference in flower cover as share of total plot area (60 x 60 m) between 2009 and 2019 (2019 minus 2009) [%]
+temps;difference in daily mean temperature averaged over the summer months (May - September) between 2009 and 2019 (2019 minus 2009) [°C]
+tempy;difference in daily mean temperature averaged over the whole year between 2009 and 2019 (2019 minus 2009) [°C]
+ptempy;gradual increase in annual temperature over the decade (2009 - 2019) [°C]
+ptemps;gradual increase in summer temperature (May - September) over the decade (2009 - 2019) [°C]

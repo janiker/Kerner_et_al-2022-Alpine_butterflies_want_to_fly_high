@@ -1,0 +1,10 @@
+variable;definition
+no.sb;minimum number of occupied subplots
+mean;mean elevational shift including all host plant species [m]
+no.species;number of included host plant species
+n.s.;number of host plant species not shifting significantly (Wilcoxon rank-sum tests)
+cs;number of host plant species shifting close to significant (0.1 <= p > 0.05) (Wilcoxon rank-sum tests)
+s;number of host plant species shifting significantly (0.05 <= p > 0.01) (Wilcoxon rank-sum tests)
+ss;number of host plant species shifting very significantly (0.01 <= p > 0.001) (Wilcoxon rank-sum tests)
+sss;number of host plant species shifting highly significantly (0.001 <= p) (Wilcoxon rank-sum tests)
+meansig;mean elevational shift only including significantly shifting host plant species (Wilcoxon rank-sum tests) [m]

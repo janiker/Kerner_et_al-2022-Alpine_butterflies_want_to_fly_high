@@ -1,0 +1,19 @@
+variable;definition
+plot;plot-ID
+elev;plot elevation based on a digital elevation model (DGM) with 1 m grid cell width [m.a.s.l.]
+temps09;daily mean temperature averaged over the summer months (May - September) in 2009 [°C]
+temps19;daily mean temperature averaged over the summer months (May - September) in 2019 [°C]
+tempy09;daily mean temperature averaged over the whole year 2009 [°C]
+tempy19;daily mean temperature averaged over the whole year 2019 [°C]
+div09;butterfly species richness per plot in 2009
+div19;butterfly species richness per plot in 2019
+flow_cov09;flower cover as share of total plot area (60 x 60 m) [%] in 2009
+flow_cov19;flower cover as share of total plot area (60 x 60 m) [%] in 2019
+ab09;total number of butterflies caught at the plot in 2009
+ab19;total number of butterflies caught at the plot in 2019
+ACE09;abundance based coverage estimator for species richness per plot in 2009
+ACE19;abundance based coverage estimator for species richness per plot in 2019
+det.rate09;butterfly species richness saturation in 2009 [%]
+det.rate19;butterfly species richness saturation in 2019 [%]
+comsc09;community elevation score per plot in 2009, following Chen et al. 2009
+comsc19;community elevation score per plot in 2019, following Chen et al. 2010

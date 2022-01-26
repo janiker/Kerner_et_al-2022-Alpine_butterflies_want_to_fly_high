@@ -1,0 +1,11 @@
+variable;definition
+plot;plot-ID
+elev;plot elevation based on a digital elevation model (DGM) with 1 m grid cell width [m.a.s.l.]
+man.bin;management as binary value: extensively used (1) or unused (0)
+year;year
+spec.no;butterfly species richness
+flow_cov;flower cover as share of total plot area (60 x 60 m) [%]
+div.hp;host plant species richness per plot
+cov.hp;aggregated cover of all host plant species per plot [%]
+temps;daily mean temperature averaged over the summer months (May - September) per year [°C]
+tempy;daily mean temperature averaged over the whole year [°C]

@@ -1,0 +1,3 @@
+variable;definition
+Elev_50m;elevation of climate station based on a digital elevation model (DGM) with 50 m grid cell size [m.a.s.l.]
+daymeanT;daily mean temperature averaged over the years 2009 - 2019 per climate station [°C]
