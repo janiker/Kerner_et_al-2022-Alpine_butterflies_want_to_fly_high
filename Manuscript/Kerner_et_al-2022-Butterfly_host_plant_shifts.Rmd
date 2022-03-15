@@ -105,13 +105,13 @@ dipy<-summary(gam(div.hp~s(elev, k=4)+s(elev,by=year, k=4)+year+s(plot, bs="re")
 
 moddipy<-gam(div.hp~s(elev, k=4)+s(elev,by=year,k=4)+year, data=s66, family=poisson, method="REML")
 moddipy<-get_gam_predictions(moddipy, elev, series_length = 1391)
-for (i in c("div.hp","SE","CI_upper","CI_lower")){ # backtransformation poisson (log)
+for (i in c("div.hp","SE","CI_upper","CI_lower")){ # back transformation poisson (log)
   moddipy[i]<-exp(moddipy[i])
 }
 colnames(moddipy)[4]<-"spec.no"
 
 
-# check significant differences between spec.no sections (lowland, midelevation, highland)
+# check significant differences between spec.no sections (lowland, mid-elevation, highland)
 t1<-t.test(spec.no~year,data=droplevels(subset(pdl,pdl$elev<1000)))
 t2<-t.test(spec.no~year,data=droplevels(subset(pdl,pdl$elev>=1000 & pdl$elev<1500)))
 t3<-t.test(spec.no~year,data=droplevels(subset(pdl,pdl$elev>=1500)))
@@ -120,7 +120,7 @@ t3<-t.test(spec.no~year,data=droplevels(subset(pdl,pdl$elev>=1500)))
 ```{r specsat, include=FALSE}
 # species richness saturation:
 
-# lower plots gesampled six times
+# lower plots sampled six times
 w6<-summary(c(subset(plotdata,plotdata$plot %in% c("H1","H2","HO1","HO2","T1","T3","T4","T5","W1","W2","WmA1","WmA2","WmB1","WmB2"))$det.rate09,
           subset(plotdata,plotdata$plot %in% c("H1","H2","HO1","HO2","T1","T3","T4","T5","W1","W2","WmA1","WmA2","WmB1","WmB2"))$det.rate19))
 
@@ -263,7 +263,7 @@ e[,"overall"]<-c(e["summer temperature","direct"],e["management","indirect"],
 sdel<-read.csv(here::here("data","sdel.csv"), sep = ";")
 sdel$plot<-as.factor(sdel$plot)
 sdel<-sdel[sdel$plot!="T3",] # kick out T3 because of missing plant data
-sdel$flow_cov<-sqrt(sdel$flow_cov+3) # sqrt transformation for normal distribution, +3 so that all values are positive and can be transformated
+sdel$flow_cov<-sqrt(sdel$flow_cov+3) # sqrt transformation for normal distribution, +3 so that all values are positive and can be transformed
 
 # two minimum models for delta
 
