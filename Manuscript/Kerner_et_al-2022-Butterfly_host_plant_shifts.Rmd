@@ -1056,25 +1056,63 @@ par(mfrow=c(1,1))
 \newpage
 
 **Figure S3:**
+```{r temp100, echo=FALSE, warning=FALSE, message=FALSE, fig.width=6, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. Left: The daily mean temperature from 2009 to 2019 was averaged per station (grey points). The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line). Colored lines show the average per climate station of the two sampled years 2009 (blue) and 2019 (orange). Right: Colored lines from the left graph representing the two sampled years each with the underlying data points.", dpi=300}
 
-```{r temp100, echo=FALSE, warning=FALSE, message=FALSE, fig.width=4, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. The daily mean temperature from 2009 to 2019 was averaged per station. The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line).", dpi=300}
+# Temperaturunterschied pro 100 m 2009-2019
+elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean)
+# Einzeljahre 2009 & 2019
+elevmean09<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2009,], FUN=mean)
+elevmean19<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2019,], FUN=mean)
 
-# Temperature difference per 100 m of elevation
-blacktrans<-adjustcolor("black",alpha.f = 0.3)
-elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean) # data not publicly available
+transblue<-adjustcolor("dodgerblue",alpha.f = 0.5)
+transorange<-adjustcolor("orange",alpha.f = 0.5)
 
-ggplot(elevmean, aes(Elev_50m,daymeanT))+
-  geom_point(pch=16, cex=2, col=blacktrans)+
-  geom_smooth(method=lm, se=F, col="black")+
-  theme_classic()+
+# main Plot mit Durchschnitt und Einzeljahreslinien
+main<-bind_rows("mean"=elevmean,"2009"=elevmean09,"2019"=elevmean19, .id = "year") %>%
+ggplot(aes(Elev_50m, daymeanT, col=year)) +
+  geom_smooth(method=lm, se=F) +
+  geom_point(aes(Elev_50m, daymeanT),data=elevmean,col="black", pch=16, cex=2, alpha=.3) +
+  theme_classic() +
+  scale_color_manual(
+    values = c("mean"="black", "2009"=transblue,"2019"=transorange),
+    name="year",
+    labels = c("mean"="2009 - 2019","2009"="2009", "2019"="2019")) +
   theme(
     plot.margin = unit(c(.5, .3, .3, .3),"cm"),
+    legend.position = "none",
     axis.text = element_text(size=12),
     axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
-    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)))+
-  labs(x="elevation", y="mean temperature [°C]")+
-  geom_text(x=1900, y=9.75, col="black", hjust=0,
+    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0))) +
+  labs(x="elevation [m.a.s.l.]", y="mean temperature [°C]") +
+  geom_text(x=-Inf, y=-Inf, hjust=-0.1, vjust=-1, col="black",
             label=paste("slope =", round(tc100[["coefficients"]][["fixed"]][["Elev_50m"]], 4)))
+
+# Sideplots Einzeljahre
+yeartags<-data.frame(x=c(rep(2500,2)), y=c(rep(9.75,2)),lab=c("2009","2019"),
+                 year=c("2009","2019"))
+
+singleyears<-bind_rows("2009"=elevmean09,"2019"=elevmean19, .id = "year") %>%
+ggplot(aes(Elev_50m, daymeanT, col=year)) +
+  facet_wrap(vars(fct_inorder(year)),nrow = 2) +
+  geom_smooth(method=lm, se=F) +
+  geom_point(pch=16, cex=2, alpha=.3) +
+  theme_classic() +
+  scale_color_manual(
+    values = c("2009"="dodgerblue","2019"="orange"),
+    name="year",
+    labels = c("2009"="2009", "2019"="2019")) +
+  theme(
+    plot.margin = unit(c(.5, .3, .3, .3),"cm"),
+    legend.position = "none",
+    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)),
+    strip.text = element_blank()) + # remove Label bar above plots from facetwrap
+  labs(x="elevation [m.a.s.l.]", y="mean temperature [°C]") +
+  annotate(geom = 'segment', y = -Inf, yend = -Inf, color = 'black', x = -Inf, xend = Inf, size = 0.5) +
+  geom_text(inherit.aes = FALSE, data=yeartags, aes(x= Inf, y=Inf, label=lab),hjust="right", vjust="top",size=5)
+
+library(patchwork)
+main + singleyears + plot_layout(widths = c(2,1))
 ```
 
 \clearpage
@@ -1088,11 +1126,13 @@ ggplot(elevmean, aes(Elev_50m,daymeanT))+
 summean$time<-"MST"; yearmean$time<-"MAT"
 mt<-bind_rows(summean[summean$year >="2009" & summean$year <="2019",], yearmean[yearmean$year >="2009" & yearmean$year <="2019",])
 
+transblack<-adjustcolor("black",alpha.f = 0.3)
+
 # Difference day means 2009 - 2019 for summer / whole year
 
 ggplot(mt, aes(year, daymeanT))+
   facet_wrap(~time, scales="free_y")+
-  geom_point(pch=16, cex=2, col=rep(c("dodgerblue",rep(blacktrans,9),"orange"),2))+
+  geom_point(pch=16, cex=3, col=rep(c("dodgerblue",rep(blacktrans,9),"orange"),2))+
   geom_smooth(method=lm, se=F, col="black")+
   theme_classic()+
   labs(y="temperature [°C]")+
