@@ -1,5 +1,5 @@
 ---
-title: "Alpine butterflies want to stay cool: Species and communities shift upwards faster than their host plants"
+title: "Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants"
 author: Janika M. Kerner^1^*, Jochen Krauss^1^, Fabienne Maihoff^1^, Lukas Bofinger^2^, Alice Classen^1^
 output:
   bookdown::word_document2:
@@ -890,7 +890,8 @@ annotation_custom(
 
 ```{r buttshift, include=FALSE}
 
-z<-read.csv(here::here("data","z.csv"), row.names = 1) # read species shifts with significance symbols
+z<-read.csv(here::here("data","z.csv")) # read species shifts with significance symbols
+colnames(z)[1]<-"genus_species"
 
 txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey80",signif="black", alpns="paleturquoise3", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
 
@@ -925,7 +926,8 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
 
 ```{r plantshift, include=FALSE}
 
-s<-read.csv(here::here("data","s.csv"), row.names = 1) # read species shifts with significance symbols
+s<-read.csv(here::here("data","s.csv")) # read species shifts with significance symbols
+colnames(s)[1]<-"abbr"
 
 plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: adjust order of species on y axis
   geom_vline(xintercept = 0,linetype="dashed") + # zero line
