@@ -9,5 +9,5 @@ right95;upper limit of 95% confidence interval of mean elevational shift [m];
 signcol;defining color of significance symbols in graph;
 col;defining color of shifts in graph;
 signlvl;significance of host plant species shifts according to p-value from Wilcoxon rank-sum tests: 0.05 >= (*) > 0.01 >= (**) > 0.001 >= (***);
-taxon;complete name of host plant species;
+taxon;complete name of host plant species together with number of occupied subplots in 2009/2019;
 signpos;position of significance symbols in graph;

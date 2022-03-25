@@ -1,8 +1,8 @@
 variable;definition
-genus_species;butterfly species name
+genus_species;butterfly species name together with number of observed individuals in 2009/2019
 mean;mean elevational shift per butterfly species [m]
 sd;standard deviation of mean elevational shift [m]
-n;number of individuals
+n;number of individuals monitored in 2019
 se;standard error of mean elevational shift [m]
 left95;lower limit of 95% confidence interval of mean elevational shift [m]
 right95;upper limit of 95% confidence interval of mean elevational shift [m]
