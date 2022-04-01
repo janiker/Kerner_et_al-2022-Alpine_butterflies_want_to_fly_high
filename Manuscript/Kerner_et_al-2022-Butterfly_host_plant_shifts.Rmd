@@ -920,8 +920,8 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
   annotation_custom(
     grid::rasterGrob(
       image = readPNG(here::here("figures","Logo_Ere_eur.png")),
-      x = .9, y =.035,
-      width =.2))
+      x = .8, y =.04,
+      width =.35))
 ```
 
 ```{r plantshift, include=FALSE}
@@ -949,8 +949,8 @@ plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: ad
   annotation_custom(
     grid::rasterGrob(
       image = readPNG(here::here("figures","Logo_hostplant.png")),
-      x = .85, y =.035,
-      width =.3))
+      x = .8, y =.035,
+      width =.4))
 ```
 
 ```{r shifts, fig.cap="", fig.width=8.5, fig.height=11, warning=FALSE, echo=FALSE}
