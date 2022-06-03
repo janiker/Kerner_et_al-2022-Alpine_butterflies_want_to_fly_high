@@ -23,7 +23,7 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
 3. __figures__:  
     * figures of the manuscript that were created outside of R
     * figures created in the manuscript and cached here for reimportation in R
-    (all final figures of the manuscript are included in a .docx document when running the markdown file (manuscript folder) and are not additionally saved here)
+    (all final figures of the manuscript are included in the markdown file when runnding the code (manuscript folder) and are not additionally saved here)
     
 ***
 
