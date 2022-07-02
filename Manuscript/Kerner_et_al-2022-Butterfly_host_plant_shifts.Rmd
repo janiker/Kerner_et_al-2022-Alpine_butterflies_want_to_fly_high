@@ -1,13 +1,6 @@
 ---
 title: "Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants"
 author: Janika M. Kerner^1^*, Jochen Krauss^1^, Fabienne Maihoff^1^, Lukas Bofinger^2^, Alice Classen^1^
-output:
-  bookdown::word_document2:
-    reference_docx: Word_template_ecology.docx
-fontfamily: Times New Roman
-fontsize: 12pt
-geometry: margin = 1in
-bibliography: references.bib
 ---
 
 ^1^ Department of Animal Ecology and Tropical Biology, Biocenter, University of Würzburg, Am Hubland, 97074 Würzburg, Germany
@@ -15,10 +8,6 @@ bibliography: references.bib
 ^2^ Landesumweltanwaltschaft Salzburg, Membergerstrasse 42, 5020 Salzburg, Austria
 
 \* Corresponding author: [janika.kerner\@uni-wuerzburg.de](mailto:janika.kerner@uni-wuerzburg.de){.email}
-
-Open Research: Data and code are available on GitHub under: [https://github.com/janiker/Kerner_et_al-2022-Butterfly_host_plant_shifts] and will be stored permanently via Dryad after manuscript acceptance.
-
-**keywords:** Alps; altitudinal gradient; global warming; grazing; Lepidoptera; mountain biodiversity; plant-herbivore interactions; species range shifts; upslope shift
 
 \clearpage
 
@@ -35,6 +24,7 @@ knitr::opts_chunk$set(dpi=300)
 library(bookdown)
 ```
 
+## Data Collection {.unnumbered}
 
 ```{r div-ele-calc, include=FALSE}
 
@@ -518,23 +508,6 @@ add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 <
 
 \newpage
 
-# Figure legends {.unnumbered}
-
-**Figure 1:** (a) Location of the study area in the southeasternmost corner of Germany in the National Park Berchtesgaden (NP BGD, green) and its surroundings. (b) Temperature differences in °C between 2009 and 2019 along the elevational gradient in the National Park Berchtesgaden. There was a considerable difference between mean summer temperature (MST) (purple) and mean annual temperature (MAT) (blue) increase. The darker shades show the absolute difference between the two sampling years (2009/2019) and the lighter ones show the gradual temperature change over the considered decade (2009 - 2019). Temperatures were predicted with generalized additive models (GAMs) from adjacent climate stations for each study site. (c) Climate stations used for temperature modelling were spread throughout the national park and its surroundings (orange). Study sites (light blue) were arranged along five transects (dark blue) plus four valley plots in lower elevations. Grey shades indicate elevation in 200 m intervals, ranging from 400 (black) up to 2800 m a.s.l. (white) (based on a digital elevation model with 1 m grid cell width, provided by the national park administration).
-
-**Figure 2:** Species richness of butterflies (a) and host plants (b) along the elevational gradient in 2009 (blue) and 2019 (orange) with 95% confidence intervals.
-
-**Figure 3:** Drivers of butterfly richness along spatial and temporal gradients in the National Park Berchtesgaden. A priori hypothesized causal structure of the relationships among MST, management, larval (host plant diversity) and adult (flower cover) food resources and species richness of butterflies (a) and the best fitted path model (based on the Akaike information criterion with a correction for small sample sizes, AICc, N = 64) (b). The only alternative model (Δ AICc ≤ 1.5) had one path removed (dashed line), indicating an unstable path. A similar causal structure was hypothesized for a path model which included the absolute differences in explaining variables between 2009 & 2019 (e.g. Δ MST = MST(2019) - MST(2009) (c), whereby change in management was excluded as there were no changes between years. Again, the best fitted path model is presented (N = 32) (d). However, note that although explanatory value was lower, the presented model was statistically not distinguishable (Δ AICc ≤ 1.5) from two other models replacing change in temperature with either overall temperature trend (mean 2009-2019) or management. The standardized path coefficients, their statistical significance (P ≤ 0.1 (.), P ≤ 0.05 (`*`), P ≤ 0.01 (`**`), P ≤ 0.001 (`***`)) and the conditional coefficients of determination (R²) are given. Paths with a significance of p ≤ 0.05 are presented in black and higher values in grey. Flower cover was log-transformed in the first model (b) and sqrt-transformed in the second one (d), prior to analysis.
-
-**Figure 4:** Community elevation score of butterflies along the elevational gradient in 2009 (blue) and 2019 (orange) with 95% confidence intervals. A lower score in 2019 indicates that the community at a certain elevation is now hosting a higher share of species that were found in lower elevations in 2009.
-
-**Figure 5:** Abundance-weighted mean elevational shifts of butterfly (left) and host plant species (right) between 2009 and 2019 (vertical lines) with standard error (horizontal lines). The numbers in brackets give the number of individuals per species sampled in 2009/2019. Alpine butterfly species (lower elevational limit ≥ 500 m a.s.l. according to @paolucci2013) are shown in light and dark blue. Dark blue & black indicate significant shifts with respective significance levels shown next to the species names (left in each panel): \* = p ≤ 0.05, \*\* = p ≤ 0.01, \*\*\* = p ≤ 0.001 (Wilcoxon rank-sum tests).
-
-\clearpage
-
-\newpage
-
-
 **Figure 1:**
 
 ```{r tempchange, eval=FALSE, include=FALSE}
@@ -841,7 +814,7 @@ annotation_custom(
 z<-read.csv(here::here("data","z.csv"), sep=";") # read species shifts with significance symbols
 colnames(z)[1]<-"genus_species"
 
-txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey60",signif="black", alpns="lightslateblue", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
+txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey80",signif="black", alpns="paleturquoise3", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
 
 buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reorder: adjust order of species on y axis
   geom_vline(xintercept = 0,linetype="dashed") +
@@ -859,7 +832,7 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
     axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_blank()
   ) +
-  scale_colour_manual(name="signif.  n.s.", values=c(alpsignif="turquoise4", signif="black", alpns="lightslateblue", ns="grey60"),labels=c("alpine (> 500 m)","non-alpine"," "," "),
+  scale_colour_manual(name="signif.  n.s.", values=c(alpsignif="turquoise4", signif="black", alpns="paleturquoise3", ns="grey80"),labels=c("alpine (> 500 m)","non-alpine"," "," "),
   guide=guide_legend(ncol=2, label.position = "left", label.hjust = 0, title.position = "top", title.hjust = 1)) +
   geom_text(aes(x=signpos,label = signlvl), vjust=0.8, hjust=0, show.legend = F) +
   labs(x="Elevational shift [m]",y="Species") +
@@ -874,7 +847,7 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
 
 ```{r plantshift, include=FALSE}
 
-s<-read.csv(here::here("data","s.csv"), sep=";") # read species shifts with significance symbols
+s<-read.csv(here::here("data","s.csv")) # read species shifts with significance symbols
 colnames(s)[1]<-"abbr"
 
 plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: adjust order of species on y axis
@@ -889,7 +862,7 @@ plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: ad
     axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_blank()
   ) +
-  scale_colour_manual(values=c(ns="grey60",signif="black")) +
+  scale_colour_manual(values=c(ns="grey80",signif="black")) +
   geom_text(aes(x=signpos,label = signlvl), vjust=0.8,hjust=0) + 
   labs(x="Elevational shift [m]",y="Species") +
   scale_y_discrete(labels=s$taxon[order(s$mean)]) +
@@ -936,7 +909,7 @@ pist
 **Figure S1:**
 
 ```{r climatemodelling, echo=FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.height=3, fig.cap="Predicted temperature data for 4 selected study sites in comparison to measured temperature data of one exemplary climate station over the course of one year (here: 2019). Predicted temperatures are presented in transparent colors (red: 818 m a.s.l., orange: 1106 m a.s.l., green: 1580 m a.s.l., blue: H7 1986 m a.s.l.). Black circles represent measured temperature data of one climate station located 834 m asl. For the prediction of site temperature data, we used the temperature measurements of up to 16 climate stations (see Figure 1c main text; data not plotted here). At all climate stations, temperature was recorded every 10 min; but mean daily temperatures were used for the prediction with generalized additive models, that included elevation, day lengths (as a surrogate for season) and date as explaining variables.", dpi=300}
-include_graphics(here::here("figures","climate_stations_temperature.jpeg"))
+include_graphics("J:/Auswertung/Manuscript_I/Abbildungen/Paper_I/climate_stations_temperature.jpeg")
 ```
 
 \clearpage
