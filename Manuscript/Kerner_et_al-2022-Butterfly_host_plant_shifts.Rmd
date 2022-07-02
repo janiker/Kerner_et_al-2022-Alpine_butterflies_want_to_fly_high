@@ -16,6 +16,10 @@ bibliography: references.bib
 
 \* Corresponding author: [janika.kerner\@uni-wuerzburg.de](mailto:janika.kerner@uni-wuerzburg.de){.email}
 
+Open Research: Data and code are available on GitHub under: [https://github.com/janiker/Kerner_et_al-2022-Butterfly_host_plant_shifts] and will be stored permanently via Dryad after manuscript acceptance.
+
+**keywords:** Alps; altitudinal gradient; global warming; grazing; Lepidoptera; mountain biodiversity; plant-herbivore interactions; species range shifts; upslope shift
+
 \clearpage
 
 \newpage
@@ -27,38 +31,18 @@ set_flextable_defaults(
   font.family = "Times New Roman")
 # plot resolution
 knitr::opts_chunk$set(dpi=300)
+
+library(bookdown)
 ```
 
-# Abstract {.unnumbered}
-
-Despite the sometimes strong co-dependencies of insect herbivores and plants, the responses of individual taxa to accelerating climate change are typically studied in isolation. Thereby, biotic interactions that potentially limit species in tracking their preferred climatic niches are ignored. Here, we chose butterflies as a prominent representative of herbivorous insects to investigate the impacts of temperature changes and their larval host plant distributions along a 1.4 km elevational gradient in the German Alps. Following a sampling protocol of 2009, we re-visited 33 grassland plots in 2019 over an entire growing season. We quantified changes in butterfly abundance and richness along standardized transects and disentangled the direct and indirect effects of locally assessed temperature, site management, and larval and adult food resource availability on these patterns. Additionally, we determined elevational range shifts of butterflies and host plants on community and species level. Within a single decade, we found a severe decline in butterfly abundance and a clear upwards shift of butterflies along the elevational gradient regarding the peak in species richness as well as in community composition and at individual species level, with mountainous species reacting particularly sensitively. In contrast, host plants showed barely any reaction, neither concerning species richness, nor individual species shifts. Accordingly, temperature and host plant richness were the main drivers of butterfly richness, but temperature was the only driver explaining the change of richness over time. We conclude that host plants are not yet preventing butterfly responses to rising temperatures. However, the mismatch between butterfly and host plant shifts might become a problem for this very close plant-herbivore relationship, especially in higher elevations, if butterflies fail to adapt to new host plants. Further, to mitigate those climatic effects on butterflies, it is important to conserve traditional extensive pasture use, which promotes host plant richness, indirectly supporting butterfly richness.
-
-**keywords:** global warming, altitudinal gradient, Lepidoptera, plant-herbivore interactions, species range shifts, upslope shift, grazing, mountain biodiversity, Alps
-
-# Introduction {.unnumbered}
-
-Climate change is globally one of the main drivers restructuring species communities [@halsch2021; @parmesan2006; @hill2021]. Especially in mountainous regions, species communities often show particularly pronounced and rapid reactions to climate change [@lawler2009; @pompe2010]: On one hand, because mountains harbor an extraordinary diversity of endemic and cold-adapted species [@laiolo2018; @viterbi2013], while facing a faster temperature increase than on average [@pepin2015]; on the other hand, because the steep natural temperature gradient along the mountain slopes offers species communities the opportunity to adapt comparatively quickly to climatic changes, by e.g. shifting their ranges to higher elevations. However, species ranges are not only shaped by temperature [@chen2011]. Interactions between species play a major role in the manifestation of species reactions to climatic change [@cahill2013; @alexander2015]. Nevertheless, studies investigating responses of interacting species on community level in the context of climate change are still rare.
-
-Due to their sensitivity to temperature, short life cycles and fast generation turnover, insects react faster than other organism groups to changes in temperature [@robinet2010]. Therefore, they are a good indicator to track climate change impacts. An excellent representative of insects for monitoring are butterflies, because as flying insects, they were observed to react especially fast [@vitasse2021]. Further, butterflies have been of public interest for a very long time, so that - in comparison to many other insect groups - many data sets around the world are available, also over long time periods [@settele2008]. However, with their herbivorous lifestyle, they also take a special position among insects, insofar that many species are dependent on certain larval host plants. Several studies in different mountain ranges, including the Alps, revealed either the distributional shifts of plant [@steinbauer2018] or butterfly communities under climate change [@forister2010; @cerrato2019; @roth2014; @rödder2021]. Although modelling approaches suggest that host plant availability might potentially limit butterfly distributions and climate change can disrupt trophically interacting species [@hanspach2014; @schweiger2008], there are only few empirical studies considering temperature and host plant diversity as potentially interacting drivers of butterfly diversity [@menéndez2007; @gutiérrez2016]. If it is included, then only on spatial scales and not with respect to temporal dynamics in the context of climate change.
-
-Highly protected areas, such as national parks are ideal for studying the natural responses of host plants and butterflies to climate change. Elsewhere, such responses are typically modified or entirely masked by the negative effects of intensive land use or other anthropogenic activities on natural communities [@parks2020]. Further, by focusing on grasslands, the impact by varying characteristics of different habitat types can be diminished. Grasslands are of high importance as hotspots of biodiversity [@habel2013]. They present the main habitat for butterflies in general [@wallisdevries2009] and in the Alps [@bräu2013]. However, mountainous grasslands below the timberline are mainly a heritage of extensive anthropogenic land use practices in Central Europe [@ellenberg2010], becoming more and more abandoned due to declining economic viability [@laiolo2004]. As missing extensive management negatively impacts butterfly species richness [@jerrentrup2014], we here aim on clarifying the magnitude of this impact, separating it from the influence of temperature.
-
-In this study, we revisited 33 grassland sites in the National Park Berchtesgaden in the German Alps, to assess butterfly and the respective host plant communities along elevational gradients, one decade after the first assessment [@leingärtner2014; @hoiss2012]. Our community comparison took place within the currently hottest decade on record (2009 vs. 2019) over which temperature rose around \~0.3 °C globally [@li2021] and even 0.1 °C more in the Alps [@nigrelli2021]. We investigated the following questions: (1) How did butterfly and host plant richness change along the elevational gradient in this extraordinary warm decade? (2) What is the relative importance of (locally assessed) temperature, management, and host plant richness as potential drivers of butterfly richness changes in space and time? (3) Do butterfly communities and species shift along the elevational gradient in magnitudes that mirror the changes in temperature or are they limited by their association with host plants?
-
-# Material & Methods {.unnumbered}
-
-## Study area {.unnumbered}
-
-This study was carried out in the National Park Berchtesgaden and its surroundings, located in the southeasternmost corner of Germany as a part of the Berchtesgaden Alps, belonging to the Northern Limestone Alps. The national park is characterized by steep valleys and high mountains ranging from 600 up to 2700 meters above sea level (m.a.s.l.). The mean annual temperature (MAT) averaged over the last 10 years (2011-2020) varies spatially between -0.8 and 9.7 °C, depending on the elevation, with an annual precipitation of 1240 to 2881 mm (extracted from 1 x 1 km grid data of yearly means from the German Meteorological Service (DWD)). The higher elevations above the timberline host mainly alpine meadows while coniferous forests interspersed with pastures dominate lower elevations. Alpine pastoral use has a centuries-long tradition in this region. However, some meadows are abandoned while others are still traditionally managed.
-
-In 2009, 34 grassland sites were selected, covering an elevational range from 600 up to approximately 2000 m.a.s.l. [@leingärtner2014], which was the highest elevation to find a closed grass layer. The sites were arranged along five transects with approximately 250 m in altitude in between. Twenty-nine sites were located inside the national park and five in the close surroundings to extend the elevational gradient towards the lowlands [@leingärtner2014]. All grasslands were unused or extensively managed by extensive grazing or one late summer cut without any fertilization. In 2019, 33 of these 34 grassland sites could be revisited (Figure \@ref(fig:plotlocation-temp)). Due to the national park status of most sites, management remained stable within the considered decade.
-
-## Data Collection {.unnumbered}
 
 ```{r div-ele-calc, include=FALSE}
 
+library(broom) # tidy summary tables
+library(emmeans) # post-hoc (Tukey-Test) for differences between grouping variables in lm
 library(ggplot2)
 library(lme4) # LME calculation
+library(lmerTest)
 library(mgcv)
 library(plyr) # revalue
 library(png) # load pictures
@@ -139,7 +123,7 @@ modC<-get_gam_predictions(modC, elev, series_length = 1391)
 ```
 
 ```{r calcbuttshift, include = FALSE}
-# comparison single species - elevation means ----------------------------
+### mean shift model of all species (>= 10 individuals per species in each year)
 
 shift<-read.csv(here::here("data", "shift.csv"), row.names=1) # load species elevations
 
@@ -147,9 +131,32 @@ x<-summary(lmer(melev ~ year+(1|spec), data=shift))
 
 x$coefficients[2,1] # mean shift
 x$coefficients[2,2] # Std. Error
+
+### linear model, with individuals as data points to check significance for single species
+
+B<-read.csv(here::here("data", "B.csv"), row.names=1) # load individual elevations all species
+
+j<-lm(elev~year*genus_species, data=B)
+
+ii<-tidy(emmeans(j, pairwise~year|genus_species, weights = "proportional")$contrasts)
+ii$estimate<-ii$estimate*-1 # mirror results back
+
+### check for signifikant difference in shifts between alpine and non-alpine species
+
+alpspec<-c("Araschnia_levana", "Boloria_pales", "Boloria_thore", "Coenonympha_gardetta", "Colias_phicomone", "Erebia_epiphron", "Erebia_eriphyle", "Erebia_euryale", "Erebia_gorge", "Erebia_manto", "Erebia_oeme", "Erebia_pandrose", "Erebia_pharte", "Erebia_pronoe", "Euphydryas_cynthia", "Lasiommata_maera", "Lasiommata_petropolitana", "Pieris_bryoniae", "Pyrgus_andromedae", "Pyrgus_cacaliae") # alpine species
+
+alpi<-merge(shift[shift$year=="2009",c("spec", "melev")],ii[,c("genus_species","estimate")], by.x="spec", by.y="genus_species")
+
+alpi$alpine[alpi$spec %in% alpspec]<-"alpine"
+alpi$alpine[!alpi$spec %in% alpspec]<-"non-alpine"
+
+modalpi<-lm(estimate~melev+alpine, data=alpi)
+
+valalpi<-summary(modalpi)
 ```
 
 ```{r calcplantshift,include=FALSE}
+### mean shift model of all species (>= 10 occupied subplots per species in each year)
 
 sshift<-read.csv(here::here("data", "sshift.csv"), row.names=1) # load species elevations
 
@@ -157,6 +164,15 @@ xx<-summary(lmer(melev ~ year+(1|abbr), data=sshift))
 
 xx$coefficients[2,1] # mean shift
 xx$coefficients[2,2] # std. error
+
+### linear model, with individuals as data points to check significance for single species
+st<-read.csv(here::here("data", "st.csv"), row.names=1) # load individual elevations all species
+
+plam<-lm(elev~year*abbr, data=st)
+
+plammy<-tidy(emmeans(plam, pairwise~year|abbr, weights = "proportional")$contrasts)
+plammy$estimate<-plammy$estimate*-1
+
 ```
 
 ```{r shiftselect.butt.calc, include=FALSE}
@@ -167,17 +183,17 @@ xx$coefficients[2,2] # std. error
 spwm<-read.csv(here::here("data","spwm.csv"),row.names = 1)
 
 # mean elevation per species with Wilcoxon test results
-allbutt.wilcox<-read.csv(here::here("data","allbutt.wilcox.csv"),row.names = 1)
+allbutt.shifts<-read.csv(here::here("data","allbutt.shifts.csv"),row.names = 1)
 
 for (i in a$no.ind){
   a$mean[a$no.ind==i]<-mean(spwm$diff[spwm$ind09>=i & spwm$ind19>=i])
-  a$meansig[a$no.ind==i]<-mean(spwm$diff[spwm$ind09>=i & spwm$ind19>=i & spwm$spec %in% allbutt.wilcox$spec[allbutt.wilcox$p.value<=0.05]])
+  a$meansig[a$no.ind==i]<-mean(spwm$diff[spwm$ind09>=i & spwm$ind19>=i & spwm$spec %in% allbutt.shifts$spec[allbutt.shifts$p.value<=0.05]])
   a$no.species[a$no.ind==i]<-nrow(spwm[spwm$ind09>=i & spwm$ind19>=i,])
-  a$n.s.[a$no.ind==i]<-nrow(subset(allbutt.wilcox[allbutt.wilcox$ind09>=i & allbutt.wilcox$ind19>=i,],p.value>0.1))
-  a$cs[a$no.ind==i]<-nrow(subset(allbutt.wilcox[allbutt.wilcox$ind09>=i & allbutt.wilcox$ind19>=i,],p.value<=0.1 & p.value>0.05))
-  a$s[a$no.ind==i]<-nrow(subset(allbutt.wilcox[allbutt.wilcox$ind09>=i & allbutt.wilcox$ind19>=i,],p.value<=0.05 & p.value>0.01))
-  a$ss[a$no.ind==i]<-nrow(subset(allbutt.wilcox[allbutt.wilcox$ind09>=i & allbutt.wilcox$ind19>=i,],p.value<=0.01 & p.value>0.001))
-  a$sss[a$no.ind==i]<-nrow(subset(allbutt.wilcox[allbutt.wilcox$ind09>=i & allbutt.wilcox$ind19>=i,],p.value<=0.001))
+  a$n.s.[a$no.ind==i]<-nrow(subset(allbutt.shifts[allbutt.shifts$ind09>=i & allbutt.shifts$ind19>=i,],p.value>0.1))
+  a$cs[a$no.ind==i]<-nrow(subset(allbutt.shifts[allbutt.shifts$ind09>=i & allbutt.shifts$ind19>=i,],p.value<=0.1 & p.value>0.05))
+  a$s[a$no.ind==i]<-nrow(subset(allbutt.shifts[allbutt.shifts$ind09>=i & allbutt.shifts$ind19>=i,],p.value<=0.05 & p.value>0.01))
+  a$ss[a$no.ind==i]<-nrow(subset(allbutt.shifts[allbutt.shifts$ind09>=i & allbutt.shifts$ind19>=i,],p.value<=0.01 & p.value>0.001))
+  a$sss[a$no.ind==i]<-nrow(subset(allbutt.shifts[allbutt.shifts$ind09>=i & allbutt.shifts$ind19>=i,],p.value<=0.001))
 }
 ```
 
@@ -189,7 +205,7 @@ for (i in a$no.ind){
 wsb<-read.csv(here::here("data","wsb.csv"),row.names = 1)
 
 # mean elevation per species with Wilcoxon test results
-sub.wilcox<-read.csv(here::here("data","sub.wilcox.csv"),row.names = 1)
+sub.shifts<-read.csv(here::here("data","sub.shifts.csv"),row.names = 1)
 
 m<-as.data.frame(5:30);colnames(m)<-"no.sb"
 m$mean<-0; m$no.species<-0
@@ -197,13 +213,13 @@ m$n.s.<-0;m$cs<-0;m$s<-0;m$ss<-0;m$sss<-0
 
 for (i in m$no.sb){
   m$mean[m$no.sb==i]<-mean(wsb$diff[wsb$no.sb09>=i & wsb$no.sb19>=i])
-  m$meansig[m$no.sb==i]<-mean(wsb$diff[wsb$no.sb09>=i & wsb$no.sb19>=i & wsb$abbr %in% sub.wilcox$abbr[sub.wilcox$p.value<=0.05]])
+  m$meansig[m$no.sb==i]<-mean(wsb$diff[wsb$no.sb09>=i & wsb$no.sb19>=i & wsb$abbr %in% sub.shifts$abbr[sub.shifts$p.value<=0.05]])
   m$no.species[m$no.sb==i]<-nrow(wsb[wsb$no.sb09>=i & wsb$no.sb19>=i,])
-  m$n.s.[m$no.sb==i]<-nrow(subset(sub.wilcox[sub.wilcox$no.sb09>=i & sub.wilcox$no.sb19>=i,],p.value>0.1))
-  m$cs[m$no.sb==i]<-nrow(subset(sub.wilcox[sub.wilcox$no.sb09>=i & sub.wilcox$no.sb19>=i,],p.value<=0.1&p.value>0.05))
-  m$s[m$no.sb==i]<-nrow(subset(sub.wilcox[sub.wilcox$no.sb09>=i & sub.wilcox$no.sb19>=i,],p.value<=0.05&p.value>0.01))
-  m$ss[m$no.sb==i]<-nrow(subset(sub.wilcox[sub.wilcox$no.sb09>=i & sub.wilcox$no.sb19>=i,],p.value<=0.01&p.value>0.001))
-  m$sss[m$no.sb==i]<-nrow(subset(sub.wilcox[sub.wilcox$no.sb09>=i & sub.wilcox$no.sb19>=i,],p.value<=0.001))
+  m$n.s.[m$no.sb==i]<-nrow(subset(sub.shifts[sub.shifts$no.sb09>=i & sub.shifts$no.sb19>=i,],p.value>0.1))
+  m$cs[m$no.sb==i]<-nrow(subset(sub.shifts[sub.shifts$no.sb09>=i & sub.shifts$no.sb19>=i,],p.value<=0.1&p.value>0.05))
+  m$s[m$no.sb==i]<-nrow(subset(sub.shifts[sub.shifts$no.sb09>=i & sub.shifts$no.sb19>=i,],p.value<=0.05&p.value>0.01))
+  m$ss[m$no.sb==i]<-nrow(subset(sub.shifts[sub.shifts$no.sb09>=i & sub.shifts$no.sb19>=i,],p.value<=0.01&p.value>0.001))
+  m$sss[m$no.sb==i]<-nrow(subset(sub.shifts[sub.shifts$no.sb09>=i & sub.shifts$no.sb19>=i,],p.value<=0.001))
 }
 ```
 
@@ -373,114 +389,19 @@ if(p<=0.001) {
 }
 ```
 
-### Butterfly monitoring {.unnumbered}
-
-We monitored diurnal butterflies (Lepidoptera: Hesperiidae, Lycaenidae, Nymphalidae, Papilionidae, Pieridae, Riodinidae) from 2 May to 16 September 2019, exactly following the sampling protocol from 2009 (8 May to 10 September) [@leingärtner2014]. Sites below 1200 m.a.s.l. were sampled six times and the ones above five times due to the shorter vegetation period. This had no effect on the average species detection rate (plots five times sampled `r round(w5["Min."],digits=0)` - `r round(w5["Max."],digits=0)`%, six times sampled `r round(w6["Min."],digits=0)` - `r round(w6["Max."],digits=0)`%, based on detected species richness / ACE, see section \@ref(statistical-analyses) for further details), indicating a similar coverage of the species community at all sites. On each site (60 x 60 m), we conducted randomized transect walks of 400 m in 32 min, subdivided into 8 x 4 minutes to calculate species saturation. The considered transect corridor spanned 2.5 m to the right and left of the observer as well as 5 m to the front. We sampled between 9 a.m. and 6 p.m., either when the sun was shining or when temperature reached at least 17 °C on cloudy days. Further, sampling was restricted to winds of force ≤ 4 on Beaufort scale. Additionally, we estimated flower cover as the share of the whole plot surface covered by flowers for every visit. All sites were visited in a regular interval over the season and in random order. Individuals were caught with a butterfly net, identified on site, and immediately released afterwards. During identification, the timer was stopped. We collected only one voucher specimen per species and not clearly identifiable specimens for further identification. Especially the genus *Erebia* needed further examination by a trained taxonomist. Closely related species that we could not clearly differentiate by visual inspection were summarized in species complexes. Those were *Aricia agestis & A. artaxerxes, Colias alfacariensis & C. hyale, Leptidea sinapis, L. juvernica & L. reali* and *Pyrgus alveus* with *P. cacaliae & P. serratulae*. Further, we did not differentiate between *Pieris bryoniae* and *P. napi*. While females look clearly different, males cannot be clearly distinguished, due to wing bleaching and hybridization. Species identification and nomenclature were based on @settele2015 and complemented with @paolucci2013 for alpine species.
-
-### Vegetation assessment {.unnumbered}
-
-Plant species and cover were assessed once between June and July 2019 on all 33 sites of the butterfly monitoring by the same botanists as in 2009 [@hoiss2012], exactly repeating the sampling protocol. However, one site had to be excluded in the end, due to feeding damage by sheep shortly before data collection in 2019, preventing species identification. We randomly distributed ten 2 x 2 m subplots within each study site with at least 5 m distance between subplots. In each subplot, we assessed all vascular plant species and estimated their respective cover, using the DOMIN-scale.
-
-For further analysis, we filtered the data for records of larval host plants of butterflies. The plants were defined as such if mentioned in @paolucci2013 and/or @reinhardt2020. In case they only mentioned the name of a genus or family, we considered all associated species as host plants. Associations of butterflies with host plants are presented in Table \@ref(tab:butthostplantlist).
-
-### Abiotic factors {.unnumbered}
-
-For the quantification of long-term temperature changes and between-year temperature differences, we predicted daily mean temperatures between 01.01.2009 and 31.12.2019 for all study sites. We used hourly temperature records from 11 (2009) to 16 (2019) adjacent climate stations, located in the national park Berchtesgaden and its surroundings, covering an elevational range from 653 to 2645 m.a.s.l.. With this data, we fitted generalized additive models (GAMs) with a smooth term of elevation and day length in minutes (as a proxy for season). As the number of climate stations increased over the decade, we also included date as a factor for each year separately and the maximal number of available stations. Deviance explained by the GAMs ranged between 96 and 99 % depending on the year. Since those models are based on elevation and day length without correcting the latter for topographic site properties like shading, there might be some site-specific variation that is not depicted in our modelled temperature data. The exact elevation of sites and climate stations was extracted from a digital elevation model with 1 m resolution, provided by the national park administration.
-
-## Statistical analyses {.unnumbered}
-
-We performed all statistical analyses using R V. 4.1.1 [@rcoreteam2021]. Daily temperatures were averaged per year (mean annual temperature (MAT)) from 2009 to 2019 and for the respective summer months (May - September) (mean summer temperature (MST)). We chose MST as a predictor variable, as it had a better fit in our models than MAT, reflecting the sampling period and the main flight time of adult butterflies. In addition to the absolute temperature difference between the two sampling years (2009 / 2019), we estimated the gradual temperature change over the decade (2009 - 2019) by extracting the slope of linear models (MAT / MST \~ year) (Figure @ref(fig:potshift))), showing a stronger temperature increase over the decade compared to the absolute difference between the sampling years. The changes in temperature differences along the elevational gradient were analyzed using GAMs with the package mgcv V. 1.8-38 [@wood2017], fitted with a smoothing function of elevation and setting basis dimension k of the smoothing parameter to 4. We further calculated the local temperature lapse rate along the elevational gradient by extracting the slope of a linear model (temperature \~ elevation), based on mean daily temperatures from nearby climate stations, averaged over the considered decade (Figure \@ref(fig:temp100)). The lapse rate and the change of temperature between or across years was used to calculate expected species range shifts and to compare them with observed shifts.
-
-We pooled butterfly species records per site for each year and averaged the estimated flower cover per site over all visits of the year. The scale values of the vegetation survey for each host plant species were transformed into an averaged percentage cover value of all 10 subplots per site, using the Domin 2.6 transformation from @currall1987. Species richness of butterflies and host plants was calculated with the package 'vegan' V. 2.5-7 [@oksanen2020] and analyzed using GAMs with the package 'mgcv' V. 1.8-38 [@wood2017]. The models were fitted with a smoothing function of elevation, year as a factor (2009, 2019) and the interaction of elevation and year, including study site as a random term, setting data family to poisson and basis dimension k of smoothing parameters to 4. We used the observed species richness of butterflies for calculations as it was highly correlated (r = `r round(cor(pdl$spec.no, pdl$ACE),2)`) with the abundance-based coverage estimator [@chao1992] (ACE, calculated with the package fossil V. 0.4.0 [@vavrek2011]), showing a high species richness saturation (`r round(min(plotdata$det.rate09, plotdata$det.rate19),0)` - `r round(max(plotdata$det.rate09, plotdata$det.rate19),0)` %). Thus, the data seemed to reflect well the local species community. Due to many 'rare' species with few individuals, especially at high elevations with harsh weather conditions, ACE was most appropriate for validation in comparison to other indices like Chao1. It recognizes those 'rare' species as such [@chao2004] instead of overestimating species richness at plots with many low numbers of individuals.
-
-We used piecewise structural equation models (SEMs), provided by the package piecewiseSEM V. 2.1.2 [@lefcheck2016], to identify (a) drivers of butterfly species richness and (b) drivers of the change in richness between years. In comparison to traditional SEMs, these models allow a wider variety of model structures and distributions, accounting for non-normally distributed data and relatively small sample sizes as typical issues in ecological research. We also considered the latter in model selection by using the Akaike information criterion with a correction for small sample sizes (AICc) for decision making. We selected four potential drivers of butterfly richness: Mean summer temperature (MST), management, adult food resources (flower cover) and number of larval food plants (host plant richness). We chose MST, because the model had a higher explanatory value and better fit (lower AICc) than with MAT. Management per site was classified either as extensively used (1), including one late summer cut and extensive grazing, or unused (0). In addition to host plant richness, host plant cover was included at first, but disregarded in the end, as it added no explanatory value to the model. For the second SEM, explaining the change in butterfly richness, we included the absolute differences of all explaining variables in the SEM (e.g. ∆MST~2019-2009~). Thus, sample size reduced to 32 in this latter model, and study site was not included as a random term anymore. Management was excluded, as there were no significant changes in land use between years.
-
-To identify shifts of communities and species, we included butterfly species that occurred at least 10 times in each year and host plant species that occurred in at least 10 subplots per year. The exact magnitude of overall butterfly shifts as well as the number of included species varied according to the selected minimum number of individuals that a species needed to be included in the analysis, ranging from `r min(a$no.species)` included species (min. `r max(a$no.ind)` individuals) to `r max(a$no.species)` included species (min. `r min(a$no.ind)` individuals). For host plants, it varied between `r min(m$no.species)` included species (min. `r max(m$no.sb)` occupied subplots) and `r max(m$no.species)` included species (min. `r min(m$no.sb)` occupied subplots). The chosen minimum numbers of individuals/subplots reflected the overall change without excluding too many species (Figures \@ref(fig:shiftselectbutt) & \@ref(fig:shiftselecthp)). Hence, we included `r nrow(z)` out of `r length(levels(as.factor(c(B09$genus_species,B19$genus_species))))` butterfly species and `r nrow(s)` out of `r length(hp [hp %in% levels(c(plants09$abbr,plants19$abbr))])` host plant species.
-
-We calculated butterfly community shifts by comparing the 'community elevation score' between years, following @chen2009. To calculate the score, we assigned an average occurrence elevation to each species, using the abundance-weighted mean elevation of each species in 2009. Subsequently, we averaged the elevation values of all recorded species, weighted by abundance, to obtain the final score per site for each year. We analyzed the differences in community elevation score between years using a GAM with the package 'mgcv' V. 1.8-38 [@wood2017]. We fitted it with a smoothing function of elevation, year as a factor (2009, 2019) and the interaction of elevation and year, including study site as a random term and setting basis dimension k of smoothing parameters to 4.
-
-To evaluate mean species range shifts, we used a linear mixed effect model within the package 'lme4' V. 1.1-27.1 [@bates2015], with the abundance-weighted mean elevation per butterfly species as response variable and year as explanatory variable, including species as a random term. The same method was applied to check mean host plant species range shifts, replacing the response variable with the mean elevation of occupied subplots per host plant species. Wilcoxon rank-sum tests, comparing the mean elevation of all recorded individuals (butterflies)/occupied subplots (host plants) per species between years were used to test for significance in shifts of single species.
-
-# Results
-
-## Inter-annual changes in temperature, butterfly and host plant richness {.unnumbered}
-
-In 2019, MAT on our study sites was on average `r round(mean(sdel$tempy), 2)` °C warmer than in 2009. When comparing MST, it was `r round(mean(sdel$temps), 2)` °C warmer in 2019 than in 2009. In both cases, the difference in temperature between the two years changed significantly along the elevational gradient with a pronounced temperature difference in higher elevations (GAMs, p `r pval(gst[["s.pv"]])`, Figure \@ref(fig:plotlocation-temp) (dark lines) & Table \@ref(tab:gamtables)). Interestingly, MST in elevations up to 1000 m.a.s.l. was even cooler in 2019 than in 2009. The temperature differences between 2009 and 2019 also reflected the mean gradual temperature increase, which was even higher with `r round(tmean$coefficients[2,1]*10, 2)` °C in MAT and `r round(stmean$coefficients[2,1]*10, 2)` °C in MST over this decade. Equally, the gradual temperature increase over time changed significantly along the elevational gradient, with a stronger increase in high elevations (GAMs, p `r pval(pgst[["s.pv"]])`, Figure \@ref(fig:plotlocation-temp) (light lines) & Table \@ref(tab:gamtables)).
-
-In total, we recorded `r sum(B09$no.ind)` individuals of `r length(levels(as.factor(B09$genus_species)))` butterfly species in 2009 and `r sum(B19$no.ind)` individuals of `r length(levels(as.factor(B19$genus_species)))` species in 2019, whereby `r length(subset(levels(as.factor(B09$genus_species)),levels(as.factor(B09$genus_species)) %in% levels(as.factor(B19$genus_species))))` species occurred in both years. Butterfly abundance did not change significantly along the elevational gradient, but differed significantly between years (GAM, elevation : year p `r pval(aby[["s.pv"]][2])`, Table \@ref(tab:gamtables)), being significantly lower in 2019 (GAM, intercept between years p `r pval(aby$p.pv["year.L"])`). The distribution of species richness along the elevational gradient changed from a linear decline in 2009 to a mid-elevation peak at \~ 1200 m.a.s.l. in 2019 (GAM, elevation : year p `r pval(divy[["s.pv"]][2])`, Figure \@ref(fig:div-ele)a & Table \@ref(tab:gamtables)). Only in the lowlands (\< 1000 m.a.s.l.), species richness declined significantly when dividing the elevational gradient in three sections (lowland (644 -- 999 m), mid-elevations (1000 -- 1499 m), highlands (1500 -- 2034 m)) and testing yearly species numbers against each other within sections (t-tests, lowlands: t = `r round(t1$statistic,digits=4)`, df = `r round(t1$parameter, digits=3)`, p = `r round(t1$p.value, 4)`, mid-elevations: t = `r round(t2$statistic,digits=4)`, df = `r round(t2$parameter, digits=3)`, p = `r round(t2$p.value, 4)`, highlands: t = `r round(t3$statistic, digits=4)`, df = `r round(t3$parameter, digits=3)`, p = `r round(t3$p.value, 4)`).
-
-Altogether, we recorded `r length(hp [hp %in% levels(c(plants09$abbr,plants19$abbr))])` potential host plant species for the complete recorded butterfly species pool, of which we found `r length(hp [hp %in% levels(plants09$abbr)])` in 2009 and `r length(hp [hp %in% levels(plants19$abbr)])` in 2019. Host plant richness peaked in low and mid-elevations and declined above \~1250 m a.s.l. (Figure \@ref(fig:div-ele)b). There was no significant difference in host plant richness between 2009 and 2019 along the elevational gradient (GAM, difference between years p \> 0.1, Table \@ref(tab:gamtables)).
-
-## Drivers of butterfly richness {.unnumbered}
-
-Path analysis indicated that both MST, management and host plant richness had a positive effect on butterfly richness (Figure @ref(fig:sem)a & b) with MST having the biggest overall effect. MST and host plant richness affected butterfly species richness directly, while extensive grassland management showed an indirect positive effect on butterfly richness by increasing host plant richness. Direct, negative effects of management on butterfly richness and positive effects of flower cover were not significant but included in the best fitting path model (Fisher's C = `r ss1$Cstat$Fisher.C`, d.f. = `r ss1$Cstat$df`, P = `r ss1$Cstat$P.Value`, N = `r ss1$IC$n`) that explained `r ss1$R2$Conditional[ss1$R2$Response=="spec.no"]*100` % of the variance in butterfly species richness. There was one alternative path model (∆AICc ≤ 1.5) where the non-significant relationship between MST and host plant diversity was discarded (dashed line). In this model, only the standard estimate of the relationship from management to host plant diversity changed from `r paste(round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="div.hp"],digits=2),ss1$coefficients[[9]][ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="div.hp"])` (best model) to `r paste(round(ss2$coefficients$Std.Estimate[ss2$coefficients$Predictor=="man.bin" & ss2$coefficients$Response=="div.hp"],digits=2),ss2$coefficients[[9]][ss2$coefficients$Predictor=="man.bin" & ss2$coefficients$Response=="div.hp"])`.
-
-To explicitly check the mechanisms that explain the difference (∆) in species richness between 2009 and 2019, we ran a second path model (Figure @ref(fig:sem)c & d). We only included the differences between years in all explaining and response variables per site. The best fitting path model (Fisher's C = `r dm1$Cstat$Fisher.C`, d.f. = `r dm1$Cstat$df`, P = `r dm1$Cstat$P.Value`, N = `r dm1$IC$n`) including these delta values explained `r dm1$R2$R.squared*100` % of the change in butterfly species richness between 2009 and 2019. In this model, MST was the only variable significantly affecting the change in butterfly species richness between the years. There was one alternative model (∆AICc ≤ 1.5) where the non-significant relationship between summer temperature and flower cover was discarded (single arrow model: temperature --> ∆ butterfly species richness, std. estimate `r round(dm2$coefficients$Std.Estimate,digits=2)`, p `r pval(dm2$coefficients$P.Value)`). However, it explained a lower proportion of the variance of the ∆ in species richness (R² = `r dm2$R2$R.squared`).
-
-## Upslope shifts of communities and species {.unnumbered}
-
-The butterfly community elevation score, averaging the mean occurrence elevation of all detected butterfly species per site, shows a general upwards shift of species communities, as the score in 2019 was significantly lower than in 2009 (GAM, elevation : year p `r pval(C[["s.pv"]][2])`, Figure \@ref(fig:commsc) & Table \@ref(tab:gamtables)). Averaging the difference in community elevation scores between years of each plot, communities shifted on average `r round(mean(plotdata$comsc09-plotdata$comsc19),0)` ± `r round(sd(plotdata$comsc09-plotdata$comsc19)/sqrt(length(plotdata$comsc09-plotdata$comsc19)),0)` m (mean ± sd) upwards.
-
-On average, butterfly species moved `r round(x$coefficients[2,1], 0)` ± `r round(x$coefficients[2,2], 0)` m upwards when comparing the difference in mean elevation between the two years (linear mixed effect model, DF = `r round(x$coefficients[2,3],0)`, p `r pval2(x$coefficients[2,5])`). At individual species level, `r nrow(z[z$signcol=="signif",])+nrow(z[z$signcol=="alpsignif",])` out of `r nrow(z)` selected butterfly species shifted significantly along the elevational gradient between 2009 and 2019 (Wilcoxon rank-sum tests), `r nrow(z[z$signcol=="signif"&z$mean>0,])+nrow(z[z$signcol=="alpsignif"&z$mean>0,])` upwards and `r nrow(z[z$signcol=="signif"&z$mean<0,])+nrow(z[z$signcol=="alpsignif"&z$mean<0,])` downwards (Figure @ref(fig:shifts) left). While nearly all mountainous species (lower elevational limit ≥ 500 m.a.s.l. according to [@paolucci2013]) shifted (10 out of 11), only about a third (8 out of 26) of the species occurring in lowlands changed significantly. Host plants shifted with an average of `r round(xx$coefficients[2,1], 0)` ± `r round(xx$coefficients[2,2], 0)` m considerably less (linear mixed effect model, DF = `r round(xx$coefficients[2,3],0)`, p `r pval2(xx$coefficients[2,5])`) and also the proportion of shifting species was lower (Figure \@ref(fig:shifts) right): Only `r nrow(s[s$signcol=="signif",])` out of `r nrow(s)` host plants shifted significantly upwards or downwards (Wilcoxon rank-sum tests) and all of them were grasses and belong to either the Poaceae or Cyperaceae family.
-
-Considering the average increase of \~ `r round(tmean[["coefficients"]][2]*10, 2)` °C in MAT over the last decade (Figure \@ref(fig:potshift)) and a mean decrease in temperature of `r round(tccoef*100, 2)` °C per 100 m of elevation (Figure @ref(fig:temp100)), the observed upslope shift of butterflies lagged well behind the expected shift of species required to track their temperature niche along the elevational gradient (≈ `r round(tmean[["coefficients"]][2]*10 / tccoef, 0)` m). However, the reported gradual temperature increase over time also needs to be handled with care, as the slope of the underlying linear model strongly depends on the years included in the model (e.g. MAT before 2009); and here, we only considered a short time frame (2009 -- 2019). Looking at the absolute difference in MAT between 2009 and 2019, the expected shift was lower with about `r round(ydiff / tccoef, 0)` m upwards in accordance with a plus of \~ `r round(ydiff,2)` °C, which was closer to the observed shift rates.
-
-# Discussion {.unnumbered}
-
-Within a single decade, butterfly communities and species have changed along elevational gradients in ways consistent with predicted responses to temperature increases, while associated host plant communities did not change in the considered time frame.
-
-## Shifts in butterfly but not host plant richness {.unnumbered}
-
-Although butterfly abundances were significantly lower in 2019 across the elevational gradient, richness and composition of the regional species pool was very similar in both years. This contrasts with results from Spain, where significant overall declines in butterfly richness along elevational gradients over three decades were reported [@wilson2007] and signal the efficiency of the national park protection status in Berchtesgaden. Interestingly, we detected a clear upwards shift of the maximum in butterfly species richness along the elevational gradient over time. While in 2009 butterfly richness was highest in the lowlands, it peaked in mid-elevations in 2019. In our study, the hump-shaped pattern was mainly caused by the severe decline in species richness in the lowlands, whereby the majority of species was not lost but shifted to higher elevations, as generally expected under gradually increasing temperatures detected in the region over the decade. Interestingly, within this period, the butterfly species decline in the lowlands was not compensated by species immigrating from even lower elevations or further South. Such lowland biotic attrition has been described for the tropics, where no warmer habitats exist [@colwell2008]. In temperate systems it might indicate an unsuitable habitat matrix surrounding the National Park, preventing butterfly species to follow their climatic niches. Further, an intensification of anthropogenic influence might contribute to the lower species richness in lower elevations, as observed in several mountain ranges around the world [@forister2010; @gallou2017; @molina-martínez2016]. Our lowest study sites are located outside or at the outer margins of the national park. Thus, they might be more affected by land use intensification [@viterbi2013] and e.g. higher amounts of insecticide usages in the surrounding [@brühl2021], even if local land use on the study sites stayed consistent.
-
-In contrast to the shift in butterfly species richness patterns, we detected stable host plant richness along the elevational gradient. The hump-backed relationship between host plant species richness and elevation was also observed elsewhere [@gutiérrez2016] and matches the typical richness pattern observed for plants along elevational gradients in the Alps [@fontana2020; @dainese2012; @hoiss2012]. That there was no significant upwards shift in richness might be due to the relatively time-limited study period. Plants react more slowly to temperature changes than mobile terrestrial insects [@vitasse2021]. When considering the whole last century, significant upwards shifts in plant richness are visible [@lenoir2008], especially for mountainous and grassy species, which represent the majority of host plant species in our study. Also, an increase of plant richness in high elevations was observed, accelerating over time [@steinbauer2018]. Thus, potential shifts might now get visible way faster than before, which is supported by the slight tendency for an upwards shift of host plant richness already visible in our study over ten years.
-
-## Temperature as main driver of changes in butterfly richness {.unnumbered}
-
-Butterfly species richness was directly driven by temperature (MST = mean summer temperature) and diversity of larval food resources (host plant richness), while host plant richness was driven by management, therefore indirectly also affecting butterfly richness. Adult food resource availability (flower cover) was not a significant predictor, but improved the path model, indicating its importance for butterfly species richness.
-
-The strong positive correlation of butterfly richness with temperature is well known [@pellissier2013; @viterbi2013; @habel2021] as well as the positive correlation of butterfly richness with (host) plant richness [@pellissier2013; @gutiérrez2016; @koch2013]. However, in most cases, the two effects are examined separately without setting them into a common context. For analyzing drivers of butterfly richness in Britain, they were combined, finding a bigger impact of temperature in the form of growing degree-days than of host plant richness [@menéndez2007], corresponding with our results. Nevertheless, land management was included there neither, which we found to be the main direct driver of host plant richness and thus indirectly driving butterfly richness. That a direct positive effect of extensive management on butterfly richness was found previously [@jerrentrup2014; @bubova2015], might be because (host) plant richness was not included as a possible intermediate factor. Besides, there are probably also other factors not included in our analysis that exert influence on butterfly richness, causing the remaining unexplained variance in our data. For example, structural diversity can positively affect butterfly richness [@viterbi2013], which we did not consider as data was not available for the first study year. Further, average annual precipitation has a positive effect on butterfly richness [@habel2021] but was not assessed on our study sites and is hard to predict on site level for our region due to the complex topography.
-
-In contrast to the observed drivers of butterfly richness, we identified the change in MST between years as the sole main driver of the change in butterfly richness between years, while host plant richness did not explain the change, as it also did not change between years. This finding is in accordance with other results explaining butterfly range shifts with temperature, but not with host plants [@wilson2005]. The missing link between MST and host plant richness in our path model seems to be a further indicator that the considered time frame might just have been too short to detect plant shifts. Thus, we speculate that butterfly richness changed with changing temperatures, while host plant richness had a time lag in reacting, potentially creating an elevational gap between the peaks of butterfly and host plant richness in the future. Synthesizing other results from the Alps supports this assumption, as butterflies were the only order of studied organisms reacting in time to follow the upwards moving climatic niches [@vitasse2021].
-
-## Butterfly community and species upslope shifts {.unnumbered}
-
-The community elevation score showed a clear upwards shift of butterfly communities as already reported from other regions in the world [@nieto-sánchez2015; @wilson2007; @chen2011]. The change was predominantly driven by losses of high elevation species in the lowlands and range expansions of lowland species into mid-elevations, reflecting the observed changes in butterfly richness with losses in low elevations and an increase in mid-elevations. The slight inversion to higher community elevation scores in 2019 at the upper end of the elevational gradient might be a simple artifact, because some alpine species monitored at the upper end of the elevational gradient might now have optimum ranges above the monitored elevational range. Alternatively, or additionally, temperature increases might also have increased the reproduction success and thus the abundances of alpine species. As abundances are generally low in high altitudes, such an increase of high altitude species abundances might outweigh the effect of upwards shifting lowland species.
-
-Similarly to the community elevation score, individual butterfly species moved considerably upwards along the elevational gradient. Filtering for species restricted to higher elevations (only occurring at ≥ 500 m.a.s.l.) shows that the mountainous species pool is reacting especially strongly, as also observed in other mountain ranges [@molina-martínez2016]. Some species did not show a significant response, possibly because of specific species traits. For example, widespread generalist species do not have a very specific distribution area that could shift visibly up- or downwards.
-
-Butterfly species in our study shifted stronger per decade than in other studies over 20 - 35 years [@forister2010; @wilson2005; @molina-martínez2016]. This might reflect the accelerating speed of climate change within the last decade. However, the shifts we found were still considerably below the predicted shifts to follow the climatic niches along the elevational gradient according to the observed temperature increase. Although we potentially overestimated the predicted shifts due to the limited considered time frame, a lag between observed and predicted shifts would also persist when assuming lower temperature increases in the Alps, as suggested by observations of the last 50 years [@vitasse2021]. Lags were also reported in other studies [@chen2011; @molina-martínez2016; @nieto-sánchez2015] and appear more pronounced in temperate species communities, where species might partly profit from higher temperatures [@freeman2014]. In temperate regions, species are still further away from their upper thermal limits than in the tropics [@ghalambor2006], increasing chances that species might just expand their ranges into higher elevations instead of moving their elevational range upwards. Previous observations from the Alps strengthen this hypothesis, detecting stronger shifts in upper range limits than in mean elevation of occurrence [@vitasse2021].
-
-Nevertheless, the observed butterfly uphill shifts were still considerable (`r round(x$coefficients[2,1], 0)` ± `r round(x$coefficients[2,2], 0)` m), while host plant species showed nearly no upwards movement (`r round(xx$coefficients[2,1], 0)` ± `r round(xx$coefficients[2,2], 0)` m), coinciding with the observations of the richness pattern. The only host plant species shifting significantly were grasses, which can be disregarded when looking at butterflies. Butterfly larvae feeding on grasses are mostly specialized on family level, but not on single plant species. Thus, moving away from a Poaceae or Cyperaceae species has no effect for them, as they will find other related species. This fits together with our findings of a missing impact of host plant richness on changes in butterfly richness between years. Thus, when butterflies continue to follow their temperature niches uphill, it might form a gap between butterfly and host plant distributions, forcing them to adapt. A possible way for butterflies to avoid shifting away from their host plants is adapting phenology instead. The connection between host plant availability and this kind of adaption has been shown, as especially butterflies more dependent on certain larval host plants were observed to exhibit this strategy [@diamond2011]. Otherwise, butterflies might also compensate faster upwards shifting with broadening their larval diet breadth by including new plant species into their diet, as plants in higher elevations are less resistant to herbivores [@pellissier2012].
-
-# Conclusions {.unnumbered}
-
-Within a single decade, we detected clear upwards shifts of butterflies, concerning the maximum in species richness, community composition and the abundance-weighted mean elevation of individual species. While butterfly richness was explained by temperature and host plant richness, uphill shifts in species richness were explained by temperature only, suggesting further upward shifts with increasing climate warming in the coming decades. As our study tracks community changes between two sampling years and not over an entire decade, we cannot conclusively assess whether the observed butterfly community responses are reversible in cool years or ongoing responses to climate change. However, the general findings coincide well with the results from long-term studies over several decades, and warmer years are predicted to become more frequent in the near future, thus the reported responses in butterfly communities are likely to become the predominant ones. Importantly, larval host plants showed barely any shifts in the considered decade. We conclude that the broad distribution of host plants along the elevational gradient currently still allows fast butterfly responses to temperature changes. However, under ongoing climate change, there might open up a gap between host plant and herbivore distributions, which could decelerate further butterfly shifts, if they are not able to adapt to new host plants. Further, alpine species are facing continuous habitat loss, even without land use change, as moving upwards in a pyramid-shaped mountain range like the Alps goes hand in hand with a reduction in available habitat area. This underlines the importance of preserving traditional extensive pasture management practices in alpine regions. We showed that those support higher host plant and thus butterfly richness, buffering the negative effects by climate warming.
-
-# Acknowledgements {.unnumbered}
-
-We sincerely thank the National Park Berchtesgaden for their support by granting access to the study area and provisioning housing. Special thanks to Ole Behling for coordinating logistics inside the park and to Annette Lotz and Daniela Kilian for cooperation in setting up the study setup. Further, we appreciated the cooperation with the local farmers who supported data collection on their pastures. We also thank Nikki Sauer for help in mounting voucher specimens of butterflies and Mirko Wölfling for his support in butterfly species identification. Equally, our gratitude goes to Roland Kaiser and Thomas Eberl from ENNACON who conducted the vegetation survey. This study was funded by the Bavarian Ministry for Science and the Arts in the framework of the Bavarian Climate Research Network (bayklif).
-
-AC and JMK conceived the idea and developed the concept of the study. JMK conducted the butterfly monitoring in 2019, compiled the data and conducted statistical analyses in an exchange of ideas with FM, JK and AC. FM and JMK collected flower cover data and organized field work in 2019. LB contributed to the vegetation assessment in 2019. JMK wrote the first draft of the manuscript, while all authors contributed to the final version.
-
-# References {.unnumbered}
-
-::: {#refs}
-:::
-
 \clearpage
 
 \newpage
 
 **Table 1:**
 
-```{r gamtables, echo=FALSE, message=FALSE, tab.cap="Summary statistics of generalized additive models (GAMs) for absolute (2009/2019) and gradual (2009-2019) changes in mean annual temperature (MAT) and mean summer temperature (MST), fitted with a smoothing function of elevation (N=32); as well as for butterfly abundance, butterfly and host plant species richness and the community elevation score, each fitted with a smoothing function of elevation and the interaction of elevation and year (2009, 2019), including study site as a random term (N=64).", label="gamtables"}
+```{r gamtables, echo=FALSE, message=FALSE, tab.cap="Summary statistics of generalized additive models (GAMs) for absolute (2009/2019) and gradual (2009-2019) changes in mean annual temperature (MAT) and mean summer temperature (MST), fitted with a smoothing function of elevation (N=32) (see Figure 1b); as well as generalized additive mixed models (GAMMs) for butterfly abundance, butterfly and host plant species richness and the community elevation score, each fitted with a smoothing function of elevation and the interaction of elevation and year (2009, 2019), including study site as a random term (N=64).", label="gamtables"}
 options(scipen = 999) # write numbers decimal and not exponential (e+06)
 
-GAMT<-data.frame(resp.var = c("MAT 2009 / 2019",
-                              "MST 2009 / 2019",
-                              "MAT 2009 - 2019",
-                              "MST 2009 - 2019",
+GAMT<-data.frame(resp.var = c("∆ MAT 2009 / 2019",
+                              "∆ MST 2009 / 2019",
+                              "∆ MAT 2009 - 2019",
+                              "∆ MST 2009 - 2019",
                               "butterfly abundance", NA, NA,
                               "butterfly species no.", NA, NA,
                               "host plant species no.", NA, NA,
@@ -580,6 +501,7 @@ GAMT<-data.frame(resp.var = c("MAT 2009 / 2019",
                               paste(round(C$dev.expl*100, 1), "%"), NA, NA)
                  )
 
+
 library(dplyr)
 
 # which columns should be shown in table  
@@ -598,23 +520,25 @@ add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 <
 
 # Figure legends {.unnumbered}
 
-**Figure 1:** (a) Location of the study area in the southeasternmost corner of Germany in the National Park Berchtesgaden (NP BGD, green) and its surroundings. (b) Temperature differences in °C between 2009 and 2019 along the elevational gradient in the National Park Berchtesgaden. There was a considerable difference between mean summer temperature (MST) (purple) and mean annual temperature (MAT) (blue) increase. The darker shades show the absolute difference between the two sampling years (2009/2019) and the lighter ones show the gradual temperature change over the considered decade (2009 - 2019). Temperatures were predicted with generalized additive models (GAMs) from adjacent climate stations for each study site. (c) Climate stations used for temperature modelling were spread throughout the national park and its surroundings (orange). Study sites (light blue) were arranged along five transects (dark blue) plus four valley plots in lower elevations. Grey shades indicate elevation in 200 m intervals, ranging from 400 (black) up to 2800 m.a.s.l. (white) (based on a digital elevation model with 1 m grid cell width, provided by the national park administration).
+**Figure 1:** (a) Location of the study area in the southeasternmost corner of Germany in the National Park Berchtesgaden (NP BGD, green) and its surroundings. (b) Temperature differences in °C between 2009 and 2019 along the elevational gradient in the National Park Berchtesgaden. There was a considerable difference between mean summer temperature (MST) (purple) and mean annual temperature (MAT) (blue) increase. The darker shades show the absolute difference between the two sampling years (2009/2019) and the lighter ones show the gradual temperature change over the considered decade (2009 - 2019). Temperatures were predicted with generalized additive models (GAMs) from adjacent climate stations for each study site. (c) Climate stations used for temperature modelling were spread throughout the national park and its surroundings (orange). Study sites (light blue) were arranged along five transects (dark blue) plus four valley plots in lower elevations. Grey shades indicate elevation in 200 m intervals, ranging from 400 (black) up to 2800 m a.s.l. (white) (based on a digital elevation model with 1 m grid cell width, provided by the national park administration).
 
 **Figure 2:** Species richness of butterflies (a) and host plants (b) along the elevational gradient in 2009 (blue) and 2019 (orange) with 95% confidence intervals.
 
-**Figure 3:** Drivers of butterfly richness along spatial and temporal gradients in the National Park Berchtesgaden. A priori hypothesized causal structure of the relationships among MST, management, larval (host plant diversity) and adult (flower cover) food resources and species richness of butterflies (a) and the best fitted path model (based on the Akaike information criterion with a correction for small sample sizes, AICc, N = 64) (b). The only alternative model (Δ AICc ≤ 1.5) had one path removed (dashed line), indicating an unstable path. A similar causal structure was hypothesized for a path model which included the absolute differences in explaining variables between 2009 & 2019 (e.g. Δ MST = MST(2019) - MST(2009) (c), whereby management was excluded as there were no changes between years. Again, the best fitted path model is presented (N = 32) (d). The standardized path coefficients, their statistical significance (P ≤ 0.1 (.), P ≤ 0.05 (`*`), P ≤ 0.01 (`**`), P ≤ 0.001 (`***`)) and the conditional coefficients of determination (R²) are given. Paths with a significance of p ≤ 0.05 are presented in black and higher values in grey. Flower cover was log-transformed in the first model (b) and sqrt-transformed in the second one (d), prior to analysis.
+**Figure 3:** Drivers of butterfly richness along spatial and temporal gradients in the National Park Berchtesgaden. A priori hypothesized causal structure of the relationships among MST, management, larval (host plant diversity) and adult (flower cover) food resources and species richness of butterflies (a) and the best fitted path model (based on the Akaike information criterion with a correction for small sample sizes, AICc, N = 64) (b). The only alternative model (Δ AICc ≤ 1.5) had one path removed (dashed line), indicating an unstable path. A similar causal structure was hypothesized for a path model which included the absolute differences in explaining variables between 2009 & 2019 (e.g. Δ MST = MST(2019) - MST(2009) (c), whereby change in management was excluded as there were no changes between years. Again, the best fitted path model is presented (N = 32) (d). However, note that although explanatory value was lower, the presented model was statistically not distinguishable (Δ AICc ≤ 1.5) from two other models replacing change in temperature with either overall temperature trend (mean 2009-2019) or management. The standardized path coefficients, their statistical significance (P ≤ 0.1 (.), P ≤ 0.05 (`*`), P ≤ 0.01 (`**`), P ≤ 0.001 (`***`)) and the conditional coefficients of determination (R²) are given. Paths with a significance of p ≤ 0.05 are presented in black and higher values in grey. Flower cover was log-transformed in the first model (b) and sqrt-transformed in the second one (d), prior to analysis.
 
 **Figure 4:** Community elevation score of butterflies along the elevational gradient in 2009 (blue) and 2019 (orange) with 95% confidence intervals. A lower score in 2019 indicates that the community at a certain elevation is now hosting a higher share of species that were found in lower elevations in 2009.
 
-**Figure 5:** Mean elevational shifts of butterfly (left) and host plant species (right) between 2009 and 2019 (vertical lines) with standard error (horizontal lines). Alpine butterfly species (lower elevational limit ≥ 500 m.a.s.l. according to (Paolucci, 2013)) are shown in light and dark blue. Dark blue & black indicate significant shifts with respective significance levels shown next to the species names (left in each panel): \* = p ≤ 0.05, \*\* = p ≤ 0.01, \*\*\* = p ≤ 0.001 (Wilcoxon rank-sum tests).
+**Figure 5:** Abundance-weighted mean elevational shifts of butterfly (left) and host plant species (right) between 2009 and 2019 (vertical lines) with standard error (horizontal lines). The numbers in brackets give the number of individuals per species sampled in 2009/2019. Alpine butterfly species (lower elevational limit ≥ 500 m a.s.l. according to @paolucci2013) are shown in light and dark blue. Dark blue & black indicate significant shifts with respective significance levels shown next to the species names (left in each panel): \* = p ≤ 0.05, \*\* = p ≤ 0.01, \*\*\* = p ≤ 0.001 (Wilcoxon rank-sum tests).
 
 \clearpage
 
 \newpage
 
+
 **Figure 1:**
 
 ```{r tempchange, eval=FALSE, include=FALSE}
+# plotting of temperature graph (Figure 1b)
 
 library(svglite) # to export as svg
 
@@ -824,7 +748,19 @@ dev.off()
 # Basis model delta
 png(here::here("figures","sem3.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(bd,shape="square",layout=l1,labels=F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8,asize=6, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F);text(-1.1,1.1,"c)",cex=1.3)
+qgraph(bd,shape="square",layout=l1,labels=F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8,asize=6, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F);text(-1.1,1.1,"c)",cex=1.3); text(
+  -0.3,1, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  -0.3,1, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  -0.3,1, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
+  -1,-1.23, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  -1,-1.23, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  -1,-1.23, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
+  0,-1.23, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  0,-1.23, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  0,-1.23, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
+  1,-1.23, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  1,-1.23, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  1,-1.23, expression(phantom("19") * "-" * phantom("09")), cex=.8)
 
 dev.off()
 
@@ -834,7 +770,19 @@ png(here::here("figures","sem4.png"), res=600, height=8, width=8, units = "cm")
 qgraph(d,shape="square",layout=l1,vsize=18, labels=F, edge.color=c("slategray3","black"),colFactor=0,asize=6,edge.labels=dsignlabels,edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F
       );text(0.3,-0.7,paste("R²=",dm1$R2$R.squared),cex=.8
       );text(-1.1,1.1,"d)",cex=1.3
-      );text(0.45,1.1,paste("Fisher's C =", dm1$Cstat$Fisher.C, "\np-value = ", dm1$Cstat$P.Value), adj=0, cex=.7)
+      );text(0.45,1.1,paste("Fisher's C =", dm1$Cstat$Fisher.C, "\np-value = ", dm1$Cstat$P.Value), adj=0, cex=.7); text(
+  -0.3,1, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  -0.3,1, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  -0.3,1, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
+  -1,-1.23, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  -1,-1.23, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  -1,-1.23, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
+  0,-1.23, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  0,-1.23, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  0,-1.23, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
+  1,-1.23, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
+  1,-1.23, expression("19" * phantom("-09")), col="orange", cex=.8); text(
+  1,-1.23, expression(phantom("19") * "-" * phantom("09")), cex=.8)
 
 dev.off()
 
@@ -890,10 +838,10 @@ annotation_custom(
 
 ```{r buttshift, include=FALSE}
 
-z<-read.csv(here::here("data","z.csv")) # read species shifts with significance symbols
+z<-read.csv(here::here("data","z.csv"), sep=";") # read species shifts with significance symbols
 colnames(z)[1]<-"genus_species"
 
-txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey80",signif="black", alpns="paleturquoise3", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
+txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey60",signif="black", alpns="lightslateblue", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
 
 buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reorder: adjust order of species on y axis
   geom_vline(xintercept = 0,linetype="dashed") +
@@ -911,7 +859,7 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
     axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_blank()
   ) +
-  scale_colour_manual(name="signif.  n.s.", values=c(alpsignif="turquoise4", signif="black", alpns="paleturquoise3", ns="grey80"),labels=c("alpine (> 500 m)","non-alpine"," "," "),
+  scale_colour_manual(name="signif.  n.s.", values=c(alpsignif="turquoise4", signif="black", alpns="lightslateblue", ns="grey60"),labels=c("alpine (> 500 m)","non-alpine"," "," "),
   guide=guide_legend(ncol=2, label.position = "left", label.hjust = 0, title.position = "top", title.hjust = 1)) +
   geom_text(aes(x=signpos,label = signlvl), vjust=0.8, hjust=0, show.legend = F) +
   labs(x="Elevational shift [m]",y="Species") +
@@ -926,7 +874,7 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
 
 ```{r plantshift, include=FALSE}
 
-s<-read.csv(here::here("data","s.csv")) # read species shifts with significance symbols
+s<-read.csv(here::here("data","s.csv"), sep=";") # read species shifts with significance symbols
 colnames(s)[1]<-"abbr"
 
 plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: adjust order of species on y axis
@@ -941,7 +889,7 @@ plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: ad
     axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)),
     axis.title.y = element_blank()
   ) +
-  scale_colour_manual(values=c(ns="grey80",signif="black")) +
+  scale_colour_manual(values=c(ns="grey60",signif="black")) +
   geom_text(aes(x=signpos,label = signlvl), vjust=0.8,hjust=0) + 
   labs(x="Elevational shift [m]",y="Species") +
   scale_y_discrete(labels=s$taxon[order(s$mean)]) +
@@ -955,14 +903,14 @@ plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: ad
 
 ```{r shifts, fig.cap="", fig.width=8.5, fig.height=11, warning=FALSE, echo=FALSE}
 library(patchwork)
-((buttshifts + plot_spacer()) + inset_element(plantshifts, 0,0,1,1, align_to = "full")) + plot_layout(widths = c(1,1.5)) # plot_spacer() & inset_element to stretch plant shifts over whole length of plot
+((buttshifts + plot_spacer()) + inset_element(plantshifts, 0,0,1,1, align_to = "full")) + plot_layout(widths = c(1,1.7)) # plot_spacer() & inset_element to stretch plant shifts over whole length of plot
 ```
 
 # Supplementary Material {.unnumbered}
 
 **Table S1:**
 
-```{r butthostplantlist, tab.cap="List of included butterfly species and associated larval host plants according to Paolucci (2013) and/or Reinhardt et al. (2020). The degree of specialization (deg. spec.) states if the larvae of the species is monophagous (M), oligophagous (O) or polyphagous (P) according to Paolucci (2013).", echo=FALSE, warning=FALSE}
+```{r butthostplantlist, tab.cap="List of included butterfly species and associated larval host plants according to Paolucci (2013) and/or Reinhardt et al. (2020). The degree of specialization (deg. spec.) states if the larvae of the species is monophagous (M), oligophagous (O) or polyphagous (P) according to Paolucci (2013). Inconsistencies between the given degree of specialization and the named associated larval host plants derive from the use of Reinhardt et al. (2020) as supplementing literature for the associated plant species.", echo=FALSE, warning=FALSE}
 
 hpl<-read.csv(here::here("data","hostplantlist.csv"), sep=";")
 hpl<-hpl[order(hpl$spec),] 
@@ -986,6 +934,117 @@ pist
 \newpage
 
 **Figure S1:**
+
+```{r climatemodelling, echo=FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.height=3, fig.cap="Predicted temperature data for 4 selected study sites in comparison to measured temperature data of one exemplary climate station over the course of one year (here: 2019). Predicted temperatures are presented in transparent colors (red: 818 m a.s.l., orange: 1106 m a.s.l., green: 1580 m a.s.l., blue: H7 1986 m a.s.l.). Black circles represent measured temperature data of one climate station located 834 m asl. For the prediction of site temperature data, we used the temperature measurements of up to 16 climate stations (see Figure 1c main text; data not plotted here). At all climate stations, temperature was recorded every 10 min; but mean daily temperatures were used for the prediction with generalized additive models, that included elevation, day lengths (as a surrogate for season) and date as explaining variables.", dpi=300}
+include_graphics(here::here("figures","climate_stations_temperature.jpeg"))
+```
+
+\clearpage
+
+\newpage
+
+**Figure S2:**
+
+```{r potshift, echo=FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.height=3, fig.cap="MAT (left) and MST (right) of all study sites averaged over the last decade from 2009 (blue) to 2019 (orange). The gradual temperature increase equals the slope of these linear models (MAT / MST ~ elevation, black lines).", dpi=300}
+
+summean$time<-"MST"; yearmean$time<-"MAT"
+mt<-bind_rows(summean[summean$year >="2009" & summean$year <="2019",], yearmean[yearmean$year >="2009" & yearmean$year <="2019",])
+
+transblack<-adjustcolor("black",alpha.f = 0.3)
+
+# Difference day means 2009 - 2019 for summer / whole year
+
+ggplot(mt, aes(year, daymeanT))+
+  facet_wrap(~time, scales="free_y")+
+  geom_point(pch=16, cex=3, col=rep(c("dodgerblue",rep(blacktrans,9),"orange"),2))+
+  geom_smooth(method=lm, se=F, col="black")+
+  theme_classic()+
+  labs(y="temperature [°C]")+
+  scale_x_continuous(breaks=seq(2009,2019,by=2), )+
+  theme(
+    plot.margin = unit(c(.3, .5, .3, .3),"cm"),
+    axis.text = element_text(size=12),
+    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)),
+    strip.background = element_blank(), # background facet_labels
+    strip.text = element_text(size=14) # text facet_labels
+  )+
+  geom_text(x=2016.3, y=4.85, hjust=0, col="black",
+            label=paste("R² =", round(tmean[["r.squared"]], digits=2),"\nslope =", round(tmean[["coefficients"]][2],digits=3)))+
+  geom_text(x=2016.3, y=11.1, hjust=0, col="black",
+            label=paste("R² =", round(stmean[["r.squared"]], digits=2),"\nslope =", round(stmean[["coefficients"]][2],digits=3)))
+```
+
+\clearpage
+
+\newpage
+
+**Figure S3:**
+
+```{r temp100, echo=FALSE, warning=FALSE, message=FALSE, fig.width=6, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. Left: The mean daily temperature from 2009 to 2019 was averaged per station (grey points). The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line). Colored lines show the average per climate station of the two sampled years 2009 (blue) and 2019 (orange). Right: Colored lines from the left graph representing the two sampled years each with the underlying data points.", dpi=300}
+
+# temperature difference per 100 m in elevation 2009-2019
+elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean)
+# single years 2009 & 2019
+elevmean09<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2009,], FUN=mean)
+elevmean19<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2019,], FUN=mean)
+
+transblue<-adjustcolor("dodgerblue",alpha.f = 0.5)
+transorange<-adjustcolor("orange",alpha.f = 0.5)
+
+# main plot with average and single year lines
+main<-bind_rows("mean"=elevmean,"2009"=elevmean09,"2019"=elevmean19, .id = "year") %>%
+ggplot(aes(Elev_50m, daymeanT, col=year)) +
+  geom_smooth(method=lm, se=F) +
+  geom_point(aes(Elev_50m, daymeanT),data=elevmean,col="black", pch=16, cex=2, alpha=.3) +
+  theme_classic() +
+  scale_color_manual(
+    values = c("mean"="black", "2009"=transblue,"2019"=transorange),
+    name="year",
+    labels = c("mean"="2009 - 2019","2009"="2009", "2019"="2019")) +
+  theme(
+    plot.margin = unit(c(.5, .3, .3, .3),"cm"),
+    legend.position = "none",
+    axis.text = element_text(size=12),
+    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0))) +
+  labs(x="elevation [m.a.s.l.]", y="mean temperature [°C]") +
+  geom_text(x=-Inf, y=-Inf, hjust=-0.1, vjust=-1, col="black",
+            label=paste("slope =", round(tc100[["coefficients"]][["fixed"]][["Elev_50m"]], 4)))
+
+# side plots single years
+yeartags<-data.frame(x=c(rep(2500,2)), y=c(rep(9.75,2)),lab=c("2009","2019"),
+                 year=c("2009","2019"))
+
+singleyears<-bind_rows("2009"=elevmean09,"2019"=elevmean19, .id = "year") %>%
+ggplot(aes(Elev_50m, daymeanT, col=year)) +
+  facet_wrap(vars(fct_inorder(year)),nrow = 2) +
+  geom_smooth(method=lm, se=F) +
+  geom_point(pch=16, cex=2, alpha=.3) +
+  theme_classic() +
+  scale_color_manual(
+    values = c("2009"="dodgerblue","2019"="orange"),
+    name="year",
+    labels = c("2009"="2009", "2019"="2019")) +
+  theme(
+    plot.margin = unit(c(.5, .3, .3, .3),"cm"),
+    legend.position = "none",
+    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)),
+    strip.text = element_blank()) + # remove Label bar above plots from facetwrap
+  labs(x="elevation [m.a.s.l.]", y="mean temperature [°C]") +
+  annotate(geom = 'segment', y = -Inf, yend = -Inf, color = 'black', x = -Inf, xend = Inf, size = 0.5) +
+  geom_text(inherit.aes = FALSE, data=yeartags, aes(x= Inf, y=Inf, label=lab),hjust="right", vjust="top",size=5)
+
+library(patchwork)
+main + singleyears + plot_layout(widths = c(2,1))
+```
+
+\clearpage
+
+\newpage
+
+**Figure S4:**
 
 ```{r shiftselectbutt, echo=FALSE, warning=FALSE, fig.cap="Change in mean elevational shift and number of included butterfly species (y-axes) depending on the chosen minimum number of individuals per species (x-axis). Results are shown for all included species (black) and for significantly shifting (p &le; 0.05) species with their respective mean shift (dashed lines).", fig.width=7, fig.height=5, dpi=300}
 
@@ -1021,7 +1080,7 @@ par(mfrow=c(1,1))
 
 \newpage
 
-**Figure S2:**
+**Figure S5:**
 
 ```{r shiftselecthp, echo=FALSE, warning=FALSE, fig.cap="Change in mean elevational shift and number of included host plant species (y-axes) depending on the chosen minimum number of occupied subplots per species (x-axis). Results are shown for all included species (black) and for significantly shifting (p &le; 0.05) species with their respective mean shift (dashed lines).", fig.width=7, fig.height=5.5, dpi=300}
 
@@ -1057,98 +1116,24 @@ par(mfrow=c(1,1))
 
 \newpage
 
-**Figure S3:**
-```{r temp100, echo=FALSE, warning=FALSE, message=FALSE, fig.width=6, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. Left: The daily mean temperature from 2009 to 2019 was averaged per station (grey points). The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line). Colored lines show the average per climate station of the two sampled years 2009 (blue) and 2019 (orange). Right: Colored lines from the left graph representing the two sampled years each with the underlying data points.", dpi=300}
+**Figure S6:**
 
-# Temperaturunterschied pro 100 m 2009-2019
-elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean)
-# Einzeljahre 2009 & 2019
-elevmean09<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2009,], FUN=mean)
-elevmean19<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2019,], FUN=mean)
+```{r alpshift, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Abundance-weighted mean elevational shift per species against mean elevation of occurrence in 2009. Shifting distances decreased significantly (p &le; 0.05) with increasing elevation while in contrast, mountainous species (lower elevational limit ≥ 500 m.a.s.l. according to Paolucci (2013), blue) shifted 140 ± 57 m more than other species (linear model, DF = 34, p &le; 0.05).", dpi=300}
 
-transblue<-adjustcolor("dodgerblue",alpha.f = 0.5)
-transorange<-adjustcolor("orange",alpha.f = 0.5)
-
-# main Plot mit Durchschnitt und Einzeljahreslinien
-main<-bind_rows("mean"=elevmean,"2009"=elevmean09,"2019"=elevmean19, .id = "year") %>%
-ggplot(aes(Elev_50m, daymeanT, col=year)) +
-  geom_smooth(method=lm, se=F) +
-  geom_point(aes(Elev_50m, daymeanT),data=elevmean,col="black", pch=16, cex=2, alpha=.3) +
+ggplot(aes(melev, estimate, color=alpine), data=alpi) +
+  geom_hline(yintercept = 0, linetype="dashed") +
+  geom_point(size=3, shape=16) +
+  geom_smooth(method=lm, mapping=aes(y=predict(modalpi, alpi)), se = F) +
   theme_classic() +
-  scale_color_manual(
-    values = c("mean"="black", "2009"=transblue,"2019"=transorange),
-    name="year",
-    labels = c("mean"="2009 - 2019","2009"="2009", "2019"="2019")) +
   theme(
-    plot.margin = unit(c(.5, .3, .3, .3),"cm"),
-    legend.position = "none",
-    axis.text = element_text(size=12),
-    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
-    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0))) +
-  labs(x="elevation [m.a.s.l.]", y="mean temperature [°C]") +
-  geom_text(x=-Inf, y=-Inf, hjust=-0.1, vjust=-1, col="black",
-            label=paste("slope =", round(tc100[["coefficients"]][["fixed"]][["Elev_50m"]], 4)))
-
-# Sideplots Einzeljahre
-yeartags<-data.frame(x=c(rep(2500,2)), y=c(rep(9.75,2)),lab=c("2009","2019"),
-                 year=c("2009","2019"))
-
-singleyears<-bind_rows("2009"=elevmean09,"2019"=elevmean19, .id = "year") %>%
-ggplot(aes(Elev_50m, daymeanT, col=year)) +
-  facet_wrap(vars(fct_inorder(year)),nrow = 2) +
-  geom_smooth(method=lm, se=F) +
-  geom_point(pch=16, cex=2, alpha=.3) +
-  theme_classic() +
-  scale_color_manual(
-    values = c("2009"="dodgerblue","2019"="orange"),
-    name="year",
-    labels = c("2009"="2009", "2019"="2019")) +
-  theme(
-    plot.margin = unit(c(.5, .3, .3, .3),"cm"),
-    legend.position = "none",
-    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
-    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)),
-    strip.text = element_blank()) + # remove Label bar above plots from facetwrap
-  labs(x="elevation [m.a.s.l.]", y="mean temperature [°C]") +
-  annotate(geom = 'segment', y = -Inf, yend = -Inf, color = 'black', x = -Inf, xend = Inf, size = 0.5) +
-  geom_text(inherit.aes = FALSE, data=yeartags, aes(x= Inf, y=Inf, label=lab),hjust="right", vjust="top",size=5)
-
-library(patchwork)
-main + singleyears + plot_layout(widths = c(2,1))
-```
-
-\clearpage
-
-\newpage
-
-**Figure S4:**
-
-```{r potshift, echo=FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.height=3, fig.cap="MAT (left) and MST (right) of all study sites averaged over the last decade from 2009 (blue) to 2019 (orange). The gradual temperature increase equals the slope of these linear models (MAT / MST ~ elevation, black lines).", dpi=300}
-
-summean$time<-"MST"; yearmean$time<-"MAT"
-mt<-bind_rows(summean[summean$year >="2009" & summean$year <="2019",], yearmean[yearmean$year >="2009" & yearmean$year <="2019",])
-
-transblack<-adjustcolor("black",alpha.f = 0.3)
-
-# Difference day means 2009 - 2019 for summer / whole year
-
-ggplot(mt, aes(year, daymeanT))+
-  facet_wrap(~time, scales="free_y")+
-  geom_point(pch=16, cex=3, col=rep(c("dodgerblue",rep(blacktrans,9),"orange"),2))+
-  geom_smooth(method=lm, se=F, col="black")+
-  theme_classic()+
-  labs(y="temperature [°C]")+
-  scale_x_continuous(breaks=seq(2009,2019,by=2), )+
-  theme(
-    plot.margin = unit(c(.3, .5, .3, .3),"cm"),
-    axis.text = element_text(size=12),
-    axis.title.x = element_text(size=12, margin = margin(t = 10, r = 0, b = 0, l = 0)),
-    axis.title.y = element_text(size=12, margin = margin(t = 0, r = 10, b = 0, l = 0)),
-    strip.background = element_blank(), # background facet_labels
-    strip.text = element_text(size=14) # text facet_labels
-  )+
-  geom_text(x=2016.3, y=4.85, hjust=0, col="black",
-            label=paste("R² =", round(tmean[["r.squared"]], digits=2),"\nslope =", round(tmean[["coefficients"]][2],digits=3)))+
-  geom_text(x=2016.3, y=11.1, hjust=0, col="black",
-            label=paste("R² =", round(stmean[["r.squared"]], digits=2),"\nslope =", round(stmean[["coefficients"]][2],digits=3)))
+    legend.title = element_blank(),
+    legend.position = c(0.85, 0.93),
+    legend.key = element_blank(), # remove grey background behind legend points
+    legend.text = element_text(size=11),
+    axis.text = element_text(size=11)
+  ) +
+  labs(x="abundance-weighted mean elevation [m.a.s.l.]",y="mean elevational shift") +
+  scale_color_manual(values = c("alpine"="turquoise4", "non-alpine"="black")) +
+  geom_text(x=Inf, y=-Inf, hjust=1, vjust=-0.8, col="black",
+            label=paste0("R² = ", round(valalpi$r.squared,2)))
 ```
