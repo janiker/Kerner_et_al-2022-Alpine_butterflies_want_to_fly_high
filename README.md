@@ -4,7 +4,7 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
 
 ***
 
-**Journal**: [XXX](https://www.???.??)
+**Journal**: [Ecology](https://esajournals.onlinelibrary.wiley.com/journal/19399170)
 
 **DOI**: [https://doi.org/???](https://doi.org/???)
 
