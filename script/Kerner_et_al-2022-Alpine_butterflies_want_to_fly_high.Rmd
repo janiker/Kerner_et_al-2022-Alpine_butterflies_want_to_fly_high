@@ -7,7 +7,6 @@ output:
 fontfamily: Times New Roman
 fontsize: 12pt
 geometry: margin = 1in
-bibliography: references.bib
 ---
 
 ^1^ Department of Animal Ecology and Tropical Biology, Biocenter, University of Würzburg, Am Hubland, 97074 Würzburg, Germany
@@ -16,28 +15,22 @@ bibliography: references.bib
 
 \* Corresponding author: [janika.kerner\@uni-wuerzburg.de](mailto:janika.kerner@uni-wuerzburg.de){.email}
 
-Open Research: Data and code are available on GitHub under: [https://github.com/janiker/Kerner_et_al-2022-Butterfly_host_plant_shifts] and will be stored permanently via Dryad after manuscript acceptance.
-
-**keywords:** Alps; altitudinal gradient; global warming; grazing; Lepidoptera; mountain biodiversity; plant-herbivore interactions; species range shifts; upslope shift
-
 \clearpage
 
 \newpage
 
-```{r formatting, echo=FALSE}
+```{r formatting, echo=FALSE, warning=FALSE}
 # table font
 library(flextable)
 set_flextable_defaults(
   font.family = "Times New Roman")
 # plot resolution
-knitr::opts_chunk$set(dpi=300)
+knitr::opts_chunk$set(dpi=600)
 
 library(bookdown)
 ```
 
-
 ```{r div-ele-calc, include=FALSE}
-
 library(broom) # tidy summary tables
 library(emmeans) # post-hoc (Tukey-Test) for differences between grouping variables in lm
 library(ggplot2)
@@ -50,24 +43,24 @@ library(tidyverse) # clean data
 library(vegan) # species richness
 library(tidymv) # GAMs plotting in ggplot
 
-# GAM models ----------------------------------------------
+# GAM models abundance & richness ----------------------------------------------
 
 # read data
 
 # plotdata long format (one year below the other)
-pdl <- read.csv(here::here("data", "pdl.csv"), row.names=1)
+pdl<-read.csv(here::here("data", "plotdata-long.csv"), row.names=1, sep=";")
 pdl$year<-factor(pdl$year,ordered=T) # has to be ordered for GAM summary to be ANOVA like difference between levels
 pdl$plot<-as.factor(pdl$plot)
 
 # plotdata short format (years next to each other)
-plotdata<-read.csv(here::here("data", "plotdata.csv"), row.names=1)
+plotdata<-read.csv(here::here("data", "plotdata.csv"), row.names=1, sep=";")
 
 # plotdata long format excluding T3 because of missing plant data
-s66<-read.csv(here::here("data", "s66.csv"), sep=";")
+s66<-read.csv(here::here("data", "plotdata-SEM.csv"), sep=";")
 s66$plot<-as.factor(s66$plot)
 s66<-s66[s66$plot!="T3",] # exclude T3 (no plant data)
 s66$flow_cov<-log(s66$flow_cov) # log transform for normal distribution
-s66$year<-factor(s66$year,ordered=T) # has to be ordered for GAM summary to be ANOVA like difference between levels
+s66$year<-factor(s66$year,ordered=T) # has to be ordered for the correct GAM summary
 
 
 # abundance
@@ -123,25 +116,22 @@ modC<-get_gam_predictions(modC, elev, series_length = 1391)
 ```
 
 ```{r calcbuttshift, include = FALSE}
-### mean shift model of all species (>= 10 individuals per species in each year)
+### mean shift model of all butterfly species (>= 10 individuals per species in each year)
 
-shift<-read.csv(here::here("data", "shift.csv"), row.names=1) # load species elevations
+shift<-read.csv(here::here("data", "butterfly-shifts-10individuals.csv"), row.names=1) # load species elevations
 
 x<-summary(lmer(melev ~ year+(1|spec), data=shift))
 
-x$coefficients[2,1] # mean shift
-x$coefficients[2,2] # Std. Error
+### linear model, with individuals as data points to check significance for single butterfly species
 
-### linear model, with individuals as data points to check significance for single species
-
-B<-read.csv(here::here("data", "B.csv"), row.names=1) # load individual elevations all species
+B<-read.csv(here::here("data", "butterflies-elevation-individual.csv"), sep=";") # load individual elevations all species
 
 j<-lm(elev~year*genus_species, data=B)
 
 ii<-tidy(emmeans(j, pairwise~year|genus_species, weights = "proportional")$contrasts)
 ii$estimate<-ii$estimate*-1 # mirror results back
 
-### check for signifikant difference in shifts between alpine and non-alpine species
+### check for signifikant difference in shifts between alpine and non-alpine butterfly species
 
 alpspec<-c("Araschnia_levana", "Boloria_pales", "Boloria_thore", "Coenonympha_gardetta", "Colias_phicomone", "Erebia_epiphron", "Erebia_eriphyle", "Erebia_euryale", "Erebia_gorge", "Erebia_manto", "Erebia_oeme", "Erebia_pandrose", "Erebia_pharte", "Erebia_pronoe", "Euphydryas_cynthia", "Lasiommata_maera", "Lasiommata_petropolitana", "Pieris_bryoniae", "Pyrgus_andromedae", "Pyrgus_cacaliae") # alpine species
 
@@ -156,34 +146,33 @@ valalpi<-summary(modalpi)
 ```
 
 ```{r calcplantshift,include=FALSE}
-### mean shift model of all species (>= 10 occupied subplots per species in each year)
+### mean shift model of all host plant species (>= 10 occupied subplots per species in each year)
 
-sshift<-read.csv(here::here("data", "sshift.csv"), row.names=1) # load species elevations
+sshift<-read.csv(here::here("data", "hostplant-shifts-10subplots.csv"), row.names=1) # load species elevations
 
 xx<-summary(lmer(melev ~ year+(1|abbr), data=sshift))
 
-xx$coefficients[2,1] # mean shift
-xx$coefficients[2,2] # std. error
-
-### linear model, with individuals as data points to check significance for single species
-st<-read.csv(here::here("data", "st.csv"), row.names=1) # load individual elevations all species
+### linear model, with individuals as data points to check significance for single host plant species
+st<-read.csv(here::here("data", "hostplants-elevation-subplot.csv"), sep=";") # load individual elevations all species
 
 plam<-lm(elev~year*abbr, data=st)
 
 plammy<-tidy(emmeans(plam, pairwise~year|abbr, weights = "proportional")$contrasts)
 plammy$estimate<-plammy$estimate*-1
-
 ```
 
 ```{r shiftselect.butt.calc, include=FALSE}
-
-# calculate mean elevational shift of butterflies according to min. no. individuals and included species number
+# calculate mean elevational shift of butterflies according to selected min. no. of individuals and included species number
 
 # mean elevation per species and year with number of individuals and difference in elevation
-spwm<-read.csv(here::here("data","spwm.csv"),row.names = 1)
+spwm<-read.csv(here::here("data","butterfly-species-weighted-mean.csv"),row.names = 1)
 
-# mean elevation per species with Wilcoxon test results
-allbutt.shifts<-read.csv(here::here("data","allbutt.shifts.csv"),row.names = 1)
+# mean elevation per species with test results
+allbutt.shifts<-read.csv(here::here("data","all-butterfly-species-shifts.csv"),row.names = 1)
+
+a<-as.data.frame(5:30);colnames(a)<-"no.ind"
+a$mean<-0; a$no.species<-0
+a$n.s.<-0;a$cs<-0;a$s<-0;a$ss<-0;a$sss<-0
 
 for (i in a$no.ind){
   a$mean[a$no.ind==i]<-mean(spwm$diff[spwm$ind09>=i & spwm$ind19>=i])
@@ -198,14 +187,13 @@ for (i in a$no.ind){
 ```
 
 ```{r shiftselect.hp.calc, include=FALSE}
-
-# calculate mean elevational shift of host plants according to min. no. individuals and included species number
+# calculate mean elevational shift of host plants according to selected min. no. individuals and included species number
 
 # mean elevation per species and year with number or individuals and difference in elevation
-wsb<-read.csv(here::here("data","wsb.csv"),row.names = 1)
+wsb<-read.csv(here::here("data","hostplant-species-weighted-mean.csv"),row.names = 1)
 
-# mean elevation per species with Wilcoxon test results
-sub.shifts<-read.csv(here::here("data","sub.shifts.csv"),row.names = 1)
+# mean elevation per species with test results
+sub.shifts<-read.csv(here::here("data","all-hostplant-species-shifts.csv"),row.names = 1)
 
 m<-as.data.frame(5:30);colnames(m)<-"no.sb"
 m$mean<-0; m$no.species<-0
@@ -238,7 +226,7 @@ sem1<-psem(
   lme(spec.no~div.hp+flow_cov+man.bin+temps,random=~1|plot,s66)
 )
 
-ss1<-summary(sem1)
+ss1<-summary(sem1, .progressBar = F)
 
 # insert point symbol for marginal significant (> 0.05 <= 0.1)
 for (i in 1:8) {
@@ -253,30 +241,11 @@ sem2<-psem(
   lme(spec.no~div.hp+flow_cov+man.bin+temps,random=~1|plot,s66)
 )
 
-ss2<-summary(sem2)
+ss2<-summary(sem2, .progressBar = F)
 
-# calculate effect sizes
+# SEM for drivers of change in richness (delta values between years) ---------------------
 
-e <- data.frame(direct=rep(NA,4),indirect=NA,overall=NA)
-rownames(e)<-c("summer temperature","management","flower cover","host plant diversity")
-
-e["summer temperature","direct"]<-round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="temps" & ss1$coefficients$Response=="spec.no"],digits=2)
-e["management","direct"]<-"n.s."
-e["flower cover","direct"]<-"n.s."
-e["host plant diversity","direct"]<-round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="div.hp" & ss1$coefficients$Response=="spec.no"],digits=2)
-
-e["summer temperature","indirect"]<-"n.s."
-e["management","indirect"]<-round(ss1$coefficients$Std.Estimate[ss1$coefficients$Predictor=="man.bin" & ss1$coefficients$Response=="div.hp"]*as.numeric(e["host plant diversity","direct"]),digits=2)
-e["flower cover","indirect"]<-"-"
-e["host plant diversity","indirect"]<-"-"
-
-e[,"overall"]<-c(e["summer temperature","direct"],e["management","indirect"],
-                 "n.s.",e["host plant diversity","direct"])
-
-
-# delta model ------------------------------------------------------------
-
-sdel<-read.csv(here::here("data","sdel.csv"), sep = ";")
+sdel<-read.csv(here::here("data","plotdata-change-between-years.csv"), sep = ";")
 sdel$plot<-as.factor(sdel$plot)
 sdel<-sdel[sdel$plot!="T3",] # kick out T3 because of missing plant data
 sdel$flow_cov<-sqrt(sdel$flow_cov+3) # sqrt transformation for normal distribution, +3 so that all values are positive and can be transformed
@@ -286,7 +255,7 @@ sdel$flow_cov<-sqrt(sdel$flow_cov+3) # sqrt transformation for normal distributi
 smdel1<-psem(lm(delta~flow_cov+temps,sdel),
              flow_cov~1,
              div.hp~1)
-dm1<-summary(smdel1)
+dm1<-summary(smdel1, .progressBar = F)
 
 # insert point symbol for marginal significant (> 0.05 <= 0.1)
 for (i in 1:2) {
@@ -297,23 +266,26 @@ for (i in 1:2) {
 smdel2<-psem(lm(delta~temps,sdel),
              flow_cov~1,
              div.hp~1)
-dm2<-summary(smdel2)
+dm2<-summary(smdel2, .progressBar = F)
 ```
 
-```{r potshiftcalc, echo=FALSE, warning=FALSE, include=FALSE}
-
+```{r temp100, eval=FALSE}
 # temperature difference per 100 m based on measured daily means from nearby climate stations
+# raw climate station data (LT) not publicly available
 
-LT<-read.csv(here::here("data","LT.csv"), row.names = 1) # not publicly available
+LT<-read.csv(here::here("data","daily-mean-temperature-climate-stations.csv"), row.names = 1, sep=";")
 
 library(nlme)
 tc100<-summary(lme(daymeanT~Elev_50m, random=~1|Stationsname, data=LT))
 tccoef<-tc100[["coefficients"]][["fixed"]][["Elev_50m"]]*-1
+```
 
-# Year mean 2009 - 2019
+```{r potshiftcalc, echo=FALSE, warning=FALSE, include=FALSE}
+# Temperature calculations ---------------------------------------------------------
+# Mean temperature 2009 - 2019
 
-yearmean<-read.csv(here::here("data","yearmean.csv"), row.names = 1) # mean of daily temperature of all plots per year
-summean<-read.csv(here::here("data","summean.csv"),row.names = 1) # mean of daily temperature of all plots per year, only including the summer months (May-Sept)
+yearmean<-read.csv(here::here("data","yearly-mean-temperature.csv"), row.names = 1) # mean of daily temperature of all plots per year
+summean<-read.csv(here::here("data","summer-mean-temperature.csv"),row.names = 1) # mean of daily temperature of all plots per year, only including the summer months (May-Sept)
 
 # complete year
 tmean<-summary(lm(daymeanT~year,yearmean))
@@ -331,7 +303,6 @@ sdiff<-summean$daymeanT[summean$year==2019]-summean$daymeanT[summean$year==2009]
 ```
 
 ```{r ptemp.calc, include=FALSE, echo=FALSE}
-
 # GAM yearly mean & mean of summer months direct difference 2009 / 2019
 
 gst<-summary(gam(temps~s(elev, k=4), data=sdel, method="REML"))
@@ -344,7 +315,6 @@ pgyt<-summary(gam(ptempy~s(elev, k=4), data=sdel, method="REML"))
 ```
 
 ```{r pval}
-
 # functions to transform p values into significance intervals
 
 pval<-function(p){ # >0.1 als "n.s."
@@ -534,45 +504,7 @@ add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 <
 
 \newpage
 
-
 **Figure 1:**
-
-```{r tempchange, eval=FALSE, include=FALSE}
-# plotting of temperature graph (Figure 1b)
-
-library(svglite) # to export as svg
-
-ggsave(here::here("figures","tempchange.svg"), plot =(
-
-  sdel %>%
-  pivot_longer(cols=c(temps,ptemps,tempy,ptempy),names_to = c("time"),values_to="temp") %>% 
-ggplot(aes(x=elev, y=temp, col=time)) +
-  geom_hline(yintercept = 0,col="ivory3")+ # zero line
-  geom_point(size=3,alpha=.4,shape=16)+
-  geom_smooth(method = gam, formula = y ~ s(x, k=4), size = 2, se = F, alpha=.2) +
-  theme_classic()+ # white background
-  theme(# panel.background = element_rect(colour = "black", size=0.5), # black frame
-    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
-    legend.position = c(0.75,0.2),
-    legend.title=element_text(size=14,margin = margin(l = -6)),
-    legend.text = element_text(size=14),
-    legend.key.height = unit(0.2, "cm"),
-    legend.background = element_blank(),
-    axis.text = element_text(size=20),
-    axis.title.x = element_text(size=20,margin = margin(t = 10, r = 0, b = 0, l = 0)),
-    axis.title.y = element_text(size=20,margin = margin(t = 0, r = 10, b = 0, l = 0)))+
-  labs(x="elevation [m.a.s.l.]",y=expression(paste(Delta, " temperature [°C]")))+
-  scale_x_continuous(breaks=c(750,1000,1250,1500,1750,2000))+
-  scale_y_continuous(n.breaks=4)+
-  scale_color_manual(name="MST  MAT", values = c("temps"="violetred4", "ptemps"="#CC8FAB", "tempy"="navyblue", "ptempy"="#7D7DB3"),labels=c(" "," ","year difference\n(2009/2019)","long term trend\n(2009-2019)"),
-  guide=guide_legend(ncol=2))+
-  annotation_custom(
-    grid::rasterGrob(
-      image = readPNG(here::here("figures","Logo_temp.png")),
-      x = .05, y =.9,
-      width =.15))
-), dpi=300, width=6, height=5)
-```
 
 ```{r plotlocation-temp, fig.cap="", echo=FALSE, dpi=300}
 library(knitr)
@@ -838,7 +770,7 @@ annotation_custom(
 
 ```{r buttshift, include=FALSE}
 
-z<-read.csv(here::here("data","z.csv"), sep=";") # read species shifts with significance symbols
+z<-read.csv(here::here("data","butterfly-shifts-Tukey-results-figure.csv"), sep=";") # read species shifts with significance symbols
 colnames(z)[1]<-"genus_species"
 
 txtcol<-revalue(z$signcol[order(z$mean)], c(ns="grey60",signif="black", alpns="lightslateblue", alpsignif="turquoise4")) # color y axis labels, sorted according to mean
@@ -874,7 +806,7 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
 
 ```{r plantshift, include=FALSE}
 
-s<-read.csv(here::here("data","s.csv"), sep=";") # read species shifts with significance symbols
+s<-read.csv(here::here("data","hostplant-shifts-Tukey-results-figure.csv"), sep=";") # read species shifts with significance symbols
 colnames(s)[1]<-"abbr"
 
 plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: adjust order of species on y axis
@@ -908,35 +840,10 @@ library(patchwork)
 
 # Supplementary Material {.unnumbered}
 
-**Table S1:**
-
-```{r butthostplantlist, tab.cap="List of included butterfly species and associated larval host plants according to Paolucci (2013) and/or Reinhardt et al. (2020). The degree of specialization (deg. spec.) states if the larvae of the species is monophagous (M), oligophagous (O) or polyphagous (P) according to Paolucci (2013). Inconsistencies between the given degree of specialization and the named associated larval host plants derive from the use of Reinhardt et al. (2020) as supplementing literature for the associated plant species.", echo=FALSE, warning=FALSE}
-
-hpl<-read.csv(here::here("data","hostplantlist.csv"), sep=";")
-hpl<-hpl[order(hpl$spec),] 
-
-library(flextable)
-pist<-flextable(hpl) %>%
-  set_header_labels(spec = "butterfly species", 
-    hosttype = "deg. spec.", plantfamily = "host plant families",
-    hostplants = "host plants") %>%
-  theme_booktabs(pist, bold_header = T) %>%
-  italic(j=c("spec", "hostplants")) %>%
-  width(j = "spec", width =  3.25, unit="cm") %>% 
-  width(j = "hosttype", width =  1.5, unit="cm") %>% 
-  width(j = "plantfamily", width =  3.25, unit="cm") %>% 
-  width(j = "hostplants", width =  8, unit="cm")
-pist
-```
-
-\clearpage
-
-\newpage
-
 **Figure S1:**
 
 ```{r climatemodelling, echo=FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.height=3, fig.cap="Predicted temperature data for 4 selected study sites in comparison to measured temperature data of one exemplary climate station over the course of one year (here: 2019). Predicted temperatures are presented in transparent colors (red: 818 m a.s.l., orange: 1106 m a.s.l., green: 1580 m a.s.l., blue: H7 1986 m a.s.l.). Black circles represent measured temperature data of one climate station located 834 m asl. For the prediction of site temperature data, we used the temperature measurements of up to 16 climate stations (see Figure 1c main text; data not plotted here). At all climate stations, temperature was recorded every 10 min; but mean daily temperatures were used for the prediction with generalized additive models, that included elevation, day lengths (as a surrogate for season) and date as explaining variables.", dpi=300}
-include_graphics(here::here("figures","climate_stations_temperature.jpeg"))
+include_graphics("J:/Auswertung/Manuscript_I/Abbildungen/Paper_I/climate_stations_temperature.jpeg")
 ```
 
 \clearpage
@@ -956,7 +863,7 @@ transblack<-adjustcolor("black",alpha.f = 0.3)
 
 ggplot(mt, aes(year, daymeanT))+
   facet_wrap(~time, scales="free_y")+
-  geom_point(pch=16, cex=3, col=rep(c("dodgerblue",rep(blacktrans,9),"orange"),2))+
+  geom_point(pch=16, cex=3, col=rep(c("dodgerblue",rep(transblack,9),"orange"),2))+
   geom_smooth(method=lm, se=F, col="black")+
   theme_classic()+
   labs(y="temperature [°C]")+
@@ -981,9 +888,9 @@ ggplot(mt, aes(year, daymeanT))+
 
 **Figure S3:**
 
-```{r temp100, echo=FALSE, warning=FALSE, message=FALSE, fig.width=6, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. Left: The mean daily temperature from 2009 to 2019 was averaged per station (grey points). The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line). Colored lines show the average per climate station of the two sampled years 2009 (blue) and 2019 (orange). Right: Colored lines from the left graph representing the two sampled years each with the underlying data points.", dpi=300}
-
+```{r temp100, eval=FALSE, fig.width=6, fig.height=3, fig.cap="Mean temperature along the elevational gradient based on real data from nearby climate stations. Left: The mean daily temperature from 2009 to 2019 was averaged per station (grey points). The temperature difference per 100 m in elevation equals the slope of this linear model (mean temperature ~ elevation, black line). Colored lines show the average per climate station of the two sampled years 2009 (blue) and 2019 (orange). Right: Colored lines from the left graph representing the two sampled years each with the underlying data points.", dpi=300}
 # temperature difference per 100 m in elevation 2009-2019
+# raw climate station data (LT) not publicly available
 elevmean<-aggregate(daymeanT~Elev_50m, data=LT, FUN=mean)
 # single years 2009 & 2019
 elevmean09<-aggregate(daymeanT~Elev_50m, data=LT[LT$year.x==2009,], FUN=mean)

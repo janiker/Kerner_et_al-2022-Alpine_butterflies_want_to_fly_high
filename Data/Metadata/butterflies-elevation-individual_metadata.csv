@@ -1,0 +1,4 @@
+variable;definition
+genus_species;butterfly species name (only species with >= 10 individuals in each year)
+elev;elevation of butterfly individual
+year;year of record

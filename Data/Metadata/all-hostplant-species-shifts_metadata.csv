@@ -1,5 +1,5 @@
 variable;definition
-abbr;abbreviation of host plant species name (genus_species), genus and species each shortened to the first four letters
+abbr;"abbreviation of host plant species name (genus_species), genus and species each shortened to the first four letters, full names are listed in ""hostplants-abbreviations-fullnames.csv"""
 p.value;p-value of Wilcoxon rank-sum tests checking if elevational shift between years was significant (p<= 0.05)
 no;individual ID for each host plant species
 2009;abundance weighted mean elevation of host plant species in 2009 [m]

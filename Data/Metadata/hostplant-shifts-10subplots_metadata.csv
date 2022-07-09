@@ -1,0 +1,5 @@
+variable;definition
+abbr;"abbreviation of host plant species name (genus_species),  genus and species each shortened to the first four letters, full names are listed in ""hostplants-abbreviations-fullnames.csv"""
+melev;abundance weighted mean elevation of host plant species [m a.s.l.]
+no.sb;number of occupied subplots
+year;year
