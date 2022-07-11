@@ -5,4 +5,4 @@ ind09;number of individuals in 2009
 2019;abundance weighted mean elevation of butterfly species in 2019 [m]
 ind19;number of individuals in 2019
 diff;shift in mean elevation of butterfly species between 2009 and 2019 [m]
-vorzeichen;indicating if shift was upwards (+) or downwards (-)
+sign;indicating if shift was upwards (+) or downwards (-)

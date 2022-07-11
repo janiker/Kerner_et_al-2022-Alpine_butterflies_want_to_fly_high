@@ -5,4 +5,4 @@ no.sb09;number of occupied subplots in 2009
 2019;abundance weighted mean elevation of host plant species in 2019 [m]
 no.sb19;number of occupied subplots in 2019
 diff;shift in mean elevation of host plant species between 2009 and 2019 [m]
-vorzeichen;indicating if shift was upwards (+) or downwards (-)
+sign;indicating if shift was upwards (+) or downwards (-)
