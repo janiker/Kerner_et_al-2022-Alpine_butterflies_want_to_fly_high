@@ -17,13 +17,13 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
     * dependent metadata files (.csv) in subfolder 
     
 2. __script__:
-    * The markdown document used to code the data analysis and figures
-    * dependent files for document formatting
+    * Markdown document used to code the data analysis and figures
+    * dependent file for document formatting
 
 3. __figures__:  
-    * figures of the manuscript that were created outside of R
+    * figures and icons of the manuscript that were created outside of the Markdown script
     * figures created in the manuscript and cached here for reimportation in R
-    (all final figures of the manuscript are included in the markdown file when runnding the code (manuscript folder) and are not additionally saved here)
+    (all final figures of the manuscript are included in the markdown file when running the code (script folder) and are not additionally saved here)
     
 ***
 
@@ -33,7 +33,7 @@ Contact janika.kerner@uni-wuerzburg.de for any further information.
 
 **Citation:**
 
-> Kerner JM, Krauss J, Maihoff F, Bofinger L, Classen A (submitted) Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants. https://doi.org/10.xxx
+> Kerner JM, Krauss J, Maihoff F, Bofinger L, Classen A (accepted) Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants. https://doi.org/10.xxx
 
 ***
 
