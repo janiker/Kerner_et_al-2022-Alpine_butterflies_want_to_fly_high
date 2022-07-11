@@ -33,7 +33,7 @@ Contact janika.kerner@uni-wuerzburg.de for any further information.
 
 **Citation:**
 
-> Kerner JM, Krauss J, Maihoff F, Bofinger L, Classen A (submitted) Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants. https://doi.org/10.xxx
+> Kerner JM, Krauss J, Maihoff F, Bofinger L, Classen A (accepted) Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants. https://doi.org/10.xxx
 
 ***
 
