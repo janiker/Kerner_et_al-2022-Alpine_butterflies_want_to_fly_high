@@ -1,0 +1,10 @@
+﻿variable;definition
+no.sb;minimum number of occupied subplots
+mean;mean elevational shift including all host plant species [m]
+no.species;number of included host plant species
+n.s.;number of host plant species not shifting significantly
+cs;number of host plant species shifting close to significant (0.1 <= p > 0.05)
+s;number of host plant species shifting significantly (0.05 <= p > 0.01)
+ss;number of host plant species shifting very significantly (0.01 <= p > 0.001)
+sss;number of host plant species shifting highly significantly (0.001 <= p)
+meansig;mean elevational shift only including host plant species shifting significantly (p <= 0.05) [m]

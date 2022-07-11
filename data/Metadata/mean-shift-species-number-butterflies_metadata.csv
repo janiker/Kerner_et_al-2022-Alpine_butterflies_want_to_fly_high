@@ -1,0 +1,10 @@
+﻿variable;definition
+no.ind;minimum number of individuals
+mean;mean elevational shift including all butterfly species [m]
+no.species;number of included butterfly species
+n.s.;number of butterfly species not shifting significantly
+cs;number of butterfly species shifting close to significant (0.1 <= p > 0.05)
+s;number of butterfly species shifting significantly (0.05 <= p > 0.01)
+ss;number of butterfly species shifting very significantly (0.01 <= p > 0.001)
+sss;number of butterfly species shifting highly significantly (0.001 <= p)
+meansig;mean elevational shift only including butterfly species shifting significantly (p <= 0.05) [m]
