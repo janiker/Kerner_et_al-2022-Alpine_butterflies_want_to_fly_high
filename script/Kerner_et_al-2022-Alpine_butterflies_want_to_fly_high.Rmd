@@ -506,6 +506,43 @@ add_footer_lines("Signif. codes: 0 <= '***' < 0.001 < '**' < 0.01 < '*' < 0.05 <
 
 **Figure 1:**
 
+```{r tempchange, eval=FALSE, include=FALSE}
+# plotting of temperature graph (Figure 1b), export as svg to combine it externally with map
+
+library(svglite) # to export as svg
+
+ggsave(here::here("figures","tempchange.svg"), plot =(
+
+  sdel %>%
+  pivot_longer(cols=c(temps,ptemps,tempy,ptempy),names_to = c("time"),values_to="temp") %>% 
+ggplot(aes(x=elev, y=temp, col=time)) +
+  geom_hline(yintercept = 0,col="ivory3")+ # zero line
+  geom_point(size=3,alpha=.4,shape=16)+
+  geom_smooth(method = gam, formula = y ~ s(x, k=4), size = 2, se = F, alpha=.2) +
+  theme_classic()+ # white background
+  theme(# panel.background = element_rect(colour = "black", size=0.5), # black frame
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
+    legend.position = c(0.75,0.2),
+    legend.title=element_text(size=14,margin = margin(l = -6)),
+    legend.text = element_text(size=14),
+    legend.key.height = unit(0.2, "cm"),
+    legend.background = element_blank(),
+    axis.text = element_text(size=20),
+    axis.title.x = element_text(size=20,margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(size=20,margin = margin(t = 0, r = 10, b = 0, l = 0)))+
+  labs(x="elevation [m.a.s.l.]",y=expression(paste(Delta, " temperature [°C]")))+
+  scale_x_continuous(breaks=c(750,1000,1250,1500,1750,2000))+
+  scale_y_continuous(n.breaks=4)+
+  scale_color_manual(name="MST  MAT", values = c("temps"="violetred4", "ptemps"="#CC8FAB", "tempy"="navyblue", "ptempy"="#7D7DB3"),labels=c(" "," ","year difference\n(2009/2019)","long term trend\n(2009-2019)"),
+  guide=guide_legend(ncol=2))+
+  annotation_custom(
+    grid::rasterGrob(
+      image = readPNG(here::here("figures","Logo_temperature.png")),
+      x = .05, y =.9,
+      width =.15))
+), dpi=300, width=6, height=5)
+```
+
 ```{r plotlocation-temp, fig.cap="", echo=FALSE, dpi=300}
 library(knitr)
 include_graphics(here::here("figures","location_study_sites_and_climate_stations.png"))
@@ -556,9 +593,9 @@ ggplot(aes(x=elev, y=spec.no, colour=as.factor(year), fill=as.factor(year))) +
 g <- ggplot_gtable(ggplot_build(gg))
 
 facets <- grep("panel", g$layout$name)
-logos <- list(rasterGrob(readPNG(here::here("figures","Logo_Ere_eur.png")),
+logos <- list(rasterGrob(readPNG(here::here("figures","Logo_Erebia_euryale.png")),
                              width=.15, x = .9, y = .92),
-                  rasterGrob(readPNG(here::here("figures","Logo_hostplant.png")),
+                  rasterGrob(readPNG(here::here("figures","Logo_host_plant.png")),
                              width=.15, x = .9, y = .93))
 g2 <- with(g$layout[facets,],
           gtable::gtable_add_grob(g, logos,
@@ -660,14 +697,14 @@ bd[4,3]=0.1
 # Basis model s66
 png(here::here("figures","sem1.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(b,shape="square",layout=l1,labels = F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8, asize=6, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png"),here::here("figures","Logo_man.png")), borders=F) ;text(-1.1,1.1,"a)",cex=1.3);abline(-1.3,0, lwd=2, col="slategray4")
+qgraph(b,shape="square",layout=l1,labels = F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8, asize=6, images=c(here::here("figures","Logo_Gentiana_verna.png"),here::here("figures","Logo_host_plant.png"),here::here("figures","Logo_Erebia_euryale.png"),here::here("figures","Logo_temperature.png"),here::here("figures","Logo_management.png")), borders=F) ;text(-1.1,1.1,"a)",cex=1.3);abline(-1.3,0, lwd=2, col="slategray4")
 
 dev.off()
 
 # path model s66
 png(here::here("figures","sem2.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(t,shape="square", layout=l1, labels=F, vsize=18, edge.color=c("slategray2","black","slategray2","black", "slategray2","black","black","slategray2"), colFactor=0, asize=6, edge.labels=signlabels, edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, lty=c(1,1,2,1,1,1,1,1), images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png"),here::here("figures","Logo_man.png")), borders = F
+qgraph(t,shape="square", layout=l1, labels=F, vsize=18, edge.color=c("slategray2","black","slategray2","black", "slategray2","black","black","slategray2"), colFactor=0, asize=6, edge.labels=signlabels, edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, lty=c(1,1,2,1,1,1,1,1), images=c(here::here("figures","Logo_Gentiana_verna.png"),here::here("figures","Logo_host_plant.png"),here::here("figures","Logo_Erebia_euryale.png"),here::here("figures","Logo_temperature.png"),here::here("figures","Logo_management.png")), borders = F
        );text(-1,0.25,paste("R²=",ss1$R2$Conditional[ss1$R2$Response=="flow_cov"]),cex=.8
         );text(0.3,0.25,paste("R²=",ss1$R2$Conditional[ss1$R2$Response=="spec.no"]),cex=.8
         );text(1,0.25,paste("R²=",ss1$R2$Conditional[ss1$R2$Response=="div.hp"]),cex=.8
@@ -680,7 +717,7 @@ dev.off()
 # Basis model delta
 png(here::here("figures","sem3.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(bd,shape="square",layout=l1,labels=F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8,asize=6, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F);text(-1.1,1.1,"c)",cex=1.3); text(
+qgraph(bd,shape="square",layout=l1,labels=F, vsize=18,labels=F, edge.color="black", edge.label.cex=1.8,asize=6, images=c(here::here("figures","Logo_Gentiana_verna.png"),here::here("figures","Logo_host_plant.png"),here::here("figures","Logo_Erebia_euryale.png"),here::here("figures","Logo_temperature.png")), borders=F);text(-1.1,1.1,"c)",cex=1.3); text(
   -0.3,1, expression(phantom("19-") * "09"), col="dodgerblue", cex=.8); text(
   -0.3,1, expression("19" * phantom("-09")), col="orange", cex=.8); text(
   -0.3,1, expression(phantom("19") * "-" * phantom("09")), cex=.8); text(
@@ -699,7 +736,7 @@ dev.off()
 # path model delta
 png(here::here("figures","sem4.png"), res=600, height=8, width=8, units = "cm")
 
-qgraph(d,shape="square",layout=l1,vsize=18, labels=F, edge.color=c("slategray3","black"),colFactor=0,asize=6,edge.labels=dsignlabels,edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, images=c(here::here("figures","Logo_Gen_ver.png"),here::here("figures","Logo_hostplant.png"),here::here("figures","Logo_Ere_eur.png"),here::here("figures","Logo_temp.png")), borders=F
+qgraph(d,shape="square",layout=l1,vsize=18, labels=F, edge.color=c("slategray3","black"),colFactor=0,asize=6,edge.labels=dsignlabels,edge.label.bg=T, edge.label.cex=1.8, edge.label.margin=0.025, images=c(here::here("figures","Logo_Gentiana_verna.png"),here::here("figures","Logo_host_plant.png"),here::here("figures","Logo_Erebia_euryale.png"),here::here("figures","Logo_temperature.png")), borders=F
       );text(0.3,-0.7,paste("R²=",dm1$R2$R.squared),cex=.8
       );text(-1.1,1.1,"d)",cex=1.3
       );text(0.45,1.1,paste("Fisher's C =", dm1$Cstat$Fisher.C, "\np-value = ", dm1$Cstat$P.Value), adj=0, cex=.7); text(
@@ -757,7 +794,7 @@ ggplot(modC,aes(x=elev, y=comsc, colour=year, fill=year)) +
   scale_color_manual(name="year", values = c("2009"="dodgerblue", "2019"="orange"))+
 annotation_custom(
     grid::rasterGrob(
-      image = readPNG(here::here("figures","Logo_Ere_eur.png")),
+      image = readPNG(here::here("figures","Logo_Erebia_euryale.png")),
       x = .1, y =.93,
       width =.15))
 ```
@@ -799,7 +836,7 @@ buttshifts<-ggplot(z, aes(mean,reorder(genus_species,mean),col=signcol)) + # reo
   coord_cartesian(xlim = c(-330, 318)) +
   annotation_custom(
     grid::rasterGrob(
-      image = readPNG(here::here("figures","Logo_Ere_eur.png")),
+      image = readPNG(here::here("figures","Logo_Erebia_euryale.png")),
       x = .8, y =.04,
       width =.35))
 ```
@@ -828,7 +865,7 @@ plantshifts<-ggplot(s, aes(mean,reorder(abbr,mean),col=signcol)) + # reorder: ad
   coord_cartesian(xlim = c(-250,248)) +
   annotation_custom(
     grid::rasterGrob(
-      image = readPNG(here::here("figures","Logo_hostplant.png")),
+      image = readPNG(here::here("figures","Logo_host_plant.png")),
       x = .8, y =.035,
       width =.4))
 ```
@@ -843,7 +880,7 @@ library(patchwork)
 **Figure S1:**
 
 ```{r climatemodelling, echo=FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.height=3, fig.cap="Predicted temperature data for 4 selected study sites in comparison to measured temperature data of one exemplary climate station over the course of one year (here: 2019). Predicted temperatures are presented in transparent colors (red: 818 m a.s.l., orange: 1106 m a.s.l., green: 1580 m a.s.l., blue: H7 1986 m a.s.l.). Black circles represent measured temperature data of one climate station located 834 m asl. For the prediction of site temperature data, we used the temperature measurements of up to 16 climate stations (see Figure 1c main text; data not plotted here). At all climate stations, temperature was recorded every 10 min; but mean daily temperatures were used for the prediction with generalized additive models, that included elevation, day lengths (as a surrogate for season) and date as explaining variables.", dpi=300}
-include_graphics("J:/Auswertung/Manuscript_I/Abbildungen/Paper_I/climate_stations_temperature.jpeg")
+include_graphics("J:/Auswertung/Manuscript_I/Abbildungen/Paper_I/climate_stations_temperature.jpeg") # was created externally
 ```
 
 \clearpage
@@ -973,7 +1010,7 @@ par(mar=c(5,6,0,2))
 plot(no.species~no.ind,data=a, ylim=c(min(s+ss+sss),max(no.species)), yaxp = c(10, 40, 3), xlab="minimum no. of individuals per species", ylab="no. of included\nspecies", pch=19)
 par(new=T)
 plot(s+ss+sss~no.ind,data=a,ylim=c(min(s+ss+sss),max(no.species)), xaxt="n",yaxt="n",xlab=NA,ylab=NA,col="darkorange2", pch=19
-     ); grid.raster(readPNG(here::here("figures","Logo_Ere_eur.png")), # insert logo
+     ); grid.raster(readPNG(here::here("figures","Logo_Erebia_euryale.png")), # insert logo
             x = .08, y =.1,
             width =.1)
 
@@ -1009,7 +1046,7 @@ par(mar=c(5,6,0,2))
 plot(no.species~no.sb,data=m,ylim=c(min(s+ss+sss),max(m$no.species)),xlab="minimum no. of occupied subplots",ylab="no. of included\nspecies", pch=19)
 par(new=T)
 plot(s+ss+sss~no.sb,data=m,ylim=c(min(s+ss+sss),max(m$no.species)),xlab = NA, xaxt="n", ylab = NA, yaxt = "n",col="darkorange2", pch=19
-     ); grid.raster(readPNG(here::here("figures","Logo_hostplant.png")), # insert logo
+     ); grid.raster(readPNG(here::here("figures","Logo_host_plant.png")), # insert logo
             x = .08, y =.08,
             width =.1)
 
