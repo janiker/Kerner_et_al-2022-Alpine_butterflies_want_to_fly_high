@@ -6,9 +6,9 @@ _Janika M. Kerner <a href="https://orcid.org/0000-0002-2355-081X"><img src="http
 
 **Journal**: [Ecology](https://esajournals.onlinelibrary.wiley.com/journal/19399170)
 
-**DOI**: [https://doi.org/???](https://doi.org/???)
+**DOI**: [10.1002/ecy.3848](https://doi.org/10.1002/ecy.3848)
 
-**Supplementary Material**: [link](https://www.???.org/supplementarydata.pdf)
+**Supplementary Material**: [link](https://esajournals.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fecy.3848&file=ecy3848-sup-0001-Appendix_S1.pdf)
 
 ## Content of the repository
 
@@ -33,11 +33,12 @@ Contact janika.kerner@uni-wuerzburg.de for any further information.
 
 **Citation:**
 
-> Kerner JM, Krauss J, Maihoff F, Bofinger L, Classen A (accepted) Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants. https://doi.org/10.xxx
+> Kerner JM, Krauss J, Maihoff F, Bofinger L, Classen A (2022) Alpine butterflies want to fly high: Species and communities shift upwards faster than their host plants. https://doi.org/10.1002/ecy.3848
 
 ***
 
-__Dataset DOI__
+__Dataset DOIs__
 
-[![DOI](https://zenodo.org/???)](https://doi.org/????/zenodo.???) following via Zenodo
-
+[[DOI Data](10.5061/dryad.sf7m0cg8t)](https://doi.org/10.5061/dryad.sf7m0cg8t)
+[[DOI Code](10.5281/zenodo.6983638)](https://doi.org/10.5281/zenodo.6983638)
+[[DOI Supplementary image files](10.5281/zenodo.6983640)](https://doi.org/10.5281/zenodo.6983640)
