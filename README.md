@@ -39,6 +39,6 @@ Contact janika.kerner@uni-wuerzburg.de for any further information.
 
 __Dataset DOIs__
 
-**DOI Data**: [10.5061/dryad.sf7m0cg8t](https://doi.org/10.5061/dryad.sf7m0cg8t)
-**DOI Code**: [10.5281/zenodo.6983638](https://doi.org/10.5281/zenodo.6983638)
-**DOI Supplementary image files**: [10.5281/zenodo.6983640](https://doi.org/10.5281/zenodo.6983640)
+DOI Data: [10.5061/dryad.sf7m0cg8t](https://doi.org/10.5061/dryad.sf7m0cg8t)  
+DOI Code: [10.5281/zenodo.6983638](https://doi.org/10.5281/zenodo.6983638)  
+DOI Supplementary image files: [10.5281/zenodo.6983640](https://doi.org/10.5281/zenodo.6983640)  
